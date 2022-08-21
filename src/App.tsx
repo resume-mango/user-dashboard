@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import axios from 'axios'
 import { Switch, Route, Router } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
@@ -58,15 +58,19 @@ if (window.Cypress) {
   console.log('hit')
   window.tgHistory = history
 }
+const cookie = new Cookies()
 
 const App = () => {
-  const cookie = new Cookies()
-
   const XSRFToken = cookie.get('XSRF-TOKEN')
-
+  const [csrf, setCsrf] = useState(XSRFToken)
   axios.defaults.baseURL = `${process.env.API_HOST}/v1`
   axios.defaults.withCredentials = true
-  axios.defaults.headers.common['X-CSRF-TOKEN'] = XSRFToken
+  axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
+
+  useEffect(() => {
+    if (!XSRFToken) return
+    setCsrf(XSRFToken)
+  }, [XSRFToken])
 
   const { isLoading, token } = useAuth()
 
