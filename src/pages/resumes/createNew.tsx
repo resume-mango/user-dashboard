@@ -31,7 +31,7 @@ const NewResume = ({ templateName }: { templateName: string }) => {
       <div className="flex-center h-100">
         {error ? (
           <ErrWrapper>
-            <h2>Failed to create coverletter.</h2>
+            <h2>Failed to create resume.</h2>
             <Button btnType="primary" size="lg" onClick={() => createNew()}>
               Try Again
             </Button>
