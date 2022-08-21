@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import axios from 'axios'
 import { Switch, Route, Router } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
@@ -31,6 +31,7 @@ import { Spinner } from './styled/loader'
 import CommingSoon from './pages/comingSoon'
 import Protected from './components/privateRoute'
 import AccessDenied from './pages/401'
+import Cookies from 'universal-cookie'
 
 const twentyFourHoursInMs = 1000 * 60 * 60 * 24
 const queryClient = new QueryClient({
@@ -59,8 +60,13 @@ if (window.Cypress) {
 }
 
 const App = () => {
+  const cookie = new Cookies()
+
+  const XSRFToken = cookie.get('XSRF-TOKEN')
+
   axios.defaults.baseURL = `${process.env.API_HOST}/v1`
   axios.defaults.withCredentials = true
+  axios.defaults.headers.common['X-CSRF-TOKEN'] = XSRFToken
 
   const { isLoading, token } = useAuth()
 

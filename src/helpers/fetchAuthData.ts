@@ -34,7 +34,7 @@ export const fetchAuthData = async (
       if (err.response && err.response.status && err.response.status === 401) {
         cookies.remove('rm_ia', {
           path: '/',
-          domain: process.env.AUTH0_COOKIE_DOMAIN,
+          domain: process.env.COOKIE_DOMAIN,
         })
         window.location.href = location
       }
