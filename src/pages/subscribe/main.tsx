@@ -125,7 +125,6 @@ const MainSubscribe = () => {
             <Alert
               show={true}
               type="warning"
-              // heading="Oops"
               message="You are already on premium membership"
             />
           ) : (
@@ -227,7 +226,10 @@ const MainSubscribe = () => {
                   </div>
                   <div>
                     <p>
-                      <b>${item.price} </b>/ {item.interval}
+                      <b>${item.price} </b>/{' '}
+                      {item.type === 'pro'
+                        ? `${item.interval_count * 24} Hrs`
+                        : item.interval}
                     </p>
                   </div>
                 </PlanSelect>
