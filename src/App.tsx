@@ -32,6 +32,7 @@ import CommingSoon from './pages/comingSoon'
 import Protected from './components/privateRoute'
 import AccessDenied from './pages/401'
 import Cookies from 'universal-cookie'
+import Classes from './pages/classes'
 
 const twentyFourHoursInMs = 1000 * 60 * 60 * 24
 const queryClient = new QueryClient({
@@ -61,18 +62,16 @@ if (window.Cypress) {
 const cookie = new Cookies()
 
 const App = () => {
-  // const XSRFToken = cookie.get('XSRF-TOKEN')
-  // const [csrf, setCsrf] = useState(XSRFToken)
-  axios.defaults.xsrfCookieName = 'CSRF-TOKEN'
-  axios.defaults.xsrfHeaderName = 'X-CSRF-TOKEN'
+  const XSRFToken = cookie.get('XSRF-TOKEN')
+  const [csrf, setCsrf] = useState(XSRFToken)
   axios.defaults.baseURL = `${process.env.API_HOST}/v1`
   axios.defaults.withCredentials = true
-  // axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
+  axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf
 
-  // useEffect(() => {
-  //   if (!XSRFToken) return
-  //   setCsrf(XSRFToken)
-  // }, [XSRFToken])
+  useEffect(() => {
+    if (!XSRFToken) return
+    setCsrf(XSRFToken)
+  }, [XSRFToken])
 
   const { isLoading, token } = useAuth()
 
@@ -119,19 +118,18 @@ const App = () => {
                         <Route path="/" exact component={Homepage} />
                         <Protected
                           path="/resumes"
-                          role={['standard', 'premium']}
+                          role={['pro', 'ceo']}
                           component={ResumeDashboard}
                         />
                         <Protected
                           path="/coverletters"
-                          role={['standard', 'premium']}
+                          role={['pro', 'ceo']}
                           component={CoverLetterDashboard}
                         />
                         <Route path="/my-account" component={MyAccount} />
 
                         <Route path="/support" exact component={HelpSupport} />
 
-                        <Route path="/classes" exact component={CommingSoon} />
                         <Route path="/resources" component={CommingSoon} />
                         <Route
                           path="/job-search"
@@ -149,13 +147,19 @@ const App = () => {
 
                         <Protected
                           path="/progress-tracker"
-                          role={['standard', 'premium']}
+                          role={['pro', 'ceo']}
                           component={ProgressTracker}
                         />
                         <Protected
                           path="/calendar"
-                          role={['standard', 'premium']}
+                          role={['pro', 'ceo']}
                           component={TaskCalender}
+                        />
+                        <Protected
+                          path="/classes"
+                          exact
+                          role={['pro', 'ceo']}
+                          component={Classes}
                         />
                       </DashboardLayout>
                     </Route>

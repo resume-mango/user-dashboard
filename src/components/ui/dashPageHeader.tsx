@@ -36,7 +36,7 @@ const DashPageHeader: React.FC<ILayout> = ({
                 {user &&
                 user.role &&
                 Array.isArray(user.role) &&
-                user.role.includes('standard') ? (
+                user.role.includes('ceo') ? (
                   <Button
                     onClick={() => history.push('/resumes/new')}
                     btnType="primary"

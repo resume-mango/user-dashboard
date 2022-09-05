@@ -87,7 +87,6 @@ const TaskBoardProvider = ({ children }: { children: ReactNode }) => {
   const todoCount = (data && data.todo.length) || 0
 
   useEffect(() => {
-    if (!todoCount) return
     updateTaskboardCounts(todoCount, setNotify, queryClient)
     return
   }, [todoCount])
@@ -98,71 +97,10 @@ const TaskBoardProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [])
 
-  // const updateCounts = async (count: number) => {
-  //   let dashCounts = queryClient.getQueryData('dashboardCounts') as Record<
-  //     string,
-  //     number
-  //   >
-  //   if (!dashCounts) {
-  //     try {
-  //       dashCounts = await queryClient.fetchQuery(
-  //         dashCountsKey,
-  //         dashCountsFetcher
-  //       )
-  //     } catch (err) {
-  //       setNotify({
-  //         heading: 'Err',
-  //         type: 'danger',
-  //         message: 'Failed to update counts',
-  //       })
-  //       console.error('Failed to updated counts')
-  //     }
-  //   }
-  //   if (dashCounts && dashCounts.todos === count) return
-  //   dashCounts.todos = count
-  //   queryClient.setQueryData('dashboardCounts', dashCounts)
-  // }
-
-  // const deleteFromCache = (id: string, status: string) => {
-  //   const cloned = { ...data }
-  //   const index = cloned[status].findIndex(
-  //     (item: Record<string, any>) => item._id === id
-  //   )
-  //   cloned[status].splice(index, 1)
-  //   queryClient.setQueryData('task-board', cloned)
-  // }
-
   useEffect(() => {
     if (isPosUpdating) setShowExitPrompt(true)
     else setShowExitPrompt(false)
   }, [isPosUpdating])
-
-  // const deleteTracker = useMutation(
-  //   (reqData) => axios.delete('/task', { data: reqData }),
-  //   {
-  //     onSuccess: (_res) => {
-  //       deleteDraggableFromCache(
-  //         deleteItem.id,
-  //         deleteItem.status,
-  //         data,
-  //         'task-board',
-  //         queryClient
-  //       )
-  //       setShowModal(false)
-  //       setTracker({})
-  //     },
-  //     onError: ({ _response }) => {
-  //       setNotify({
-  //         type: 'danger',
-  //         heading: 'Err!',
-  //         message: 'Failed to delete tracker',
-  //       })
-  //     },
-  //     onSettled: () => {
-  //       setDeleteItem({})
-  //     },
-  //   }
-  // )
 
   const deleteTracker = deleteTaskboardItemQuery(
     deleteItem,
@@ -192,33 +130,6 @@ const TaskBoardProvider = ({ children }: { children: ReactNode }) => {
   const handleDeleteTracker = async (req: { id: string; status: string }) => {
     deleteTracker.mutate(req as any)
   }
-
-  // const handleChangePos = async () => {
-  //   const list: ListProps = {
-  //     todo: [],
-  //     inprogress: [],
-  //     completed: [],
-  //   }
-  //   if (!data) return
-  //   Object.keys(list).forEach((key) => {
-  //     data[key].forEach((item: any) => list[key].push(item._id))
-  //   })
-
-  //   const { data: resData, error: resError } = await apiChangeTaskPos({
-  //     ...list,
-  //   })
-  //   if (resError && !axios.isCancel(resError)) {
-  //     setNotify({
-  //       type: 'danger',
-  //       heading: 'Err!',
-  //       message: 'Failed to update positon',
-  //     })
-  //   }
-  //   if (resData) {
-  //     queryClient.setQueryData('task-board', data)
-  //   }
-  //   setIsPosUpdating(false)
-  // }
 
   return (
     <TaskBoardContext.Provider

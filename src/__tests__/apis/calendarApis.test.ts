@@ -18,8 +18,8 @@ describe('Calendar Create Event', () => {
     summary: 'abc',
     description: 'efg',
     location: 'higk',
-    start: new Date(Date.now()).toISOString(),
-    end: new Date(Date.now()).toISOString(),
+    start: { dateTime: new Date(Date.now()).toISOString() },
+    end: { dateTime: new Date(Date.now()).toISOString() },
     colorId: 'blue',
   }
   const options = {

@@ -1,14 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { NavLink, useHistory, useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import logoText from '../../public/logo/resume-mango-full-logo-white-letters.png'
 import logoIcon from '../../public/logo/resume-mango-logo.png'
 import { Button } from '../../styled/button'
 import DashboardIcon from '../svgs/Dashboard'
-// import BoxIcon from '../svgs/boxIcon'
-// import DegreeHatIcon from '../svgs/degreeHatIcon'
-// import BulbIcon from '../svgs/bulbIcon'
-// import SearchIcon from '../svgs/searchIcon'
 import BreifCaseIcon from '../svgs/breifCaseIcon'
 import ResumeIcon from '../svgs/resumeIcon'
 import TaskIcon from '../svgs/taskIcon'
@@ -20,6 +16,7 @@ import TrackerIcon from '../svgs/tracker'
 import ClipboardClockIcon from '../svgs/clipoardClock'
 import LockIcon from '../svgs/lock'
 import { useAuth } from '../../contexts/authProvider'
+import DegreeHatIcon from '../svgs/degreeHatIcon'
 
 const Sidebar = ({
   mobile,
@@ -79,7 +76,7 @@ const Navlinks = ({
     user &&
     user.role &&
     Array.isArray(user.role) &&
-    user.role.some((r) => ['standard', 'premium'].includes(r))
+    user.role.some((r) => ['pro', 'ceo'].includes(r))
       ? setShowLock(false)
       : setShowLock(true)
   }, [user.role])
@@ -160,6 +157,17 @@ const Navlinks = ({
               {showLock && <LockIcon size="1.1rem" />}
             </a>
           </li>
+          <li>
+            <a
+              onClick={() => handleNav('/classes')}
+              className={active === 'classes' ? 'active' : ''}
+            >
+              <div className="link-wrapper">
+                <DegreeHatIcon size="1.3rem" /> Classes
+              </div>
+              {showLock && <LockIcon size="1.1rem" />}
+            </a>
+          </li>
         </ul>
         <h6 style={{ marginTop: '1.5rem' }}>COMING SOON</h6>
         <ul>
@@ -199,17 +207,6 @@ const Navlinks = ({
               <BulbIcon size="1.2rem" /> Tips and tricks
             </a>
           </li> */}
-
-          <li>
-            <a
-              onClick={() => handleNav('/classes')}
-              className={active === 'classes' ? 'active' : ''}
-            >
-              <div className="link-wrapper">
-                <ClipboardClockIcon size="1.3rem" /> Classes
-              </div>
-            </a>
-          </li>
         </ul>
       </div>
       <div style={{ marginTop: '1.5rem' }}>

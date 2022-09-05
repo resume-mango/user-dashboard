@@ -61,7 +61,9 @@ const InfoBoxes = () => {
               </div>
               <div>
                 <p>{item.name}</p>
-                <h3>{item.value}</h3>
+                <h3 data-test-id={item.name.replace(/\s+/g, '-').toLowerCase()}>
+                  {item.value}
+                </h3>
               </div>
             </Box>
           ))}

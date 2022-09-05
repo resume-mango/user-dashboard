@@ -240,7 +240,7 @@ const MainSubscribe = () => {
                       <p className="label">Description</p>
                       <p className="label end">Amount</p>
                     </div>
-                    {data.invoice.data.map((item, i) => (
+                    {data.invoice.data.map((item: any, i: number) => (
                       <div className="item" key={i}>
                         <p>{item.description}</p>
                         <p

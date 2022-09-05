@@ -2,7 +2,7 @@ import * as Yup from 'yup'
 
 const title = Yup.string().required('Required')
 
-const description = Yup.string()
+const description = Yup.string().required('Required')
 
 const status = Yup.string()
   .oneOf(['todo', 'inprogress', 'completed'])

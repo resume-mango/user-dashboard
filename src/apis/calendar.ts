@@ -4,8 +4,14 @@ interface calendarCreateEvent {
   summary: string
   description: string
   location: string
-  start: string | undefined
-  end: string | undefined
+  start: {
+    dateTime?: string | undefined
+    date?: string | undefined
+  }
+  end: {
+    dateTime?: string | undefined
+    date?: string | undefined
+  }
   colorId: string
 }
 

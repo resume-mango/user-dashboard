@@ -5,7 +5,7 @@ import { calendarData } from '../../__mocks__/calendar'
 
 describe('Calendar EVent Added Helper', () => {
   test('Finds Event Date', async () => {
-    const date = dayjs().add(2, 'day').format('YYYY-MM-DD')
+    const date = dayjs().add(2, 'day').format('YYYY-MM-D')
     const { getDatesforNextMonth, getDatesForPrevMonth, getDatesForCurrMonth } =
       useCalender(dayjs())
 
@@ -14,7 +14,6 @@ describe('Calendar EVent Added Helper', () => {
       ...getDatesForCurrMonth,
       ...getDatesforNextMonth,
     ]
-
     const result = findEventDate(date, dates)
     const predictedPos = dates.findIndex((d) => d.date === date)
     expect(result).toBe(predictedPos)

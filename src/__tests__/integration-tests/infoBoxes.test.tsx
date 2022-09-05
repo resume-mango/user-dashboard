@@ -39,10 +39,10 @@ describe('<InfoBoxes/>', () => {
     expect(callbacks).toBeInTheDocument()
     expect(interviews).toBeInTheDocument()
 
-    expect(appliedVal).toContainHTML('<h3>05</h3>')
-    expect(todosVal).toContainHTML('<h3>02</h3>')
-    expect(callbacksVal).toContainHTML('<h3>03</h3>')
-    expect(interviewsVal).toContainHTML('<h3>04</h3>')
+    expect(appliedVal).toContainHTML('<h3 data-test-id="jobs-applied">05</h3>')
+    expect(todosVal).toContainHTML('<h3 data-test-id="to-dos">02</h3>')
+    expect(callbacksVal).toContainHTML('<h3 data-test-id="call-backs">03</h3>')
+    expect(interviewsVal).toContainHTML('<h3 data-test-id="interviews">04</h3>')
   })
 
   test('Loading infoboxes', () => {

@@ -82,19 +82,6 @@ const CoverLetterTemplates = () => {
 
 export default CoverLetterTemplates
 
-const Wrapper = styled.div`
-  padding: 2rem;
-`
-
-const GridWrapper = styled.div`
-  display: grid;
-  grid-gap: 3rem 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  @media (max-width: 480px) {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  }
-`
-
 const Loader = styled.div`
   position: absolute;
   top: 0;
@@ -110,7 +97,18 @@ const Loader = styled.div`
   align-items: center;
   justify-content: center;
 `
+const Wrapper = styled.div`
+  padding: 2rem;
+`
 
+const GridWrapper = styled.div`
+  display: grid;
+  grid-gap: 3rem 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+`
 const SkeletonItem = styled.div`
   border-radius: 6px;
   background-color: #eee;
@@ -128,7 +126,6 @@ const SkeletonItem = styled.div`
 `
 const Item = styled.div`
   display: inline-flex;
-  position: relative;
   align-items: center;
   justify-content: center;
   height: fit-content;
@@ -142,13 +139,14 @@ const Item = styled.div`
   outline: 1px solid #eee;
   border-radius: 6px;
   box-shadow: 4px 8px 15px 6px #eeeeee78;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+  }
   @media (max-width: 480px) {
     min-height: 225px;
     min-width: 150px;
-    img {
-      width: 100%;
-      height: 100%;
-    }
   }
 `
 const ItemWrapper = styled.div`

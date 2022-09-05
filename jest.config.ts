@@ -5,11 +5,21 @@ const config: Config.InitialOptions = {
   collectCoverage: true,
 
   collectCoverageFrom: [
-    'src/contexts/**/*.{ts,tsx}',
     'src/helpers/**/*.{ts,tsx}',
     'src/apis/**/*.{ts,tsx}',
     'src/hooks/**/*.{ts,tsx}',
+    'src/contexts/**/*.{ts,tsx}',
+
+    // 'src/**/*.{ts,tsx}',
+    // '!src/validations/**/*.{ts,tsx}',
+    // '!src/typings/**/*.{ts,tsx}',
+    // '!src/pages/**/*.{ts,tsx}',
+    // '!src/queries/**/*.{ts,tsx}',
+    // '!src/styled/**/*.{ts,tsx}',
+    // '!src/components/ui/**/*.{ts,tsx}',
+    // '!src/components/svgs/**/*.{ts,tsx}',
   ],
+
   coverageDirectory: 'coverage',
   // testPathIgnorePatterns: ['<rootDir>/src/validations/**/*.{ts,tsx}'],
   testEnvironment: 'jest-environment-jsdom',

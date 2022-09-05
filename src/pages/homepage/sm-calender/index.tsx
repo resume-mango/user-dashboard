@@ -27,11 +27,10 @@ const SmallCalender = () => {
 
   const { data, isLoading, isError } = getCalendar(currentDate.format('YYYY'))
   const dates = eventAdder([...prev, ...curr, ...next], data)
-
   return (
     <Fragment>
       <Wrapper>
-        <Header>
+        <Header data-test-id="calendar-header">
           <div>
             <h3>{dayjs(currentDate).format('MMMM YYYY')}</h3>
           </div>
@@ -66,8 +65,8 @@ const SmallCalender = () => {
                 <SK_Thumbnail />
               </SK_Wrapper>
             </Loader>
-          ) : data ? (
-            <DatesGrid>
+          ) : (
+            <DatesGrid data-test-id="dates-wrapper">
               {dates.map((item, i) => (
                 <Fragment key={i}>
                   {item.events.length > 0 ? (
@@ -101,7 +100,7 @@ const SmallCalender = () => {
                 </Fragment>
               ))}
             </DatesGrid>
-          ) : null}
+          )}
         </CalenderWrapper>
       </Wrapper>
     </Fragment>

@@ -131,7 +131,7 @@ const EventEdit: React.FC<IProps> = ({ location }) => {
     trigger,
     clearErrors,
     reset,
-    formState: { isSubmitting, isDirty, isValid },
+    formState: { isSubmitting, isDirty, isValid, isSubmitted },
   } = methods
 
   const watching = watch(['startDate', 'endDate', 'startTime', 'endTime'])
@@ -289,6 +289,7 @@ const EventEdit: React.FC<IProps> = ({ location }) => {
         }
       )
     }
+    return
   }
 
   if (type !== 'new' && !initialData)
@@ -361,7 +362,7 @@ const EventEdit: React.FC<IProps> = ({ location }) => {
             loading={isSubmitting}
             form="claendarForm"
           >
-            {initialData ? 'Update' : 'Create'}
+            {initialData || isSubmitted ? 'Update' : 'Create'}
           </FormButton>
         </FormButtonWrapper>
       </Wrapper>

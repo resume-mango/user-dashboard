@@ -18,9 +18,7 @@ const Homepage = () => {
 
   useEffect(() => {
     if (!user || !user.role) return
-    const hasPerm = user.role.some((r: any) =>
-      ['standard', 'premium'].includes(r)
-    )
+    const hasPerm = user.role.some((r: any) => ['pro', 'ceo'].includes(r))
     if (hasPerm) {
       setDashType('full-access')
     } else {

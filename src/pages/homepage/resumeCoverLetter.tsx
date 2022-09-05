@@ -157,7 +157,7 @@ const ResumeCoverLetter = ({ freeUser }: { freeUser?: boolean }) => {
                 Delete
               </Button>
             </ConfirmationBox>
-            <GridWrapper>
+            <GridWrapper data-test-id="designs-wrapper">
               {showCreate && (
                 <CreateNew
                   onClick={() =>
