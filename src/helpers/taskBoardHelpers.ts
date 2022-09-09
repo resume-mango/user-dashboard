@@ -80,12 +80,21 @@ export const updateTaskboardCounts = async (
         dashCountsKey,
         dashCountsFetcher
       )
-    } catch (err) {
+    } catch (err: any) {
+      if (
+        err.constructor &&
+        err.constructor.name &&
+        err.constructor.name === 'CancelledError'
+      ) {
+        return false
+      }
+
       setNotify({
         heading: 'Err',
         type: 'danger',
         message: 'Failed to update counts',
       })
+
       return false
     }
   }

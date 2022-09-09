@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
+    "clean": "rm -rf build",
     "start": "npx serve -l 3001 ./build",
     "dev": "webpack serve --config webpack/webpack.config.js --env env=dev ",
-    "build": "webpack --config webpack/webpack.config.js --env env=prod",
+    "build": "npm run clean && webpack --config webpack/webpack.config.js --progress --env env=prod",
     "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "test": "jest --coverage --silent",
     "test:dev": "jest --coverage",
@@ -90,6 +91,7 @@
     "typescript": "^4.4.4",
     "url-loader": "^4.1.1",
     "webpack": "^5.58.2",
+    "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.9.0",
     "webpack-dev-server": "^4.3.1",
     "webpack-merge": "^5.8.0"

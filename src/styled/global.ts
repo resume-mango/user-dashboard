@@ -281,7 +281,11 @@ transition: color ease-in-out .2s;
   align-items: center !important;
   justify-content: center !important;
 }
-
+.hide{
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
 .text-center {
   text-align: center;
 }

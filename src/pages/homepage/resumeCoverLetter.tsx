@@ -107,12 +107,14 @@ const ResumeCoverLetter = ({ freeUser }: { freeUser?: boolean }) => {
           <a
             className={show === 'resume' ? 'active' : ''}
             onClick={() => setShow('resume')}
+            data-test-id="resume-toggle"
           >
             My Resume
           </a>
         </SubNavBar.Link>
         <SubNavBar.Link>
           <a
+            data-test-id="coverletter-toggle"
             className={show === 'coverletter' ? 'active' : ''}
             onClick={() => setShow('coverletter')}
           >

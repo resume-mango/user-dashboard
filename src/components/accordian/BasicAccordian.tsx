@@ -58,9 +58,7 @@ const Heading = styled.div`
 `
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: block;
   padding-right: 0.7rem;
   padding-left: 0.7rem;
   width: 100%;

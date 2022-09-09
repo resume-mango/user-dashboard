@@ -11,13 +11,14 @@ interface Props extends RouteProps {
 const Protected: React.FC<Props> = (props) => {
   const { user } = useAuth()
   const history = useHistory()
-  const { component: Component, role, ...rest } = props
+  const { component, role, ...rest } = props
   return (
     <Route
       {...rest}
       render={(props) =>
         user && user.role && user.role.some((r: string) => role.includes(r)) ? (
-          <Component {...props} />
+          // <Component {...props} />
+          component
         ) : (
           <UpgradePlan handleClose={() => history.replace('/')} />
         )

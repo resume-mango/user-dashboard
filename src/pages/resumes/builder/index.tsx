@@ -135,6 +135,8 @@ const LHS = styled.div`
   width: 50%;
   margin-right: 50%;
   overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   &::-webkit-scrollbar {
     width: 0;
   }

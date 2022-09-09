@@ -92,6 +92,7 @@ const GridWrapper = styled.div`
   grid-template-columns: 65% 35%;
   height: 100%;
   width: 100%;
+  overflow: hidden;
   @media (max-width: 1200px) {
     grid-template-columns: 100%;
   }

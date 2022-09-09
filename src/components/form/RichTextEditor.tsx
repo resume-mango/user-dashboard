@@ -1,18 +1,17 @@
-import React, { Fragment, useEffect } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import styled from 'styled-components';
+import React, { Fragment, useEffect } from 'react'
+import { Controller, useFormContext } from 'react-hook-form'
+import ReactQuill from 'react-quill'
+import styled from 'styled-components'
 
 interface IProps {
-  name: string;
-  maxHeight?: string;
-  modules?: any;
-  formats?: Array<string>;
+  name: string
+  maxHeight?: string
+  modules?: any
+  formats?: Array<string>
 }
 
 const RichTextEditor = ({ name, maxHeight = '', formats, modules }: IProps) => {
-  const { control } = useFormContext();
+  const { control } = useFormContext()
   const initialModules = {
     toolbar: [
       ['bold', 'italic', 'underline'],
@@ -20,7 +19,7 @@ const RichTextEditor = ({ name, maxHeight = '', formats, modules }: IProps) => {
       ['link'],
       ['clean'],
     ],
-  };
+  }
 
   const initialFormats = [
     'bold',
@@ -29,14 +28,14 @@ const RichTextEditor = ({ name, maxHeight = '', formats, modules }: IProps) => {
     'list',
     'bullet',
     'link',
-  ];
+  ]
 
   useEffect(() => {
-    const linkInput = document && document.querySelector('.ql-tooltip input');
-    linkInput && linkInput.setAttribute('data-link', 'https://www.example.com');
+    const linkInput = document && document.querySelector('.ql-tooltip input')
+    linkInput && linkInput.setAttribute('data-link', 'https://www.example.com')
 
-    return;
-  }, []);
+    return
+  }, [])
 
   return (
     <Fragment>
@@ -60,10 +59,10 @@ const RichTextEditor = ({ name, maxHeight = '', formats, modules }: IProps) => {
         </>
       </Wrapper>
     </Fragment>
-  );
-};
+  )
+}
 
-export default RichTextEditor;
+export default RichTextEditor
 
 const Wrapper = styled.div<{ maxHeight: string }>`
   .quill {
@@ -170,4 +169,4 @@ const Wrapper = styled.div<{ maxHeight: string }>`
       }
     }
   }
-`;
+`
