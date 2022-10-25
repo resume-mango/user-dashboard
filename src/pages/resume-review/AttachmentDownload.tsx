@@ -41,9 +41,11 @@ const AttachmentDownload = ({
       link.href = url
 
       const name =
-        res.headers['content-disposition']
-          .split('filename="')[1]
-          .split('"')[0] || 'attachment'
+        (res.headers['content-disposition'] &&
+          res.headers['content-disposition']
+            .split('filename="')[1]
+            .split('"')[0]) ||
+        'attachment'
 
       link.setAttribute('download', name)
       document.body.appendChild(link)
