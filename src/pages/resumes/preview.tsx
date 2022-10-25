@@ -189,7 +189,7 @@ const Previewer = ({ isDataLoading }: { isDataLoading: boolean }) => {
                     <Fragment>
                       Downloading <Spinner size="1rem" />
                     </Fragment>
-                  )}{' '}
+                  )}
                 </Fragment>
               </DropButton.Button>
               <DropButton.Item>

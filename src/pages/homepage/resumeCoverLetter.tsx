@@ -24,9 +24,14 @@ import {
 } from '../../helpers/resumeCoverLetter'
 
 const getDesigns = (type: 'resume' | 'coverletter') => {
+  const params: any = {
+    page: 0,
+    limit: 15,
+  }
+
   let output
-  if (type === 'resume') output = getAllResumes()
-  if (type === 'coverletter') output = getAllCoverLetters()
+  if (type === 'resume') output = getAllResumes(params)
+  if (type === 'coverletter') output = getAllCoverLetters(params)
   return output as any
 }
 
@@ -54,7 +59,7 @@ const ResumeCoverLetter = ({ freeUser }: { freeUser?: boolean }) => {
     if (ref.current.clientHeight > height) setCount(calc - 1)
   }, [ref, width, freeUser])
 
-  const copyData = data && [...data]
+  const copyData = data && data.items && [...data.items]
 
   const filteredData = count
     ? copyData &&
@@ -62,7 +67,9 @@ const ResumeCoverLetter = ({ freeUser }: { freeUser?: boolean }) => {
         0,
         width < 550 ? (copyData.length >= 3 ? 3 : 2) : count - 1
       )
-    : data
+    : data && data.items
+    ? data.items
+    : []
 
   useEffect(() => {
     if (!data) return

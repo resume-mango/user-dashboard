@@ -11,20 +11,29 @@ import { useNotify } from '../../../contexts/notify'
 import { useViewport } from '../../../contexts/viewPort'
 import { Button } from '../../../styled/button'
 import { SK_Wrapper, Spinner } from '../../../styled/loader'
-import { getAllCoverLetters } from '../../../queries/coverLetterQueries'
+import {
+  getAllCoverLetters,
+  GetCoverletterParams,
+} from '../../../queries/coverLetterQueries'
 import {
   deleteSingleCoverletter,
   handleCoverletterDownload,
 } from '../../../helpers/coverletter'
+import { PaginationWrapper } from '../../../styled/pages'
 
 const MyDesigns = () => {
   const [loading, setLoading] = useState<string | null>(null)
   const [showDownload, setShowDownload] = useState<number | null>(null)
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null)
+  const [page, setPage] = useState(0)
 
+  const params: GetCoverletterParams = {
+    page,
+    limit: 15,
+  }
   const { setNotify } = useNotify()
 
-  const { data, isError, isLoading }: any = getAllCoverLetters()
+  const { data, isError, isLoading }: any = getAllCoverLetters(params)
   const { width } = useViewport()
   const history = useHistory()
   const queryClient = useQueryClient()
@@ -39,6 +48,10 @@ const MyDesigns = () => {
     setShowDownload(null)
     await handleCoverletterDownload(name, id, type, setNotify)
     setLoading(null)
+  }
+  const handlePage = (type: 'next' | 'prev') => {
+    type === 'next' && setPage((page) => page + 1)
+    type === 'prev' && setPage((page) => page - 1)
   }
 
   return (
@@ -98,7 +111,7 @@ const MyDesigns = () => {
               <PlusIcon size="1.7rem" />
               {width > 480 && <p>Create Coverletter</p>}
             </CreateNew>
-            {data.map((item: any, i: number) => (
+            {data.items.map((item: any, i: number) => (
               <ItemWrapper key={i}>
                 <Item
                   onClick={() => history.push(`coverletters/edit/${item._id}`)}
@@ -151,6 +164,24 @@ const MyDesigns = () => {
               </ItemWrapper>
             ))}
           </GridWrapper>
+          {data.total > params.limit && (
+            <PaginationWrapper className="mb-3">
+              <Button
+                btnType="secondary"
+                disabled={page === 0}
+                onClick={() => handlePage('prev')}
+              >
+                Previous
+              </Button>
+              <Button
+                btnType="secondary"
+                disabled={page + 1 >= Math.ceil(data.total / data.limit)}
+                onClick={() => handlePage('next')}
+              >
+                Next
+              </Button>
+            </PaginationWrapper>
+          )}
         </Fragment>
       )}
     </Fragment>

@@ -13,7 +13,7 @@ import './public/fonts/style.css'
 import { useAuth } from './contexts/authProvider'
 import { Spinner } from './styled/loader'
 import Cookies from 'universal-cookie'
-import AllRoutes from './routes'
+import AllRoutes from './Routes'
 
 const twentyFourHoursInMs = 1000 * 60 * 60 * 24
 const queryClient = new QueryClient({

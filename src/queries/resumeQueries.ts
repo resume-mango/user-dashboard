@@ -1,7 +1,11 @@
 import axios from 'axios'
 import getQuery from '../hooks/getQuery'
 import getQueryAdvance from '../hooks/getQueryAdvance'
-
+export interface GetResumesParams {
+  title?: string
+  page: number
+  limit: number
+}
 /**
  * Gets All resume templates
  * @returns UseQueryResult
@@ -14,13 +18,20 @@ export const getAllResumeTemplates = () => {
  * Gets all user created resume
  * @returns UseQueryResult
  */
-export const getAllResumes = () => {
+// export const getAllResumes = () => {
+//   const fetcher = async () => {
+//     const { data } = await axios.get(`/resume`)
+//     return data
+//   }
+
+//   return getQueryAdvance('resumes', () => fetcher())
+// }
+export const getAllResumes = (params: GetResumesParams) => {
   const fetcher = async () => {
-    const { data } = await axios.get(`/resume`)
+    const { data } = await axios.get(`/resume`, { params })
     return data
   }
-
-  return getQueryAdvance('resumes', () => fetcher())
+  return getQueryAdvance(['resumes', params], () => fetcher())
 }
 
 /**

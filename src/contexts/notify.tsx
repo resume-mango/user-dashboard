@@ -123,7 +123,8 @@ const NotifyWrapper = styled.div<{ active: boolean }>`
 const Item = styled.div<{ type: 'success' | 'info' | 'warning' | 'danger' }>`
   display: flex;
   position: relative;
-  height: 75px;
+  height: fit-content;
+  padding: 0.5rem 0;
   width: 100%;
   background-color: white;
   border-radius: 0.5rem;

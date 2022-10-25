@@ -16,14 +16,14 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
     <Fragment>
       {showUpgrade && <UpgradePlan handleClose={() => setShowUpgrade(false)} />}
       <Sidebar
-        mobile={width < 900}
+        mobile={width <= 1025}
         show={show}
         setShow={setShow}
         setShowUpgrade={setShowUpgrade}
       />
       <div>
         <Content id="main-section">
-          {width < 900 && (
+          {width <= 1025 && (
             <MobileNav>
               <a href={`${process.env.BASE_HOST}`}>
                 <img
@@ -54,7 +54,7 @@ const Content = styled.div`
   margin-left: 260px;
   min-height: 100vh;
   overflow-x: hidden;
-  @media (max-width: 900px) {
+  @media (max-width: 1025px) {
     margin-left: 0;
   }
 `

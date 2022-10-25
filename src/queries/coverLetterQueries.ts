@@ -2,6 +2,12 @@ import axios from 'axios'
 import getQuery from '../hooks/getQuery'
 import getQueryAdvance from '../hooks/getQueryAdvance'
 
+export interface GetCoverletterParams {
+  title?: string
+  page: number
+  limit: number
+}
+
 /**
  * Gets All Coverletter templates
  * @returns UseQueryResult
@@ -14,13 +20,20 @@ export const getAllCoverLetterTemplates = () => {
  * Gets all user created coverletters
  * @returns UseQueryResult
  */
-export const getAllCoverLetters = () => {
+// export const getAllCoverLetters = () => {
+//   const fetcher = async () => {
+//     const { data } = await axios.get(`/coverletter`)
+//     return data
+//   }
+
+//   return getQueryAdvance('coverletters', () => fetcher())
+// }
+export const getAllCoverLetters = (params: GetCoverletterParams) => {
   const fetcher = async () => {
-    const { data } = await axios.get(`/coverletter`)
+    const { data } = await axios.get(`/coverletter`, { params })
     return data
   }
-
-  return getQueryAdvance('coverletters', () => fetcher())
+  return getQueryAdvance(['coverletters', params], () => fetcher())
 }
 
 /**

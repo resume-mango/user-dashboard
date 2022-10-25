@@ -12,6 +12,7 @@ interface IProps {
   type: 'danger' | 'info' | 'warning' | 'success'
   theme: DefaultTheme
   redirect?: string
+  handleRedirect?: () => void
   popup?: boolean
   heading?: string
   message?: string
@@ -23,18 +24,23 @@ interface IProps {
 const Alert: React.FC<IProps> = ({
   theme,
   redirect,
+  handleRedirect,
   popup,
   type,
   heading,
   message,
   genricMsg,
   style,
-  show
+  show,
 }) => {
   const history = useHistory()
 
   const redirectUser = () => {
     if (popup) return alert('Popup Close')
+    if (handleRedirect) {
+      console.log('hit')
+      return handleRedirect()
+    }
     if (!redirect) return history.goBack()
     else return history.push(redirect)
   }
@@ -42,16 +48,16 @@ const Alert: React.FC<IProps> = ({
   let icon: any
   switch (type) {
     case 'danger':
-      icon = <DangerIcon size='100px' color={theme.colors.primary} />
+      icon = <DangerIcon size="100px" color={theme.colors.primary} />
       break
     case 'warning':
-      icon = <WarningIcon size='100px' color={theme.colors.primary} />
+      icon = <WarningIcon size="100px" color={theme.colors.primary} />
       break
     case 'success':
-      icon = <CheckIcon size='100px' color={theme.colors.primary} />
+      icon = <CheckIcon size="100px" color={theme.colors.primary} />
       break
     case 'info':
-      icon = <InfoIcon size='100px' color={theme.colors.primary} />
+      icon = <InfoIcon size="100px" color={theme.colors.primary} />
       break
     default:
       break
@@ -77,9 +83,9 @@ const Alert: React.FC<IProps> = ({
           <Wrapper
             state={state}
             style={{
-              ...style
+              ...style,
             }}
-            className='align-center'
+            className="align-center"
           >
             <div>
               {show && (
@@ -88,8 +94,8 @@ const Alert: React.FC<IProps> = ({
                   <h2>{title}</h2>
                   <p>{msg}</p>
                   <Button
-                    btnType='link'
-                    size='xl'
+                    btnType="link"
+                    size="xl"
                     onClick={() => redirectUser()}
                   >
                     Ok
@@ -136,22 +142,23 @@ const Wrapper = styled.div<{ state: TransitionStatus }>`
     border: 1px solid rgb(237 237 237 / 20%);
     border-radius: 1rem;
     background-color: #fff;
-  
-  h2,
-  p {
-    text-align: center;
-    margin: 0 0 1rem;
-  }
-  p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-  }
-  svg {
-    margin-bottom: 2rem;
-  }
-  ${Button} {
-    font-size: 1.2rem;
-    color: white;
-    background-color: ${({ theme }) => theme.colors.primary};
+
+    h2,
+    p {
+      text-align: center;
+      margin: 0 0 1rem;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    svg {
+      margin-bottom: 2rem;
+    }
+    ${Button} {
+      font-size: 1.2rem;
+      color: white;
+      background-color: ${({ theme }) => theme.colors.primary};
+    }
   }
 `

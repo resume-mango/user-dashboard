@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
 import { Button } from '../../styled/button'
 import CrossIcon from '../svgs/cross'
+import { useNotify } from '../../contexts/notify'
 
 interface IProps {
   setImage: (val: any) => void
@@ -29,6 +30,8 @@ const resizeFile = (file: any) =>
   })
 
 const Dropzone: React.FC<IProps> = ({ setImage, setShow }) => {
+  const { setNotify } = useNotify()
+
   const onDrop = useCallback(async (acceptedFiles) => {
     try {
       await Promise.all(
@@ -45,18 +48,34 @@ const Dropzone: React.FC<IProps> = ({ setImage, setShow }) => {
       console.log(err)
     }
   }, [])
+  const onDropRejected = useCallback(async (rejectedFiles) => {
+    try {
+      console.log(rejectedFiles)
+      if (!rejectedFiles || rejectedFiles.length === 0) return
+      rejectedFiles.forEach((item: Record<string, any>) =>
+        setNotify({
+          type: 'warning',
+          message: item.file.name,
+          heading: item.errors[0].message,
+        })
+      )
+    } catch (err) {
+      console.log(err)
+    }
+  }, [])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: 'image/*',
+    accept: ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'],
     maxFiles: 1,
-    onDrop
+    onDrop,
+    onDropRejected,
   })
 
   return (
     <Fragment>
       <Wrapper>
         <CloseBtn onClick={() => setShow(false)}>
-          <CrossIcon size='1.2rem' />
+          <CrossIcon size="1.2rem" />
         </CloseBtn>
         <DropWrapper {...getRootProps()}>
           <input {...getInputProps()} />
@@ -64,11 +83,10 @@ const Dropzone: React.FC<IProps> = ({ setImage, setShow }) => {
             <p>Drop the files here ...</p>
           ) : (
             <Fragment>
-              <p className='mb-2'>
-                Drag &apos;n&apos; drop some files here, or click to select
-                files
+              <p className="mb-2">
+                Drag &apos;n&apos; drop here, or click to select image
               </p>
-              <Button type='button' btnType='primary' size='lg'>
+              <Button type="button" btnType="primary" size="lg">
                 Choose Image
               </Button>
             </Fragment>

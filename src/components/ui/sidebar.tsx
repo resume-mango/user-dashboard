@@ -168,6 +168,17 @@ const Navlinks = ({
               {showLock && <LockIcon size="1.1rem" />}
             </a>
           </li>
+          <li>
+            <a
+              onClick={() => handleNav('/resume-review')}
+              className={active === 'classes' ? 'active' : ''}
+            >
+              <div className="link-wrapper">
+                <DegreeHatIcon size="1.3rem" /> Resume Review
+              </div>
+              {showLock && <LockIcon size="1.1rem" />}
+            </a>
+          </li>
         </ul>
         <h6 style={{ marginTop: '1.5rem' }}>COMING SOON</h6>
         <ul>
@@ -257,7 +268,7 @@ const NavWrapper = styled.div<{ mobile: boolean; show: boolean }>`
   overflow: auto;
   position: fixed;
   z-index: 2;
-  @media (max-width: 900px) {
+  @media (max-width: 1025px) {
     transform: ${({ show }) =>
       !show ? 'translateX(-300px)' : 'translateX(0)'};
   }

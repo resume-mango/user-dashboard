@@ -1,66 +1,72 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { forwardRef, Fragment, useEffect } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import ReactQuill from 'react-quill'
 import styled from 'styled-components'
 
 interface IProps {
   name: string
+  placeholder?: string
   maxHeight?: string
   modules?: any
   formats?: Array<string>
 }
 
-const RichTextEditor = ({ name, maxHeight = '', formats, modules }: IProps) => {
-  const { control } = useFormContext()
-  const initialModules = {
-    toolbar: [
-      ['bold', 'italic', 'underline'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link'],
-      ['clean'],
-    ],
+const RichTextEditor = forwardRef(
+  ({ name, maxHeight = '', formats, modules, placeholder }: IProps, ref) => {
+    const { control } = useFormContext()
+    const initialModules = {
+      toolbar: [
+        ['bold', 'italic', 'underline'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['link'],
+        ['clean'],
+      ],
+    }
+
+    const initialFormats = [
+      'bold',
+      'italic',
+      'underline',
+      'list',
+      'bullet',
+      'link',
+    ]
+
+    useEffect(() => {
+      const linkInput = document && document.querySelector('.ql-tooltip input')
+      linkInput &&
+        linkInput.setAttribute('data-link', 'https://www.example.com')
+
+      return
+    }, [])
+
+    return (
+      <Fragment>
+        <Wrapper maxHeight={maxHeight} className="wrapper">
+          <>
+            <Controller
+              name={name}
+              control={control}
+              render={({ field: { value, onChange, onBlur } }) => (
+                <ReactQuill
+                  ref={ref as any}
+                  modules={modules ? modules : initialModules}
+                  onBlur={onBlur}
+                  onChange={(content) => onChange(content)}
+                  value={value}
+                  formats={formats ? formats : initialFormats}
+                  theme="snow"
+                  bounds={'wrapper'}
+                  placeholder={placeholder}
+                />
+              )}
+            />
+          </>
+        </Wrapper>
+      </Fragment>
+    )
   }
-
-  const initialFormats = [
-    'bold',
-    'italic',
-    'underline',
-    'list',
-    'bullet',
-    'link',
-  ]
-
-  useEffect(() => {
-    const linkInput = document && document.querySelector('.ql-tooltip input')
-    linkInput && linkInput.setAttribute('data-link', 'https://www.example.com')
-
-    return
-  }, [])
-
-  return (
-    <Fragment>
-      <Wrapper maxHeight={maxHeight} className="wrapper">
-        <>
-          <Controller
-            name={name}
-            control={control}
-            render={({ field: { value, onChange, onBlur } }) => (
-              <ReactQuill
-                modules={modules ? modules : initialModules}
-                onBlur={onBlur}
-                onChange={(content) => onChange(content)}
-                value={value}
-                formats={formats ? formats : initialFormats}
-                theme="snow"
-                bounds={'wrapper'}
-              />
-            )}
-          />
-        </>
-      </Wrapper>
-    </Fragment>
-  )
-}
+)
 
 export default RichTextEditor
 
@@ -70,6 +76,7 @@ const Wrapper = styled.div<{ maxHeight: string }>`
     border-radius: 6px;
     display: block;
   }
+
   .ql-toolbar,
   .ql-container {
     border: none;
@@ -109,6 +116,10 @@ const Wrapper = styled.div<{ maxHeight: string }>`
       font-size: 1rem;
     }
   }
+  .ql-editor.ql-blank::before {
+    font-style: unset;
+  }
+
   .ql-editor ol,
   .ql-editor ul {
     padding-left: 0.5em;

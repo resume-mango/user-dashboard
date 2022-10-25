@@ -172,26 +172,6 @@ const ResumeProvider = ({ initialData, templateName, children }: any) => {
     setFontsReady(false)
     loadTemplateFonts()
 
-    // if ('fonts' in document) {
-    //   Promise.all(
-    //     templateData.fonts.map((font: any) => {
-    //       const face = new FontFace(
-    //         font.name,
-    //         `url(${font.url}) format('${font.format}')`
-    //       )
-
-    //       face.style = font.style
-    //       face.weight = font.weight
-    //       return face.load()
-    //     })
-    //   ).then(function (loadedFonts) {
-    //     loadedFonts &&
-    //       loadedFonts.forEach(function (font) {
-    //         document.fonts.add(font)
-    //       })
-    //     setFontsReady(true)
-    //   })
-    // }
     return () => setFontsReady(true)
   }, [templateData, queryEnabled])
 

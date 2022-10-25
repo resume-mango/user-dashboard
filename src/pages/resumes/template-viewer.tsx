@@ -12,6 +12,7 @@ import PreviewSkeleton from '../../components/ui/previewSkeleton'
 import { getAllResumeTemplates } from '../../queries/resumeQueries'
 import { useViewport } from '../../contexts/viewPort'
 import { Spinner } from '../../styled/loader'
+import '../../styled/template_global.css'
 
 const TemplateViewer = ({ isLoading }: { isLoading: boolean }) => {
   const [showDownload, setShowDownload] = useState(false)

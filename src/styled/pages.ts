@@ -7,3 +7,13 @@ export const ContentWrapper = styled.div<{ maxWidth: string }>`
     max-width: 575px;
   }
 `
+export const PaginationWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  button {
+    width: fit-content;
+    padding: 0 1rem;
+    margin: 0 1rem;
+  }
+`

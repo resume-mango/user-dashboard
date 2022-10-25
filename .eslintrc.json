@@ -23,8 +23,8 @@
   },
   "plugins": ["react", "@typescript-eslint", "jest"],
   "rules": {
-    "jest/no-mocks-import": 0,
     "no-console": 1,
+    "jest/no-mocks-import": 0,
     "no-empty": 1,
     "react/react-in-jsx-scope": 0,
     "react/display-name": 0,

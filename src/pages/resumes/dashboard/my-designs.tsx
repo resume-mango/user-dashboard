@@ -11,20 +11,27 @@ import { Button } from '../../../styled/button'
 import ConfirmationBox from '../../../components/ui/confirmation'
 
 import { SK_Wrapper, Spinner } from '../../../styled/loader'
-import { getAllResumes } from '../../../queries/resumeQueries'
+import { getAllResumes, GetResumesParams } from '../../../queries/resumeQueries'
 import { useNotify } from '../../../contexts/notify'
 import {
   deleteSigleResume,
   handleResumeDownload,
 } from '../../../helpers/resume'
+import { PaginationWrapper } from '../../../styled/pages'
 
 const MyDesigns = () => {
   const [loading, setLoading] = useState<string | null>(null)
 
   const [showDownload, setShowDownload] = useState<number | null>(null)
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null)
+  const [page, setPage] = useState(0)
 
-  const { data, isError, isLoading }: any = getAllResumes()
+  const params: GetResumesParams = {
+    page,
+    limit: 15,
+  }
+
+  const { data, isError, isLoading }: any = getAllResumes(params)
   const { setNotify } = useNotify()
   const { width } = useViewport()
   const history = useHistory()
@@ -40,6 +47,11 @@ const MyDesigns = () => {
     setShowDownload(null)
     await handleResumeDownload(name, id, type, setNotify)
     setLoading(null)
+  }
+
+  const handlePage = (type: 'next' | 'prev') => {
+    type === 'next' && setPage((page) => page + 1)
+    type === 'prev' && setPage((page) => page - 1)
   }
 
   return (
@@ -103,7 +115,7 @@ const MyDesigns = () => {
               )}
               {width > 480 && <p>Create Resume</p>}
             </CreateNew>
-            {data.map((item: any, i: number) => (
+            {data.items.map((item: any, i: number) => (
               <ItemWrapper key={i}>
                 <Item onClick={() => history.push(`resumes/edit/${item._id}`)}>
                   {item.attachments && item.attachments.thumbnail ? (
@@ -152,6 +164,24 @@ const MyDesigns = () => {
               </ItemWrapper>
             ))}
           </GridWrapper>
+          {data.total > params.limit && (
+            <PaginationWrapper className="mb-3">
+              <Button
+                btnType="secondary"
+                disabled={page === 0}
+                onClick={() => handlePage('prev')}
+              >
+                Previous
+              </Button>
+              <Button
+                btnType="secondary"
+                disabled={page + 1 >= Math.ceil(data.total / data.limit)}
+                onClick={() => handlePage('next')}
+              >
+                Next
+              </Button>
+            </PaginationWrapper>
+          )}
         </Fragment>
       )}
     </Fragment>
