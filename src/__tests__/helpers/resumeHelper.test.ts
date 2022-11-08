@@ -393,7 +393,7 @@ describe('Resume Helpers', () => {
       expect(result).toBeUndefined()
     })
     test('Success to delete resume', async () => {
-      const resumeData = [{ _id: '1' }, { _id: '2' }]
+      const resumeData = { items: [{ _id: '1' }, { _id: '2' }] }
       deleteResumeSpy.mockResolvedValue({
         data: 'Dummy',
         error: undefined,

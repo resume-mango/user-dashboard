@@ -95,7 +95,7 @@ describe('Resume / Coverletter Delete helper', () => {
   const coverletterDeleteSpy = jest.spyOn(coverletterApies, 'deleteCoverLetter')
 
   const id = 'abc'
-  const data = [{ _id: 'abc' }, { _id: 'efg' }]
+  const data = { items: [{ _id: 'abc' }, { _id: 'efg' }] }
   const queryClient = {
     setQueryData: jest.fn(),
   } as any

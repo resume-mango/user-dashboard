@@ -21,7 +21,7 @@ describe('Auth Provider Context', () => {
       <Fragment>
         {isLoading ? (
           'Loading'
-        ) : (
+        ) : user ? (
           <Fragment>
             <p>Token: {token}</p>
             <button onClick={() => setToken('new-token')}>Set Token</button>
@@ -37,7 +37,7 @@ describe('Auth Provider Context', () => {
               Set User
             </button>
           </Fragment>
-        )}
+        ) : null}
       </Fragment>
     )
   }

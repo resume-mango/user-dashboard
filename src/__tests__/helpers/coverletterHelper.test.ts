@@ -113,7 +113,7 @@ describe('Deletes Single Coveletter', () => {
   })
 
   const id = 'abc'
-  const data = [{ _id: 'dummy' }, { _id: 'abc' }]
+  const data = { items: [{ _id: 'dummy' }, { _id: 'abc' }] }
   const loading = null
   const setLoading = jest.fn()
   const setDeleteItemId = jest.fn()
@@ -153,7 +153,7 @@ describe('Deletes Single Coveletter', () => {
 
   test('Should successfully delete coveletter', async () => {
     deleteCoverLetterSpy.mockResolvedValue({
-      data: 'dummy',
+      data: { _id: '123', title: 'abc' },
       error: undefined,
     } as any)
     await coverletterHelper.deleteSingleCoverletter(

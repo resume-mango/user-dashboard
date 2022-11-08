@@ -48,7 +48,6 @@ const MyDesigns = () => {
     await handleResumeDownload(name, id, type, setNotify)
     setLoading(null)
   }
-
   const handlePage = (type: 'next' | 'prev') => {
     type === 'next' && setPage((page) => page + 1)
     type === 'prev' && setPage((page) => page - 1)

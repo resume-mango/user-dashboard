@@ -32,10 +32,9 @@ const Protected: React.FC<Props> = (props) => {
             message="Please reload the page..."
             handleRedirect={() => history.go(0)}
           />
-        ) : user &&
+        ) : !user ? null : user &&
           user.role &&
           user.role.some((r: string) => role.includes(r)) ? (
-          // <Component {...props} />
           component
         ) : (
           <UpgradePlan handleClose={() => history.replace('/')} />

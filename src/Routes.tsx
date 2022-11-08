@@ -112,7 +112,7 @@ const AllRoutes = () => {
               />
               <Protected
                 path="/resume-review"
-                role={['pro', 'ceo']}
+                role={['ceo']}
                 component={
                   <SuspenseWrapper>
                     <LazyResumeReviewList />
@@ -217,7 +217,7 @@ const AllRoutes = () => {
 
           <Protected
             path="/resume-review/:ticket"
-            role={['pro', 'ceo']}
+            role={['ceo']}
             component={
               <SuspenseWrapper>
                 <LazyResumeReviewChat />

@@ -24,7 +24,7 @@ const Homepage = () => {
     } else {
       setDashType('limited-access')
     }
-  }, [user.role])
+  }, [user])
 
   return (
     <Fragment>
@@ -39,7 +39,7 @@ const Homepage = () => {
         title={
           <Fragment>
             Hello&nbsp;
-            <span>{user.firstName}</span>
+            <span>{(user && user.firstName) || ''}</span>
           </Fragment>
         }
       ></DashPageHeader>

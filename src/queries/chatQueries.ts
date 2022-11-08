@@ -34,6 +34,14 @@ export const getReviewTicketById = ({ ticket }: { ticket: string }) => {
   )
 }
 
+export const getReviewTicketsCreatedCount = () => {
+  const fetcher = async () => {
+    const { data } = await axios.get(`/resume-review/limits`)
+    return data
+  }
+  return getQueryAdvance('ticketsCreated', () => fetcher())
+}
+
 export const getReviewTickets = (params: GetReviewParams) => {
   const fetcher = async () => {
     const { data } = await axios.get(`/resume-review`, { params })

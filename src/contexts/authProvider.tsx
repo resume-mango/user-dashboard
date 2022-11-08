@@ -14,7 +14,7 @@ type User = {
   ref: string
 }
 interface IContext {
-  user: User | Record<string, any>
+  user: User | Record<string, any> | undefined
   token: string
   isLoading: boolean
   setUser: (_val: any) => void
@@ -36,7 +36,9 @@ const AuthContext = React.createContext<IContext>(contextValues)
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState('')
-  const [user, setUser] = useState<User | Record<string, any>>({})
+  const [user, setUser] = useState<User | Record<string, any> | undefined>(
+    undefined
+  )
   const [isLoading, setIsLoading] = useState(true)
   const cookies = new Cookies()
   const isSess = cookies.get('rm_ia')
@@ -53,7 +55,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (token) return
       checkAuth()
     } else {
-      setUser({})
+      setUser(undefined)
       setToken('')
       window.location.href = location
     }

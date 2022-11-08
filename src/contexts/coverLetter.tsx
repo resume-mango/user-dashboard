@@ -12,6 +12,7 @@ import {
   handleCoverletterDownload,
   submitCoveletterForm,
 } from '../helpers/coverletter'
+import UpgradePlan from '../components/upcgradeModal'
 
 interface Context {
   data: ICoverDefault & { id: string | null }
@@ -72,6 +73,7 @@ const CoverLetterProvider = ({ initialData, templateName, children }: any) => {
   const [submitSuccess, setSubmitSuccess] = useState(false)
   const [step, setStep] = useState(1)
   const [isSaving, setIsSaving] = useState(false)
+  const [limitsReached, setLimitsReached] = useState(false)
 
   const { setNotify } = useNotify()
   const queryClient = useQueryClient()
@@ -224,7 +226,8 @@ const CoverLetterProvider = ({ initialData, templateName, children }: any) => {
         reset,
         setSubmitSuccess,
         setNotify,
-        queryClient
+        queryClient,
+        setLimitsReached
       )
     }
     // const donwnloadHandler = async (name: string, id: string, type: string) => {
@@ -333,7 +336,8 @@ const CoverLetterProvider = ({ initialData, templateName, children }: any) => {
         name,
         initialData._id,
         type as any,
-        setNotify
+        setNotify,
+        setLimitsReached
       )
       setIsSaving(false)
     }
@@ -359,6 +363,9 @@ const CoverLetterProvider = ({ initialData, templateName, children }: any) => {
         isSaving,
       }}
     >
+      {limitsReached && (
+        <UpgradePlan handleClose={() => setLimitsReached(false)} />
+      )}
       <FormProvider {...methods}>{children}</FormProvider>
     </CoverLetterContext.Provider>
   )

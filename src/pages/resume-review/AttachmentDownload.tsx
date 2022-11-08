@@ -6,6 +6,7 @@ import ImageIcon from '../../components/svgs/image'
 import PlayIcon from '../../components/svgs/play'
 import CircularProgress from '../../components/ui/CircularProgress'
 import { useNotify } from '../../contexts/notify'
+import { handleDownloadAttachment } from '../../helpers/resumeReview'
 
 const AttachmentDownload = ({
   chat_id,
@@ -20,70 +21,80 @@ const AttachmentDownload = ({
   const [isDownloading, setIsDownloading] = useState(false)
   const { setNotify } = useNotify()
 
-  const openAttachement = async (chatId: string, id: string) => {
-    if (isDownloading) return
-    setIsDownloading(true)
-    await downloadAttachment(chatId, id).then((res: any) => {
-      if (!res || !res.data) {
-        setIsDownloading(false)
-        return setNotify({
-          type: 'danger',
-          heading: 'Err!',
-          message: 'Failed to download attachment!',
-        })
-      }
-      const url = window.URL.createObjectURL(
-        new Blob([res.data], {
-          type: res.headers['content-type'],
-        })
-      )
-      const link = document.createElement('a')
-      link.href = url
+  // const openAttachement = async (chatId: string, id: string) => {
+  //   if (isDownloading) return
+  //   setIsDownloading(true)
+  //   await downloadAttachment(chatId, id).then((res: any) => {
+  //     if (!res || !res.data) {
+  //       setIsDownloading(false)
+  //       return setNotify({
+  //         type: 'danger',
+  //         heading: 'Err!',
+  //         message: 'Failed to download attachment!',
+  //       })
+  //     }
+  //     const url = window.URL.createObjectURL(
+  //       new Blob([res.data], {
+  //         type: res.headers['content-type'],
+  //       })
+  //     )
+  //     const link = document.createElement('a')
+  //     link.href = url
 
-      const name =
-        (res.headers['content-disposition'] &&
-          res.headers['content-disposition']
-            .split('filename="')[1]
-            .split('"')[0]) ||
-        'attachment'
+  //     const name =
+  //       (res.headers['content-disposition'] &&
+  //         res.headers['content-disposition']
+  //           .split('filename="')[1]
+  //           .split('"')[0]) ||
+  //       'attachment'
 
-      link.setAttribute('download', name)
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      window.URL.revokeObjectURL(url)
-      return setIsDownloading(false)
-    })
-  }
+  //     link.setAttribute('download', name)
+  //     document.body.appendChild(link)
+  //     link.click()
+  //     document.body.removeChild(link)
+  //     window.URL.revokeObjectURL(url)
+  //     return setIsDownloading(false)
+  //   })
+  // }
 
-  const downloadAttachment = async (chatId: string, id: string) => {
-    let res
-    const options = {
-      method: 'GET',
-      url: `/chat/attachments`,
-      params: { chatId, id },
-      responseType: 'blob',
-      onDownloadProgress: (progressEvent: any) => {
-        const percentage = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        ) as any
-        setProgress(percentage)
-      },
-    }
-    try {
-      res = await axios.request(options as any)
-      return res
-    } catch (err) {
-      return (res = null)
-    }
-  }
+  // const downloadAttachment = async (chatId: string, id: string) => {
+  //   let res
+  //   const options = {
+  //     method: 'GET',
+  //     url: `/chat/attachments`,
+  //     params: { chatId, id },
+  //     responseType: 'blob',
+  //     onDownloadProgress: (progressEvent: any) => {
+  //       const percentage = Math.round(
+  //         (progressEvent.loaded * 100) / progressEvent.total
+  //       ) as any
+  //       setProgress(percentage)
+  //     },
+  //   }
+  //   try {
+  //     res = await axios.request(options as any)
+  //     return res
+  //   } catch (err) {
+  //     return (res = null)
+  //   }
+  // }
 
   return (
     <Fragment>
       <StyledFile
+        data-test-id="attachment"
         type={senderType}
         className={`${isDownloading ? 'downloading' : 'idle'}`}
-        onClick={() => openAttachement(chat_id, attachment._id)}
+        onClick={() =>
+          handleDownloadAttachment(
+            chat_id,
+            attachment._id,
+            setProgress,
+            isDownloading,
+            setIsDownloading,
+            setNotify
+          )
+        }
       >
         <span className={`icon `}>
           {isDownloading ? (

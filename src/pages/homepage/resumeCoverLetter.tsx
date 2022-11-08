@@ -22,6 +22,7 @@ import {
   handleResumeCoverLetterDelete,
   handleResumeCoverLetterDownload,
 } from '../../helpers/resumeCoverLetter'
+import UpgradePlan from '../../components/upcgradeModal'
 
 const getDesigns = (type: 'resume' | 'coverletter') => {
   const params: any = {
@@ -41,6 +42,8 @@ const ResumeCoverLetter = ({ freeUser }: { freeUser?: boolean }) => {
   const [loading, setLoading] = useState<string | null>(null)
   const [showDownload, setShowDownload] = useState<number | null>(null)
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null)
+  const [limitsReached, setLimitsReached] = useState(false)
+
   const [count, setCount] = useState(0)
   const { setNotify } = useNotify()
   const history = useHistory()
@@ -90,7 +93,8 @@ const ResumeCoverLetter = ({ freeUser }: { freeUser?: boolean }) => {
       loading,
       setLoading,
       show,
-      setShowDownload
+      setShowDownload,
+      setLimitsReached
     )
   }
 
@@ -109,6 +113,9 @@ const ResumeCoverLetter = ({ freeUser }: { freeUser?: boolean }) => {
 
   return (
     <Fragment>
+      {limitsReached && (
+        <UpgradePlan handleClose={() => setLimitsReached(false)} />
+      )}
       <SubNavBar>
         <SubNavBar.Link>
           <a

@@ -6,6 +6,10 @@ import FileIcon from '../../components/svgs/files'
 import CircularProgress from '../../components/ui/CircularProgress'
 import PlayIcon from '../../components/svgs/play'
 import RetryIcon from '../../components/svgs/retry'
+import {
+  removeChatAttachment,
+  uploadChatAttachment,
+} from '../../helpers/resumeReview'
 
 const AttachementUpload = ({
   file,
@@ -30,44 +34,17 @@ const AttachementUpload = ({
     cancelToken.current = axios.CancelToken.source()
   }, [])
 
-  const uploadFile = async () => {
-    if (!file) return setError(true)
-    setError(false)
-    const formData = new FormData()
-    formData.append('chat-attachments', file)
-
-    await axios
-      .post('/chat/attachments', formData, {
-        cancelToken: cancelToken.current.token,
-        onUploadProgress: (progressEvent) => {
-          const percentage = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          ) as any
-
-          setProgress(percentage)
-        },
-      })
-      .then((req) => req && req.data && onSuccess(req.data, index))
-      .catch((err) => {
-        if (axios.isCancel(err)) return
-        setError(true)
-      })
-      .finally(() => {
-        onDone()
-        setDone(true)
-      })
-  }
-
-  const removeFile = () => {
-    if (!done && cancelToken.current) {
-      cancelToken.current.cancel('Cancelling previous requests')
-    }
-
-    handeRemoveFile(index, done && !error)
-  }
-
   useEffect(() => {
-    uploadFile()
+    uploadChatAttachment(
+      file,
+      cancelToken,
+      setProgress,
+      onDone,
+      setDone,
+      onSuccess,
+      setError,
+      index
+    )
     return
   }, [])
 
@@ -77,7 +54,20 @@ const AttachementUpload = ({
       <StyledFile>
         <span className="icon">
           {error ? (
-            <a onClick={() => uploadFile()}>
+            <a
+              onClick={() =>
+                uploadChatAttachment(
+                  file,
+                  cancelToken,
+                  setProgress,
+                  onDone,
+                  setDone,
+                  onSuccess,
+                  setError,
+                  index
+                )
+              }
+            >
               <RetryIcon size="1.2rem" />
             </a>
           ) : progress !== 100 ? (
@@ -92,7 +82,18 @@ const AttachementUpload = ({
           )}
         </span>
         <p className="truncate">{file.name}</p>
-        <span className="remove" onClick={() => removeFile()}>
+        <span
+          className="remove"
+          onClick={() =>
+            removeChatAttachment(
+              index,
+              done,
+              error,
+              cancelToken,
+              handeRemoveFile
+            )
+          }
+        >
           <CrossIcon size="0.8rem" />
         </span>
       </StyledFile>

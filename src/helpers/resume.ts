@@ -199,10 +199,13 @@ export const deleteSigleResume = async (
   try {
     const { data: resData, error } = await deleteResume(id)
     if (resData && !error) {
-      const newData = data.filter((item: any) => item._id !== id)
-      queryClient.setQueryData('resumes', newData)
+      if (!data || !data.items) return
+      const newData = data.items.filter((item: any) => item._id !== id)
+      data.items = newData
+      queryClient.setQueryData('resumes', data)
     } else throw new Error('Failed to delete resume')
   } catch (err) {
+    console.log(err)
     setNotify({
       type: 'danger',
       heading: 'Err!',
@@ -218,35 +221,43 @@ export const deleteSigleResume = async (
  * @param id resume object _id
  * @param type document type to download
  * @param setNotify from useNotify()
+ * @param setLimitsReached from setState fn
  * @returns void
  */
 export const handleResumeDownload = async (
   name: string,
   id: string,
   type: 'pdf' | 'docx' | 'txt',
-  setNotify: (_val: any) => void
+  setNotify: (_val: any) => void,
+  setLimitsReached: (_val: boolean) => void
 ) => {
   const res: any = await downloadResume(id, type)
-  if (!res || !res.data) {
-    setNotify({
-      type: 'danger',
-      heading: 'Err!',
-      message: 'Failed to donwload design',
-    })
-    return
+
+  if (res) {
+    if (res === 'limit reached') {
+      return setLimitsReached(true)
+    }
+
+    if (res.data) {
+      const docName = name ? name.replaceAll(/\s/g, '-') : 'untitled-resume'
+
+      const filename = docName + '.' + type
+
+      const url = window.URL.createObjectURL(new Blob([res.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', filename)
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      return window.URL.revokeObjectURL(url)
+    }
   }
-  const docName = name ? name.replaceAll(/\s/g, '-') : 'untitled-resume'
-
-  const filename = docName + '.' + type
-
-  const url = window.URL.createObjectURL(new Blob([res.data]))
-  const link = document.createElement('a')
-  link.href = url
-  link.setAttribute('download', filename)
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-  return window.URL.revokeObjectURL(url)
+  return setNotify({
+    type: 'danger',
+    heading: 'Err!',
+    message: 'Failed to donwload design',
+  })
 }
 
 /**
@@ -343,6 +354,7 @@ export const resumeAddItemToAccoridan = (
  * @param setSubmitSuccess setState fn
  * @param setNotify from useNotify()
  * @param queryClient from useQueryClient
+ * @param setLimitsReached setState fn
  * @returns boolean
  */
 export const submitResumeFrom = async (
@@ -354,7 +366,8 @@ export const submitResumeFrom = async (
   reset: UseFormReset<any>,
   setSubmitSuccess: (_val: any) => void,
   setNotify: (_val: any) => void,
-  queryClient: QueryClient
+  queryClient: QueryClient,
+  setLimitsReached: (_val: boolean) => void
 ) => {
   let result = false
 
@@ -374,7 +387,8 @@ export const submitResumeFrom = async (
           name,
           initialData._id,
           type as any,
-          setNotify
+          setNotify,
+          setLimitsReached
         )
       }
 

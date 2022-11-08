@@ -26,12 +26,12 @@ export const getAllResumeTemplates = () => {
 
 //   return getQueryAdvance('resumes', () => fetcher())
 // }
-export const getAllResumes = (params: GetResumesParams) => {
+export const getAllResumes = (params: GetResumesParams, enabled?: boolean) => {
   const fetcher = async () => {
     const { data } = await axios.get(`/resume`, { params })
     return data
   }
-  return getQueryAdvance(['resumes', params], () => fetcher())
+  return getQueryAdvance(['resumes', params], () => fetcher(), enabled)
 }
 
 /**

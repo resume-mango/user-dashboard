@@ -11,6 +11,7 @@ import { INotify } from '../contexts/notify'
  * @param setLoading setState fn
  * @param show state as 'resume' | 'coverletter'
  * @param setShowDownload setState fn
+ * @param setLimitsReached setState fn
  * @returns void
  */
 export const handleResumeCoverLetterDownload = async (
@@ -19,7 +20,8 @@ export const handleResumeCoverLetterDownload = async (
   loading: string | null,
   setLoading: (_val: any) => void,
   show: 'resume' | 'coverletter',
-  setShowDownload: (_val: any) => void
+  setShowDownload: (_val: any) => void,
+  setLimitsReached: (_val: boolean) => void
 ) => {
   try {
     if (loading) return false
@@ -30,16 +32,21 @@ export const handleResumeCoverLetterDownload = async (
     if (show === 'resume') res = await downloadResume(id, type)
     else res = await downloadCoverLetter(id, type)
 
-    if (res && res.data) {
-      const filename = 'abc.' + type
+    if (res) {
+      if (res === 'limit reached') {
+        setLimitsReached(true)
+      }
+      if (res.data) {
+        const filename = 'abc.' + type
 
-      const url = window.URL.createObjectURL(new Blob([res.data]))
+        const url = window.URL.createObjectURL(new Blob([res.data]))
 
-      const link = document.createElement('a')
-      link.href = url
-      link.setAttribute('download', filename) //or any other extension
-      document.body.appendChild(link)
-      link.click()
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', filename) //or any other extension
+        document.body.appendChild(link)
+        link.click()
+      }
     }
     setLoading(null)
     return true
@@ -63,7 +70,7 @@ export const handleResumeCoverLetterDownload = async (
  */
 export const handleResumeCoverLetterDelete = async (
   id: string,
-  data: Array<Record<string, any>>,
+  data: Record<string, any>,
   queryClient: QueryClient,
   loading: string | null,
   setLoading: (_val: any) => void,
@@ -72,21 +79,26 @@ export const handleResumeCoverLetterDelete = async (
   setNotify: (_notify: INotify | null) => void
 ) => {
   setDeleteItemId(null)
-  if (loading) return
+  if (loading) return false
   setLoading(id)
   try {
     if (show === 'resume') {
       const { data: resData, error } = await deleteResume(id)
       if (resData && !error) {
-        const newData = data.filter((item: any) => item._id !== id)
-
-        queryClient.setQueryData('resumes', newData)
+        if (!data || !data.items) return false
+        const newData = data.items.filter((item: any) => item._id !== id)
+        data.items = newData
+        queryClient.setQueryData('resumes', data)
       } else throw new Error('Failed')
     } else {
       const { data: resData, error } = await deleteCoverLetter(id)
       if (resData && !error) {
-        const newData = data.filter((item: any) => item._id !== id)
-        queryClient.setQueryData('coverletters', newData)
+        if (!data || !data.items) return false
+
+        const newData = data.items.filter((item: any) => item._id !== id)
+        data.items = newData
+
+        queryClient.setQueryData('coverletters', data)
       } else throw new Error('Failed')
     }
     setLoading(null)

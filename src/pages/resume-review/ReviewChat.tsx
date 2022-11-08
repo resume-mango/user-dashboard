@@ -2,7 +2,11 @@ import { Fragment, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import DashPageHeader from '../../components/ui/dashPageHeader'
 import MessageBox from './MessageBox'
-import { chatFetcher, getReviewTicketById } from '../../queries/chatQueries'
+import {
+  chatFetcher,
+  getReviewTicketById,
+  getReviewTicketsCreatedCount,
+} from '../../queries/chatQueries'
 import { useInfiniteQuery, useQueryClient } from 'react-query'
 import ReactHtmlParser from 'react-html-parser'
 import getUrlParams from '../../hooks/getUrlParams'
@@ -27,6 +31,12 @@ const ReviewChat = () => {
     isLoading: ticketLoading,
     isError: ticketError,
   } = getReviewTicketById({ ticket } as any)
+
+  const {
+    data: ticketCreatedData,
+    isLoading: ticketCreatedLoading,
+    isError: ticketCreatedError,
+  } = getReviewTicketsCreatedCount()
 
   const ticketStatus = (ticketData && ticketData.status === 'open') || false
 
@@ -163,7 +173,7 @@ const ReviewChat = () => {
     <Fragment>
       <ReviewSidebar
         data={ticketData}
-        isLoading={ticketLoading}
+        isLoading={ticketLoading || ticketCreatedLoading}
         isError={ticketError}
         handleShowResume={handeShowResume}
       />
@@ -181,14 +191,18 @@ const ReviewChat = () => {
                 customBtns
               ></DashPageHeader>
 
-              {isError ? (
+              {isError ||
+              ticketCreatedError ||
+              !ticketCreatedData ||
+              (ticket === 'new' &&
+                ticketCreatedData.count >= ticketCreatedData.total) ? (
                 <div
                   className="align-center"
                   style={{ height: '90%', flex: 1 }}
                 >
                   <h3>Failed to load chat!</h3>
                 </div>
-              ) : isLoading ? (
+              ) : isLoading || ticketCreatedLoading ? (
                 <LoadingWrapper style={{ height: '90%' }}>
                   <Spinner size="2rem" type="primary" />
                 </LoadingWrapper>

@@ -32,13 +32,13 @@ describe('<ResumeCoverLetter/>', () => {
 
   test('Succesfully renders free user UI', () => {
     getAllResumesSpy.mockReturnValue({
-      data: resumesData,
+      data: { items: resumesData },
       isLoading: false,
       isError: false,
     } as any)
 
     getAllCoverLettersSpy.mockReturnValue({
-      data: coverLetterData,
+      data: { items: coverLetterData },
       isLoading: false,
       isError: false,
     } as any)
@@ -63,13 +63,13 @@ describe('<ResumeCoverLetter/>', () => {
 
   test('Successfully renders ResumeCoverLetter', () => {
     getAllResumesSpy.mockReturnValue({
-      data: resumesData,
+      data: { items: resumesData },
       isLoading: false,
       isError: false,
     } as any)
 
     getAllCoverLettersSpy.mockReturnValue({
-      data: coverLetterData,
+      data: { items: coverLetterData },
       isLoading: false,
       isError: false,
     } as any)

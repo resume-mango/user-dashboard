@@ -21,7 +21,6 @@ const ReviewAccordian = ({
     customer: true,
     resume: true,
   })
-  const history = useHistory()
   return (
     <AccordianWrapper>
       <div>
@@ -99,7 +98,12 @@ const ReviewAccordian = ({
             <div className="item">
               <p className="item-label">Resume Link</p>
               {(data && data.resume && (
-                <a onClick={() => handleShowResume(true)}>View Resume</a>
+                <a
+                  data-test-id="toggle-resume"
+                  onClick={() => handleShowResume(true)}
+                >
+                  View Resume
+                </a>
               )) ||
                 '-'}
             </div>
@@ -141,7 +145,7 @@ const ReviewSidebar = ({
             Create Resume
           </Button>
         </NavBrand>
-        <NavLinksWrapper>
+        <NavLinksWrapper data-test-id="resume-links">
           {isError ? (
             <div className="align-center">
               <WarningIcon size="2rem" />

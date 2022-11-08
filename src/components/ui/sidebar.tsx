@@ -17,6 +17,7 @@ import ClipboardClockIcon from '../svgs/clipoardClock'
 import LockIcon from '../svgs/lock'
 import { useAuth } from '../../contexts/authProvider'
 import DegreeHatIcon from '../svgs/degreeHatIcon'
+import BulbIcon from '../svgs/bulbIcon'
 
 const Sidebar = ({
   mobile,
@@ -70,20 +71,16 @@ const Navlinks = ({
   }
   const location = useLocation()
 
-  const [showLock, setShowLock] = useState(false)
   const [active, setActive] = useState('/')
-  useEffect(() => {
-    user &&
-    user.role &&
-    Array.isArray(user.role) &&
-    user.role.some((r) => ['pro', 'ceo'].includes(r))
-      ? setShowLock(false)
-      : setShowLock(true)
-  }, [user.role])
 
-  const handleNav = (link: string, protect?: boolean) => {
-    if (protect) {
-      showLock ? setShowUpgrade(true) : history.push(link)
+  const proUser = user && user.role && user.role.includes('pro')
+  const ceoUser = user && user.role && user.role.includes('ceo')
+
+  const handleNav = (link: string, role?: string[]) => {
+    if (role && role.length > 0) {
+      if (!user || !user.role) return
+      const hasPerm = user.role.some((r: string) => role.includes(r))
+      !hasPerm ? setShowUpgrade(true) : history.push(link)
     } else {
       history.push(link)
     }
@@ -113,48 +110,50 @@ const Navlinks = ({
           </li>
           <li>
             <a
-              onClick={() => handleNav('/progress-tracker', true)}
+              onClick={() => handleNav('/progress-tracker', ['pro', 'ceo'])}
               className={active === 'progress-tracker' ? 'active' : ''}
             >
               <div className="link-wrapper">
                 <TrackerIcon size="1.2rem" className="stroke-icon" /> Progress
                 Tracker
               </div>
-              {showLock && <LockIcon size="1.1rem" />}
+              {!proUser && !ceoUser && <LockIcon size="1.1rem" />}
             </a>
           </li>
           <li>
             <a
-              onClick={() => handleNav(`/calendar/view/${today}`, true)}
+              onClick={() =>
+                handleNav(`/calendar/view/${today}`, ['pro', 'ceo'])
+              }
               className={active === 'calendar' ? 'active' : ''}
             >
               <div className="link-wrapper">
                 <TaskIcon size="1.1rem" /> Calendar
               </div>
-              {showLock && <LockIcon size="1.1rem" />}
+              {!proUser && !ceoUser && <LockIcon size="1.1rem" />}
             </a>
           </li>
           <li>
             <a
-              onClick={() => handleNav('/resumes', true)}
+              onClick={() => handleNav('/resumes', ['pro', 'ceo'])}
               className={active === 'resumes' ? 'active' : ''}
             >
               <div className="link-wrapper">
                 <ResumeIcon size="1.1rem" style={{ marginTop: '0.3rem' }} />
                 Resumes
               </div>
-              {showLock && <LockIcon size="1.1rem" />}
+              {!proUser && !ceoUser && <LockIcon size="1.1rem" />}
             </a>
           </li>
           <li>
             <a
-              onClick={() => handleNav('/coverletters', true)}
+              onClick={() => handleNav('/coverletters', ['pro', 'ceo'])}
               className={active === 'coverletters' ? 'active' : ''}
             >
               <div className="link-wrapper">
                 <BreifCaseIcon size="1.1rem" /> Cover letters
               </div>
-              {showLock && <LockIcon size="1.1rem" />}
+              {!proUser && !ceoUser && <LockIcon size="1.1rem" />}
             </a>
           </li>
           <li>
@@ -165,18 +164,18 @@ const Navlinks = ({
               <div className="link-wrapper">
                 <DegreeHatIcon size="1.3rem" /> Classes
               </div>
-              {showLock && <LockIcon size="1.1rem" />}
+              {!proUser && !ceoUser && <LockIcon size="1.1rem" />}
             </a>
           </li>
           <li>
             <a
-              onClick={() => handleNav('/resume-review')}
-              className={active === 'classes' ? 'active' : ''}
+              onClick={() => handleNav('/resume-review', ['ceo'])}
+              className={active === 'resume-review' ? 'active' : ''}
             >
               <div className="link-wrapper">
-                <DegreeHatIcon size="1.3rem" /> Resume Review
+                <BulbIcon size="1.2rem" /> Resume Review
               </div>
-              {showLock && <LockIcon size="1.1rem" />}
+              {!ceoUser && <LockIcon size="1.1rem" />}
             </a>
           </li>
         </ul>

@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { validateResumeFrom } from '../validations/resume'
 import { handleResumeDownload, submitResumeFrom } from '../helpers/resume'
 import { loadFonts } from '../helpers/loadFonts'
+import UpgradePlan from '../components/upcgradeModal'
 
 interface Context {
   data: IResumeDefault & { id: string | null }
@@ -91,7 +92,7 @@ const ResumeProvider = ({ initialData, templateName, children }: any) => {
   const [submitSuccess, setSubmitSuccess] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [template, setTemplate] = useState(templateName)
-
+  const [limitsReached, setLimitsReached] = useState(false)
   const { setNotify } = useNotify()
   const queryClient = useQueryClient()
 
@@ -227,7 +228,8 @@ const ResumeProvider = ({ initialData, templateName, children }: any) => {
         reset,
         setSubmitSuccess,
         setNotify,
-        queryClient
+        queryClient,
+        setLimitsReached
       )
     }
     // const submitForm = async (data: any) => {
@@ -312,7 +314,13 @@ const ResumeProvider = ({ initialData, templateName, children }: any) => {
     } else {
       setIsSaving(true)
       const name = currData.title
-      await handleResumeDownload(name, initialData._id, type as any, setNotify)
+      await handleResumeDownload(
+        name,
+        initialData._id,
+        type as any,
+        setNotify,
+        setLimitsReached
+      )
       setIsSaving(false)
     }
   }
@@ -337,6 +345,9 @@ const ResumeProvider = ({ initialData, templateName, children }: any) => {
         isSaving,
       }}
     >
+      {limitsReached && (
+        <UpgradePlan handleClose={() => setLimitsReached(false)} />
+      )}
       <FormProvider {...methods}>{children}</FormProvider>
     </ResumeContext.Provider>
   )

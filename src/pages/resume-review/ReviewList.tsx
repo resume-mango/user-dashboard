@@ -1,17 +1,21 @@
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import CrossIcon from '../../components/svgs/cross'
 import DashPageHeader from '../../components/ui/dashPageHeader'
 import Modal from '../../components/ui/modal'
 import Search from '../../components/ui/search'
-import { GetReviewParams, getReviewTickets } from '../../queries/chatQueries'
+import {
+  GetReviewParams,
+  getReviewTickets,
+  getReviewTicketsCreatedCount,
+} from '../../queries/chatQueries'
 import { getAllResumes, GetResumesParams } from '../../queries/resumeQueries'
 import { Button } from '../../styled/button'
 import { LoadingWrapper, Spinner } from '../../styled/loader'
-import { PaginationWrapper } from '../../styled/pages'
+import { DashHeader, PaginationWrapper } from '../../styled/pages'
 
 const ReviewList = () => {
   dayjs.extend(relativeTime)
@@ -35,13 +39,19 @@ const ReviewList = () => {
   if (query) {
     params.title = query
   }
-  const { data, isLoading, isError } = getAllResumes(params)
+  const { data, isLoading, isError } = getAllResumes(params, showModal)
 
   const {
     data: reviewData,
     isLoading: reviewLoading,
     isError: reviewError,
   } = getReviewTickets(reviewParams)
+
+  const {
+    data: ticketCreatedData,
+    isLoading: ticketCreatedLoading,
+    isError: ticketCreatedError,
+  } = getReviewTicketsCreatedCount()
 
   const handlePage = (type: 'review' | 'resume', action: 'next' | 'prev') => {
     if (action === 'next') {
@@ -61,13 +71,37 @@ const ReviewList = () => {
   }
   return (
     <Fragment>
-      <DashPageHeader title="Resume Review" customBtns>
-        <Button btnType="primary" size="sm" onClick={() => setShowModal(true)}>
-          Request Review
-        </Button>
-      </DashPageHeader>
+      <StyledDashHeader>
+        <div className="header-wrapper">
+          <h1>Request Review</h1>
+          <Button
+            btnType="primary"
+            size="sm"
+            onClick={() => setShowModal(true)}
+            disabled={
+              ticketCreatedLoading ||
+              ticketCreatedError ||
+              !ticketCreatedData ||
+              ticketCreatedData.count >= ticketCreatedData.total
+            }
+          >
+            Request Review
+          </Button>
+        </div>
+        <div>
+          {!ticketCreatedLoading && !ticketCreatedError && ticketCreatedData && (
+            <p>
+              <span>
+                {ticketCreatedData.count || 0}/{ticketCreatedData.total || 0}
+                &nbsp;
+              </span>
+              Resumes can be reviewed this month
+            </p>
+          )}
+        </div>
+      </StyledDashHeader>
       <Modal show={showModal} setShow={setShowModal}>
-        <ModalWrapper>
+        <ModalWrapper data-test-id="select-resume">
           <div className="title">
             <h3>Select Resume</h3>
             <span className="close-icon" onClick={() => setShowModal(false)}>
@@ -116,11 +150,12 @@ const ReviewList = () => {
                   ))}
                 </div>
                 {data.total > params.limit && (
-                  <PaginationWrapper>
+                  <PaginationWrapper data-test-id="pagination">
                     <Button
                       btnType="secondary"
                       disabled={page === 0}
                       onClick={() => handlePage('resume', 'prev')}
+                      data-test-id="pagination-prev"
                     >
                       Previous
                     </Button>
@@ -128,6 +163,7 @@ const ReviewList = () => {
                       btnType="secondary"
                       disabled={page + 1 >= Math.ceil(data.total / data.limit)}
                       onClick={() => handlePage('resume', 'next')}
+                      data-test-id="pagination-next"
                     >
                       Next
                     </Button>
@@ -153,7 +189,7 @@ const ReviewList = () => {
             <Spinner size="2.5rem" type="primary" />
           </LoadingWrapper>
         ) : reviewData && reviewData.items && reviewData.items.length > 0 ? (
-          <div>
+          <div data-test-id="list-wrapper">
             <h3>
               All Conversations
               <span className="count">{reviewData.total}</span>
@@ -167,6 +203,7 @@ const ReviewList = () => {
             </ListTitle>
             {reviewData.items.map((item: Record<string, any>, i: number) => (
               <ListItem
+                data-test-id="list-item"
                 key={i}
                 onClick={() => history.push(`resume-review/${item._id}`)}
               >
@@ -241,6 +278,37 @@ const ReviewList = () => {
 }
 
 export default ReviewList
+
+const StyledDashHeader = styled.header`
+  min-height: 175px;
+  max-height: 175px;
+  width: 100%;
+  height: 100%;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e9f3;
+  display: flex;
+  flex-direction: column;
+  .header-wrapper {
+    min-height: 100px;
+    margin: auto;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+  p,
+  h1 {
+    margin: 0;
+  }
+  p {
+    font-size: 1rem;
+    display: flex;
+    float: right;
+    span {
+      color: ${({ theme }) => theme.colors.primary};
+    }
+  }
+`
 
 const Wrapper = styled.div`
   margin: 1.5rem;

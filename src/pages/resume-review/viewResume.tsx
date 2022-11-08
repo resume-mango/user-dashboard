@@ -144,7 +144,7 @@ const ViewResume = ({
         </div>
       ) : (
         <Fragment>
-          <Wrapper>
+          <Wrapper data-test-id="resume-preview">
             {(!isTemplateReady ||
               !data ||
               isTemplateMapping ||

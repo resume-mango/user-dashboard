@@ -41,7 +41,7 @@ export const createNewCoverletter = async (
  */
 export const deleteSingleCoverletter = async (
   id: string,
-  data: Array<Record<string, any>>,
+  data: Record<string, any>,
   loading: string | null,
   setLoading: (_val: any) => void,
   setDeleteItemId: (_val: any) => void,
@@ -53,11 +53,16 @@ export const deleteSingleCoverletter = async (
   setLoading(id)
   try {
     const { data: resData, error } = await deleteCoverLetter(id)
+    console.log(resData, error)
+
     if (resData && !error) {
-      const newData = data.filter((item: any) => item._id !== id)
-      queryClient.setQueryData('coverletters', newData)
+      if (!data || !data.items) return
+      const newData = data.items.filter((item: any) => item._id !== id)
+      data.items = newData
+      queryClient.setQueryData('coverletters', data)
     } else throw new Error('Failed to delete coverletter')
   } catch (err) {
+    console.log(err)
     setNotify({
       type: 'danger',
       heading: 'Err!',
@@ -73,36 +78,44 @@ export const deleteSingleCoverletter = async (
  * @param id down object _id
  * @param type document type to download
  * @param setNotify from useNotify()
+ * @param setLimitsReached setState fn
  * @returns void
  */
 export const handleCoverletterDownload = async (
   name: string,
   id: string,
   type: 'pdf' | 'docx' | 'txt',
-  setNotify: (_val: any) => void
+  setNotify: (_val: any) => void,
+  setLimitsReached: (_val: boolean) => void
 ) => {
   const res: any = await downloadCoverLetter(id, type)
 
-  if (!res || !res.data) {
-    setNotify({
-      type: 'danger',
-      heading: 'Err!',
-      message: 'Failed to donwload design',
-    })
-    return
+  if (res) {
+    if (res === 'limit reached') {
+      return setLimitsReached(true)
+    }
+    if (res.data) {
+      const docName = name
+        ? name.replaceAll(/\s/g, '-')
+        : 'untitled-coverletter'
+
+      const filename = docName + '.' + type
+
+      const url = window.URL.createObjectURL(new Blob([res.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', filename)
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      return window.URL.revokeObjectURL(url)
+    }
   }
-  const docName = name ? name.replaceAll(/\s/g, '-') : 'untitled-coverletter'
-
-  const filename = docName + '.' + type
-
-  const url = window.URL.createObjectURL(new Blob([res.data]))
-  const link = document.createElement('a')
-  link.href = url
-  link.setAttribute('download', filename)
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-  return window.URL.revokeObjectURL(url)
+  return setNotify({
+    type: 'danger',
+    heading: 'Err!',
+    message: 'Failed to donwload design',
+  })
 }
 
 /**
@@ -116,6 +129,7 @@ export const handleCoverletterDownload = async (
  * @param setSubmitSuccess setState fn
  * @param setNotify from useNotify()
  * @param queryClient from useQueryClient
+ * @param setLimitsReached setState fn
  * @returns boolean
  */
 export const submitCoveletterForm = async (
@@ -127,7 +141,8 @@ export const submitCoveletterForm = async (
   reset: UseFormReset<any>,
   setSubmitSuccess: (_val: any) => void,
   setNotify: (_val: any) => void,
-  queryClient: QueryClient
+  queryClient: QueryClient,
+  setLimitsReached: (_val: boolean) => void
 ) => {
   let result = false
 
@@ -148,7 +163,8 @@ export const submitCoveletterForm = async (
           name,
           initialData._id,
           type as any,
-          setNotify
+          setNotify,
+          setLimitsReached
         )
       }
 

@@ -10,8 +10,19 @@ export const downloadResume = async (id: string, type: string) => {
   }
   try {
     res = await axios.request(options as any)
+
+    console.log({ res })
+
     return res
-  } catch (err) {
+  } catch (err: any) {
+    if (err.response && err.response.data) {
+      const data = await new Response(err.response.data).text()
+      const message = JSON.parse(data).error.message || null
+      console.log(message)
+      if (message && message === 'download limits reached!') {
+        return (res = 'limit reached')
+      }
+    }
     return (res = null)
   }
 }
