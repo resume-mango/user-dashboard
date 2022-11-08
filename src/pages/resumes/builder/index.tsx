@@ -8,11 +8,12 @@ import TemplateFormSekleton from '../../../components/ui/tempFormSekleton'
 import { useFormContext } from 'react-hook-form'
 import useExitPrompt from '../../../hooks/useExitPromt'
 import RouterPrompt from '../../../components/routerPrompt'
+import { useAuth } from '../../../contexts/authProvider'
 
 const ResumeBuilder = ({ isLoading }: { isLoading: boolean }) => {
   const { data, step, setStep } = useResume()
   const { showExitPrompt, setShowExitPrompt } = useExitPrompt(false)
-
+  const { user } = useAuth()
   const {
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useFormContext()
@@ -73,6 +74,9 @@ const ResumeBuilder = ({ isLoading }: { isLoading: boolean }) => {
 
   const paths = data && data.id ? [`/resumes/preview/${data.id}`] : []
 
+  const isFreeUser =
+    user && user.role && !['ceo', 'pro'].some((r) => user.role.includes(r))
+
   return (
     <Fragment>
       <RouterPrompt
@@ -81,7 +85,11 @@ const ResumeBuilder = ({ isLoading }: { isLoading: boolean }) => {
         exludedPaths={paths}
       />
       <Wrapper>
-        <HeaderStepper max={3} current={step} backRoute="/resumes">
+        <HeaderStepper
+          max={3}
+          current={step}
+          backRoute={`${isFreeUser ? '/' : '/resumes'}`}
+        >
           <HeaderStepper.Step
             name="Personal Info"
             isValid={isValidStep1}

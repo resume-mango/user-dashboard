@@ -17,7 +17,7 @@ const months = [
   'Sep',
   'Oct',
   'Nov',
-  'Dec'
+  'Dec',
 ]
 
 interface IInput {
@@ -34,16 +34,16 @@ const DatePicker: React.FC<
   const currYear = dayjs().format('YYYY')
   const [show, setShow] = useState<boolean>(false)
   const [year, setYear] = useState<string>(dayjs().format('YYYY'))
-  const [month, setMonth] = useState<string | null>(null)
+  const [month, setMonth] = useState<string | null>(dayjs().format('MMM'))
   const [inputVal, setInputVal] = useState('')
   const { isOutside, ref } = detectOutsideClick()
   const { control, trigger } = useFormContext()
 
   const {
-    field: { onChange, onBlur, value }
+    field: { onChange, onBlur, value },
   } = useController({
     name,
-    control
+    control,
   })
 
   useEffect(() => {
@@ -189,8 +189,8 @@ const DatePicker: React.FC<
           onKeyPress={handleKeyPress}
           value={inputVal}
           name={name}
-          autoComplete='off'
-          placeholder='Select Date'
+          autoComplete="off"
+          placeholder="Select Date"
           {...props}
         />
         {show && (

@@ -8,10 +8,13 @@ import TemplateFormSekleton from '../../../components/ui/tempFormSekleton'
 import { useFormContext } from 'react-hook-form'
 import RouterPrompt from '../../../components/routerPrompt'
 import useExitPrompt from '../../../hooks/useExitPromt'
+import { useAuth } from '../../../contexts/authProvider'
 
 const CoverLetterBuilder = ({ isLoading }: { isLoading: boolean }) => {
   const { data, step, setStep } = useCoverLetter()
   const { showExitPrompt, setShowExitPrompt } = useExitPrompt(false)
+  const { user } = useAuth()
+
   const {
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useFormContext()
@@ -52,7 +55,8 @@ const CoverLetterBuilder = ({ isLoading }: { isLoading: boolean }) => {
   }, [isDirty, isSubmitting, isValid])
 
   const paths = data && data.id ? [`/coverletters/preview/${data.id}`] : []
-
+  const isFreeUser =
+    user && user.role && !['ceo', 'pro'].some((r) => user.role.includes(r))
   return (
     <Fragment>
       <RouterPrompt
@@ -62,7 +66,11 @@ const CoverLetterBuilder = ({ isLoading }: { isLoading: boolean }) => {
       />
 
       <Wrapper>
-        <HeaderStepper max={2} current={step} backRoute="/coverletters">
+        <HeaderStepper
+          max={2}
+          current={step}
+          backRoute={`${isFreeUser ? '/' : '/coverletters'}`}
+        >
           <HeaderStepper.Step
             name="Personal Info"
             isValid={isValidStep1}
