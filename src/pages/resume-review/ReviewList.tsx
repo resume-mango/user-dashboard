@@ -242,7 +242,33 @@ const ReviewList = () => {
                       : item.assignedTo.email
                     : 'Not assigned'}
                 </p>
-                <p className="item">New Message</p>
+                <p
+                  className="item"
+                  style={{ display: 'flex', alignItems: 'center' }}
+                >
+                  {item.current_status ? (
+                    item.current_status.user === 'new_message' ? (
+                      <Fragment>
+                        <span className="truncate">New message </span>
+                        <span className="circle green" />
+                      </Fragment>
+                    ) : item.current_status.user === 'awaiting' ? (
+                      <Fragment>
+                        <span className="truncate">Awaiting Response</span>
+                        <span className="circle yellow" />
+                      </Fragment>
+                    ) : item.current_status.user === 'reviewed' ? (
+                      <Fragment>
+                        <span className="truncate"> Reviewed </span>
+                        <span className="circle grey" />
+                      </Fragment>
+                    ) : (
+                      '-'
+                    )
+                  ) : (
+                    '-'
+                  )}
+                </p>
               </ListItem>
             ))}
             {reviewData.total > reviewParams.limit && (
@@ -369,6 +395,21 @@ const ListItem = styled.div`
   &:hover {
     box-shadow: 0px 0px 5px 1px #f9bd3f;
   }
+  .circle {
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
+    display: block;
+    background-color: #aaa;
+    margin-left: 0.7rem;
+  }
+  .green {
+    background-color: #1bcc38;
+  }
+  .yellow {
+    background-color: #f9bd3f;
+  }
+
   .item-status span {
     background-color: ${({ theme }) => theme.colors.primary};
     color: #fff;
@@ -455,6 +496,7 @@ const ModalWrapper = styled.div`
       &:hover {
         background-color: ${({ theme }) => theme.shades.primary[4]};
       }
+
       img {
         width: 100%;
         margin: 0;
