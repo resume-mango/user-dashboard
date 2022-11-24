@@ -34,7 +34,8 @@ const ReviewChat = () => {
   const [showPreview, setShowPreview] = useState(preview || false)
   const [acceptTC, setacceptTC] = useState(false)
   const [alert, setAlert] = useState(false)
-  const [err, setErr] = useState(false)
+  const [showAlert, setShowAlert] = useState(false)
+
   const {
     data: ticketData,
     isLoading: ticketLoading,
@@ -115,9 +116,9 @@ const ReviewChat = () => {
   }, [firstPageLength])
 
   useEffect(() => {
-    if (!ticketErr) return
-    setErr(ticketErr)
-  }, [ticketErr])
+    if (!ticketData) return
+    !ticketData.resume && setShowAlert(true)
+  }, [ticketData])
 
   useEffect(() => {
     if (isLoading) return
@@ -293,7 +294,7 @@ const ReviewChat = () => {
                       </Button>
                     </TCModal>
                   </Modal>
-                  <Modal show={err}>
+                  <Modal show={showAlert}>
                     <TCModal>
                       <WarningIcon size="6rem" color="rgba(240, 132, 56, 1)" />
                       <h2 style={{ marginTop: '1rem' }}>Err!</h2>
@@ -305,9 +306,9 @@ const ReviewChat = () => {
                         <Button
                           size="lg"
                           btnType="primary"
-                          onClick={() => history.push('/resume-review')}
+                          onClick={() => setShowAlert(false)}
                         >
-                          Go back
+                          Okay
                         </Button>
                       </div>
                     </TCModal>
