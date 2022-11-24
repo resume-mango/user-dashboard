@@ -7,7 +7,7 @@ import {
   getReviewTicketById,
   getReviewTicketsCreatedCount,
 } from '../../queries/chatQueries'
-import { useInfiniteQuery, useQueryClient } from 'react-query'
+import { useInfiniteQuery } from 'react-query'
 import ReactHtmlParser from 'react-html-parser'
 import getUrlParams from '../../hooks/getUrlParams'
 import { useHistory, useParams } from 'react-router-dom'
@@ -18,6 +18,12 @@ import ViewResume from './viewResume'
 import AttachmentDownload from './AttachmentDownload'
 import ReactDOMServer from 'react-dom/server'
 import { Emoji } from 'emoji-picker-react'
+import { Button } from '../../styled/button'
+import Modal from '../../components/ui/modal'
+import CheckIcon from '../../components/svgs/check'
+import JustCheckIcon from '../../components/svgs/justCheckIcon'
+import CrossIcon from '../../components/svgs/cross'
+import Confirmation from '../../components/ui/confirmation'
 
 const ReviewChat = () => {
   const queryParams = getUrlParams()
@@ -26,10 +32,14 @@ const ReviewChat = () => {
   const preview = queryParams.get('preview')
   const history = useHistory()
   const [showPreview, setShowPreview] = useState(preview || false)
+  const [acceptTC, setacceptTC] = useState(false)
+  const [alert, setAlert] = useState(false)
+  const [err, setErr] = useState(false)
   const {
     data: ticketData,
     isLoading: ticketLoading,
-    isError: ticketError,
+    isError: isTicketError,
+    error: ticketError,
   } = getReviewTicketById({ ticket } as any)
 
   const {
@@ -38,8 +48,17 @@ const ReviewChat = () => {
     isError: ticketCreatedError,
   } = getReviewTicketsCreatedCount()
 
-  const ticketStatus = (ticketData && ticketData.status === 'open') || false
+  const ticketErr =
+    (ticketError &&
+      (ticketError as any).response &&
+      (ticketError as any).response.data &&
+      (ticketError as any).response.data.error &&
+      (ticketError as any).response.data.error.message &&
+      (ticketError as any).response.data.error.message ===
+        'failed to find resume!') ||
+    false
 
+  const ticketStatus = (ticketData && ticketData.status === 'open') || false
   const {
     isLoading,
     isError,
@@ -96,6 +115,11 @@ const ReviewChat = () => {
   }, [firstPageLength])
 
   useEffect(() => {
+    if (!ticketErr) return
+    setErr(ticketErr)
+  }, [ticketErr])
+
+  useEffect(() => {
     if (isLoading) return
 
     const wrapper = document.getElementById('main-section')
@@ -119,7 +143,7 @@ const ReviewChat = () => {
     return () => {
       clearTimeout(timer)
     }
-  }, [isLoading, preview, ticketStatus])
+  }, [isLoading, preview, ticketStatus, acceptTC])
 
   const scrollToBottom = (val?: 'first-page-length' | undefined) => {
     if (
@@ -174,7 +198,7 @@ const ReviewChat = () => {
       <ReviewSidebar
         data={ticketData}
         isLoading={ticketLoading || ticketCreatedLoading}
-        isError={ticketError}
+        isError={isTicketError}
         handleShowResume={handeShowResume}
       />
       <div>
@@ -186,15 +210,20 @@ const ReviewChat = () => {
             />
           ) : (
             <Fragment>
-              <DashPageHeader
-                title="Reviewer Support Chat"
-                customBtns
-              ></DashPageHeader>
+              <DashPageHeader title="Reviewer Support Chat" customBtns>
+                <Button
+                  btnType="secondary"
+                  size="lg"
+                  onClick={() => history.push('/resume-review')}
+                >
+                  Back to Portal
+                </Button>
+              </DashPageHeader>
 
               {isError ||
               ticketCreatedError ||
-              !ticketCreatedData ||
               (ticket === 'new' &&
+                ticketCreatedData &&
                 ticketCreatedData.count >= ticketCreatedData.total) ? (
                 <div
                   className="align-center"
@@ -208,6 +237,82 @@ const ReviewChat = () => {
                 </LoadingWrapper>
               ) : (
                 <Fragment>
+                  {ticket === 'new' && (
+                    <Fragment>
+                      <Modal show={!acceptTC}>
+                        <TCModal>
+                          <CheckIcon
+                            size="6rem"
+                            color="rgba(240, 132, 56, 1)"
+                          />
+                          <h2>Confirm</h2>
+                          <p>
+                            Do you agree to our <a> terms and conditions </a>{' '}
+                            and
+                            <a> privacy policy </a>
+                          </p>
+                          <div className="tc-action">
+                            <Button
+                              size="lg"
+                              btnType="primary"
+                              onClick={() => {
+                                setacceptTC(true)
+                              }}
+                            >
+                              <JustCheckIcon size="1.2rem" color="#fff" />
+                            </Button>
+                            <Button
+                              size="lg"
+                              btnType="primary"
+                              onClick={() => history.push('/resume-review')}
+                            >
+                              <CrossIcon color="#fff" />
+                            </Button>
+                          </div>
+                        </TCModal>
+                      </Modal>
+                    </Fragment>
+                  )}
+                  <Modal show={alert}>
+                    <TCModal>
+                      <CheckIcon size="6rem" color="rgba(240, 132, 56, 1)" />
+                      <h2>Thank you!</h2>
+                      <p>
+                        Thank you for submitting your resume for review, we are
+                        pairing you with a staff member who has knowledge in
+                        this field. Resume reviews take up to 48 hours
+                      </p>
+                      <Button
+                        size="lg"
+                        btnType="primary"
+                        onClick={() => {
+                          setAlert(false)
+                        }}
+                      >
+                        Okay
+                      </Button>
+                    </TCModal>
+                  </Modal>
+                  <Modal show={err}>
+                    <TCModal>
+                      <WarningIcon size="6rem" color="rgba(240, 132, 56, 1)" />
+                      <h2 style={{ marginTop: '1rem' }}>Err!</h2>
+                      <p>
+                        Failed to find resume, looks like you might have deleted
+                        the resume...
+                      </p>
+                      <div className="align-center">
+                        <Button
+                          size="lg"
+                          btnType="primary"
+                          onClick={() => history.push('/resume-review')}
+                        >
+                          Go back
+                        </Button>
+                      </div>
+                    </TCModal>
+                  </Modal>
+
                   <MessageSection id="message-section" style={{ opacity: 0 }}>
                     <ChatSection>
                       {hasNextPage && (
@@ -297,6 +402,8 @@ const ReviewChat = () => {
                       isFetchingMessage={isFetching && !isFetchingNextPage}
                       ticket={ticket as string}
                       resumeId={resumeId as string}
+                      acceptTC={acceptTC}
+                      setAlert={setAlert}
                       style={{ opacity: 0 }}
                     />
                   ) : (
@@ -405,6 +512,44 @@ const ChatWrapper = styled.div<{ type: 'sender' | 'reciever' }>`
       line-height: 1;
       position: relative;
       top: 4px;
+    }
+  }
+`
+
+const TCModal = styled.div`
+  width: 450px;
+  height: fit-content;
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 3rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  p {
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    max-width: 80%;
+    margin-bottom: 2rem;
+    a {
+      font-size: inherit;
+      text-decoration: underline;
+      &:hover {
+        color: ${({ theme }) => theme.colors.primary};
+      }
+    }
+  }
+  .tc-action {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    button {
+      width: 70px;
+      &:first-child {
+        margin-right: 1rem;
+      }
     }
   }
 `

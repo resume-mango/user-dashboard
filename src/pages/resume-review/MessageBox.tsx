@@ -21,6 +21,7 @@ import axios from 'axios'
 import { useNotify } from '../../contexts/notify'
 import { LoadingDots, Spinner } from '../../styled/loader'
 import AttachementUpload from './AttachementUpload'
+import Confirmation from '../../components/ui/confirmation'
 
 interface IMessage {
   message: string
@@ -35,6 +36,8 @@ interface IMessageBox {
   ticket: string
   resumeId: string
   className?: string
+  acceptTC: boolean
+  setAlert: (_val: boolean) => void
   style: React.CSSProperties
   isFetchingMessage: boolean
 }
@@ -70,6 +73,8 @@ const MessageBox = ({
   ticket,
   resumeId,
   className,
+  acceptTC,
+  setAlert,
   style,
   isFetchingMessage,
 }: IMessageBox) => {
@@ -143,6 +148,7 @@ const MessageBox = ({
   const sendMessage = useMutation((reqData) => axios.post('/chat', reqData), {
     onSuccess: ({ data }: any) => {
       if (!data) return
+      ticket === 'new' && setAlert(true)
       handleCache(data)
       setFiles([])
       return reset()
@@ -184,6 +190,10 @@ const MessageBox = ({
       data.message = dummy.innerHTML.replace(regex, '')
     } else {
       data.message = ''
+    }
+
+    if (ticket === 'new') {
+      data.acceptTC = acceptTC
     }
 
     return sendMessage.mutate({

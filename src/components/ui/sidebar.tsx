@@ -18,6 +18,7 @@ import LockIcon from '../svgs/lock'
 import { useAuth } from '../../contexts/authProvider'
 import DegreeHatIcon from '../svgs/degreeHatIcon'
 import BulbIcon from '../svgs/bulbIcon'
+import { getUnreadChats } from '../../queries/chatQueries'
 
 const Sidebar = ({
   mobile,
@@ -69,6 +70,9 @@ const Navlinks = ({
   const handleLogout = () => {
     window.location.href = `${process.env.AUTH_HOST}/auth/logout`
   }
+
+  const { data: unread } = getUnreadChats()
+
   const location = useLocation()
 
   const [active, setActive] = useState('/')
@@ -175,7 +179,11 @@ const Navlinks = ({
               <div className="link-wrapper">
                 <BulbIcon size="1.2rem" /> Resume Review
               </div>
-              {!ceoUser && <LockIcon size="1.1rem" />}
+              {!ceoUser ? (
+                <LockIcon size="1.1rem" />
+              ) : unread && unread.count ? (
+                <Counter>{unread.count}</Counter>
+              ) : null}
             </a>
           </li>
         </ul>
@@ -367,4 +375,16 @@ const NavBrand = styled.div`
     margin-top: 0;
     font-size: 14px;
   }
+`
+const Counter = styled.div`
+  display: flex;
+  width: 20px;
+  height: 20px;
+  background-color: ${({ theme }) => theme.colors.primary};
+  font-size: 0.7rem;
+  color: #fff;
+  border-radius: 50%;
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
 `

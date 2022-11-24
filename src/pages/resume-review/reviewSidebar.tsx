@@ -98,12 +98,17 @@ const ReviewAccordian = ({
             <div className="item">
               <p className="item-label">Resume Link</p>
               {(data && data.resume && (
-                <a
-                  data-test-id="toggle-resume"
-                  onClick={() => handleShowResume(true)}
-                >
-                  View Resume
-                </a>
+                <Fragment>
+                  <p>
+                    <a
+                      data-test-id="toggle-resume"
+                      onClick={() => handleShowResume(true)}
+                    >
+                      View Resume
+                    </a>
+                  </p>
+                  <p></p>
+                </Fragment>
               )) ||
                 '-'}
             </div>

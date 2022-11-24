@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, ReactNode } from 'react'
 import styled from 'styled-components'
 
-const Modal = ({ show, setShow, children }) => {
+const Modal = ({ show, children }: { show: boolean; children: ReactNode }) => {
   return <Fragment>{show && <Wrapper>{children}</Wrapper>}</Fragment>
 }
 

@@ -49,3 +49,11 @@ export const getReviewTickets = (params: GetReviewParams) => {
   }
   return getQueryAdvance(['resumeReview', params], () => fetcher())
 }
+
+export const getUnreadChats = () => {
+  const fetcher = async () => {
+    const { data } = await axios.get(`/chat/unread`)
+    return data
+  }
+  return getQueryAdvance('unreadChats', () => fetcher())
+}

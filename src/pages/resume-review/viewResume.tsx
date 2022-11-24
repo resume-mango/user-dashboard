@@ -1,7 +1,5 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import BlocksIcon from '../../components/svgs/blocks'
 import DownArrowIcon from '../../components/svgs/downArrow'
 import PreviewSkeleton from '../../components/ui/previewSkeleton'
 import { useViewport } from '../../contexts/viewPort'
@@ -23,7 +21,6 @@ const ViewResume = ({
   const [fontsReady, setFontsReady] = useState(false)
   const [isTemplateMapping, setIsTemplateMapping] = useState(false)
   const [pages, setPages] = useState(1)
-  const [buffer, setBuffer] = useState(0)
   const [curr, setCurr] = useState(1)
   const { width, height } = useViewport()
   const queryEnabled = !!resumeData.template || false
@@ -101,7 +98,7 @@ const ViewResume = ({
       if (!wrapper) return
       const template = JSON.parse(JSON.stringify(templateData))
       wrapper.innerHTML = ''
-      const pages = templateMapper(template, data, wrapper, buffer)
+      const pages = templateMapper(template, data, wrapper, 0)
       if (!pages) return
       updatePages(Object.keys(pages).length)
       setCurr(1)

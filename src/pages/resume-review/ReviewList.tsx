@@ -4,7 +4,6 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import CrossIcon from '../../components/svgs/cross'
-import DashPageHeader from '../../components/ui/dashPageHeader'
 import Modal from '../../components/ui/modal'
 import Search from '../../components/ui/search'
 import {
@@ -15,7 +14,7 @@ import {
 import { getAllResumes, GetResumesParams } from '../../queries/resumeQueries'
 import { Button } from '../../styled/button'
 import { LoadingWrapper, Spinner } from '../../styled/loader'
-import { DashHeader, PaginationWrapper } from '../../styled/pages'
+import { PaginationWrapper } from '../../styled/pages'
 
 const ReviewList = () => {
   dayjs.extend(relativeTime)
@@ -39,6 +38,7 @@ const ReviewList = () => {
   if (query) {
     params.title = query
   }
+
   const { data, isLoading, isError } = getAllResumes(params, showModal)
 
   const {
@@ -100,7 +100,7 @@ const ReviewList = () => {
           )}
         </div>
       </StyledDashHeader>
-      <Modal show={showModal} setShow={setShowModal}>
+      <Modal show={showModal}>
         <ModalWrapper data-test-id="select-resume">
           <div className="title">
             <h3>Select Resume</h3>
@@ -173,7 +173,17 @@ const ReviewList = () => {
             </Fragment>
           ) : (
             <div className="align-center" style={{ height: '90%' }}>
-              <h3>No resumes found!</h3>
+              <div>
+                <h3>No resumes found!</h3>
+                <Button
+                  btnType="primary"
+                  size="sm"
+                  onClick={() => history.push('/resumes/new')}
+                  style={{ margin: '2rem auto' }}
+                >
+                  Create Resume
+                </Button>
+              </div>
             </div>
           )}
         </ModalWrapper>
@@ -215,18 +225,22 @@ const ReviewList = () => {
                     <span>
                       Created {dayjs(dayjs(item.createdAt)).fromNow(true)} ago
                     </span>
-                    <span className="divider" />
-                    <span>
-                      {dayjs(item.createdAt)
-                        .add(48, 'hour')
-                        .diff(dayjs(), 'second') > 0
-                        ? `Response due in 
+                    {item.status === 'open' && (
+                      <Fragment>
+                        <span className="divider" />
+                        <span>
+                          {dayjs(item.createdAt)
+                            .add(48, 'hour')
+                            .diff(dayjs(), 'second') > 0
+                            ? `Response due in 
                         ${dayjs(dayjs()).to(
                           dayjs(item.createdAt).add(48, 'hour'),
                           true
                         )}`
-                        : 'Will respond shortly'}
-                    </span>
+                            : 'Will respond shortly'}
+                        </span>
+                      </Fragment>
+                    )}
                   </div>
                 </div>
                 <p className="grey truncate item">#{item._id}</p>
