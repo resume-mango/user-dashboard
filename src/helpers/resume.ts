@@ -228,12 +228,12 @@ export const handleResumeDownload = async (
   id: string,
   type: 'pdf' | 'docx' | 'txt',
   setNotify: (_val: any) => void,
-  setLimitsReached: (_val: boolean) => void
+  setLimitsReached?: (_val: boolean) => void
 ) => {
   const res: any = await downloadResume(id, type)
 
   if (res) {
-    if (res === 'limit reached') {
+    if (res === 'limit reached' && setLimitsReached) {
       return setLimitsReached(true)
     }
 
@@ -366,7 +366,7 @@ export const submitResumeFrom = async (
   setSubmitSuccess: (_val: any) => void,
   setNotify: (_val: any) => void,
   queryClient: QueryClient,
-  setLimitsReached: (_val: boolean) => void
+  setLimitsReached?: (_val: boolean) => void
 ) => {
   let result = false
 

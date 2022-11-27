@@ -194,7 +194,7 @@ const ImageUploader: React.FC<IProps> = ({
 
   return (
     <Fragment>
-      <Modal show={show} setShow={setShow}>
+      <Modal show={show}>
         {dropped ? (
           <Wrapper ref={wrapperRef} data-test-id="image-edit">
             <Fragment>

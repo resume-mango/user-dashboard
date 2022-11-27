@@ -26,6 +26,8 @@ describe('Resume Helpers', () => {
       getQueryData: jest.fn(),
     } as any
 
+    const setLimitsReached = jest.fn()
+
     const updateResumeSpy = jest.spyOn(resumeApis, 'updateResume')
     const handleResumeDownloadSpy = jest.spyOn(
       resumeHelper,
@@ -45,7 +47,8 @@ describe('Resume Helpers', () => {
         reset,
         setSubmitSuccess,
         setNotify,
-        queryClient
+        queryClient,
+        setLimitsReached
       )
       expect(result).toBeFalsy()
       expect(updateResumeSpy).not.toBeCalled()
@@ -62,7 +65,8 @@ describe('Resume Helpers', () => {
         reset,
         setSubmitSuccess,
         setNotify,
-        queryClient
+        queryClient,
+        setLimitsReached
       )
       expect(result).toBeFalsy()
       expect(updateResumeSpy).toBeCalledTimes(1)
@@ -87,7 +91,8 @@ describe('Resume Helpers', () => {
         reset,
         setSubmitSuccess,
         setNotify,
-        queryClient
+        queryClient,
+        setLimitsReached
       )
       expect(result).toBeTruthy()
       expect(updateResumeSpy).toBeCalledTimes(1)
@@ -113,7 +118,8 @@ describe('Resume Helpers', () => {
         reset,
         setSubmitSuccess,
         setNotify,
-        queryClient
+        queryClient,
+        setLimitsReached
       )
       expect(result).toBeTruthy()
       expect(updateResumeSpy).toBeCalledTimes(1)
@@ -418,6 +424,7 @@ describe('Resume Helpers', () => {
     const name = 'abc'
     const type = 'pdf'
     const id = '123'
+    const setLimitsReached = jest.fn()
 
     afterEach(() => {
       jest.clearAllMocks()
@@ -431,7 +438,8 @@ describe('Resume Helpers', () => {
         name,
         id,
         type,
-        setNotify
+        setNotify,
+        setLimitsReached
       )
       expect(setNotify).toBeCalledWith({
         heading: 'Err!',
@@ -452,7 +460,8 @@ describe('Resume Helpers', () => {
         name,
         id,
         type,
-        setNotify
+        setNotify,
+        setLimitsReached
       )
       expect(window.URL.createObjectURL).toBeCalledWith(new Blob(['dummy']))
       expect(window.URL.revokeObjectURL).toBeCalledWith(

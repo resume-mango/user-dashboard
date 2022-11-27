@@ -36,8 +36,8 @@ const Profile = () => {
   })
 
   const defaultValues = {
-    firstName: user.firstName || '',
-    lastName: user.lastName || '',
+    firstName: (user && user.firstName) || '',
+    lastName: (user && user.lastName) || '',
   }
 
   const methods = useForm<IName>({
@@ -49,15 +49,15 @@ const Profile = () => {
   const { handleSubmit, setValue } = methods
 
   useEffect(() => {
-    setValue('firstName', user.firstName)
-  }, [user.firstName])
+    if (!user) return
+    user.firstName && setValue('firstName', user.firstName)
+    user.lastName && setValue('lastName', user.lastName)
+    return
+  }, [user])
 
-  useEffect(() => {
-    setValue('lastName', user.lastName)
-  }, [user.lastName])
-
-  const changeName = ({ firstName, lastName }: IName) =>
-    changeUserName(
+  const changeName = ({ firstName, lastName }: IName) => {
+    if (!user) return
+    return changeUserName(
       firstName,
       lastName,
       user,
@@ -67,10 +67,11 @@ const Profile = () => {
       setLoading,
       setNotify
     )
+  }
 
   return (
     <Fragment>
-      {isLoading || Object.keys(user).length <= 0 ? (
+      {isLoading || (user && Object.keys(user).length <= 0) ? (
         'Loading'
       ) : (
         <ContentWrapper maxWidth="600px" style={{ marginTop: '1rem' }}>

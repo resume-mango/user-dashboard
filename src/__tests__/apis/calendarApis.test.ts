@@ -79,7 +79,7 @@ describe('Calendar Update Event', () => {
   test('Fails to update event', async () => {
     axiosRequestSpy.mockRejectedValue(new Error('Failed to update event'))
 
-    const result = await apiUpdateEvent(reqData)
+    const result = await apiUpdateEvent(reqData as any)
     expect(axiosRequestSpy).toHaveBeenCalledTimes(1)
     expect(axiosRequestSpy).toHaveBeenCalledWith(options)
     expect(result.data).toBeUndefined()
@@ -92,7 +92,7 @@ describe('Calendar Update Event', () => {
       error: undefined,
     })
 
-    const result = await apiUpdateEvent(reqData)
+    const result = await apiUpdateEvent(reqData as any)
     expect(axiosRequestSpy).toHaveBeenCalledTimes(1)
     expect(axiosRequestSpy).toHaveBeenCalledWith(options)
     expect(result.data).toBe('event obj')

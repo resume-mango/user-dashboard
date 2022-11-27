@@ -18,7 +18,7 @@ describe('Resume / Coverletter Download helper', () => {
   const type = 'pdf'
   const setLoading = (val: any) => val
   const setShowDownload = (val: any) => val
-
+  const setLimitsReached = jest.fn()
   afterEach(() => {
     jest.resetAllMocks()
     jest.clearAllMocks()
@@ -33,7 +33,8 @@ describe('Resume / Coverletter Download helper', () => {
       loading,
       setLoading,
       show,
-      setShowDownload
+      setShowDownload,
+      setLimitsReached
     )
     expect(result).toBeFalsy()
   })
@@ -48,7 +49,8 @@ describe('Resume / Coverletter Download helper', () => {
       loading,
       setLoading,
       show,
-      setShowDownload
+      setShowDownload,
+      setLimitsReached
     )
     expect(result).toBeFalsy()
   })
@@ -66,7 +68,8 @@ describe('Resume / Coverletter Download helper', () => {
       loading,
       setLoading,
       show,
-      setShowDownload
+      setShowDownload,
+      setLimitsReached
     )
     expect(result).toBeTruthy()
   })
@@ -84,7 +87,8 @@ describe('Resume / Coverletter Download helper', () => {
       loading,
       setLoading,
       show,
-      setShowDownload
+      setShowDownload,
+      setLimitsReached
     )
     expect(result).toBeTruthy()
   })

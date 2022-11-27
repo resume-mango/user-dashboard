@@ -84,12 +84,12 @@ export const handleCoverletterDownload = async (
   id: string,
   type: 'pdf' | 'docx' | 'txt',
   setNotify: (_val: any) => void,
-  setLimitsReached: (_val: boolean) => void
+  setLimitsReached?: (_val: boolean) => void
 ) => {
   const res: any = await downloadCoverLetter(id, type)
 
   if (res) {
-    if (res === 'limit reached') {
+    if (res === 'limit reached' && setLimitsReached) {
       return setLimitsReached(true)
     }
     if (res.data) {
