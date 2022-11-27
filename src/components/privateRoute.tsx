@@ -1,6 +1,5 @@
 import React from 'react'
 import { Route, RouteProps, useHistory } from 'react-router-dom'
-import styled from 'styled-components'
 import { useAuth } from '../contexts/authProvider'
 import { LoadingWrapper, Spinner } from '../styled/loader'
 import Alert from './ui/alert'
@@ -19,7 +18,7 @@ const Protected: React.FC<Props> = (props) => {
   return (
     <Route
       {...rest}
-      render={(props) =>
+      render={() =>
         isLoading ? (
           <LoadingWrapper>
             <Spinner size="2.5rem" type="primary" />

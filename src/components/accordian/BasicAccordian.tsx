@@ -1,4 +1,4 @@
-import React, { Fragment, ReactElement, ReactNode, useState } from 'react'
+import React, { Fragment, ReactElement, ReactNode } from 'react'
 import styled from 'styled-components'
 
 import PlusIcon from '../svgs/plus'

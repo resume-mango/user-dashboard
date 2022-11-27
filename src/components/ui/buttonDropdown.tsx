@@ -1,4 +1,4 @@
-import React, { Fragment, ReactNode, useState } from 'react'
+import React, { Fragment, ReactNode } from 'react'
 import styled from 'styled-components'
 import { Button } from '../../styled/button'
 import DownArrowIcon from '../svgs/downArrow'
@@ -22,7 +22,7 @@ const ButtonDropdown = ({
   backgroundColor,
   ...rest
 }: IProps) => {
-  const handleClick = (e) => {
+  const handleClick = (e: any) => {
     e.preventDefault()
     setShow(!show)
   }
@@ -35,14 +35,14 @@ const ButtonDropdown = ({
           style={{
             margin: '0',
             backgroundColor: backgroundColor || '',
-            color: color || ''
+            color: color || '',
           }}
           onClick={(e) => handleClick(e)}
           {...rest}
         >
           {name}
 
-          <VerticalLineIcon color={color || ''} size='1.5rem' />
+          <VerticalLineIcon color={color || ''} size="1.5rem" />
           <DownArrowIcon color={color || ''} />
         </Button>
       </DropdownWrapper>

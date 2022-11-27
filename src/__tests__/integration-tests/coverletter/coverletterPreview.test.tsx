@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import Previewer from '../../../pages/coverletters/preview'
 import TestingWrapper from '../../../__mocks__/TestingWrapper'
 import * as reactFrom from 'react-hook-form'

@@ -535,11 +535,7 @@ const Circle = styled.div<{ checked: boolean }>`
   background-color: ${({ checked }) =>
     checked ? 'rgba(240, 132, 56, 1)' : '#fff'};
 `
-const PayBtn = styled.div`
-  width: 100%;
-  height: 50px;
-  margin-top: 1rem;
-`
+
 const MobileImg = styled.div`
   max-width: 480px;
   padding: 2rem;

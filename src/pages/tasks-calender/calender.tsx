@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -76,7 +76,7 @@ const Calender: React.FC = () => {
     }
     const { data: resData, error } = await apiDeleteEvent(id)
 
-    if (!resData) {
+    if (!resData || error) {
       queryClient.setQueryData(
         ['calendar', currentDate.format('YYYY')],
         storedData
@@ -198,7 +198,7 @@ const Calender: React.FC = () => {
                     today={dayjs().isSame(item.date.toString(), 'day')}
                     data-test-id={
                       (dayjs().isSame(item.date.toString()),
-                      'day' ? 'active' : 'inactive')
+                      day ? 'active' : 'inactive')
                     }
                   >
                     <StyledDateHeading currentMonth={item.isCurr}>

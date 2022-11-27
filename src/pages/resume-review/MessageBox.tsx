@@ -21,7 +21,6 @@ import axios from 'axios'
 import { useNotify } from '../../contexts/notify'
 import { LoadingDots, Spinner } from '../../styled/loader'
 import AttachementUpload from './AttachementUpload'
-import Confirmation from '../../components/ui/confirmation'
 
 interface IMessage {
   message: string

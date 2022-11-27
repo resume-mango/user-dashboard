@@ -6,6 +6,7 @@ describe('Coveletter Download', () => {
   const type = 'pdf'
   const id = '123'
   const setNotify = jest.fn()
+  const setLimitsReached = jest.fn()
 
   const downloadCoverLetterSpy = jest.spyOn(
     coverletterApis,
@@ -21,7 +22,8 @@ describe('Coveletter Download', () => {
       name,
       id,
       type,
-      setNotify
+      setNotify,
+      setLimitsReached
     )
     expect(setNotify).toBeCalledWith({
       heading: 'Err!',
@@ -42,7 +44,8 @@ describe('Coveletter Download', () => {
       name,
       id,
       type,
-      setNotify
+      setNotify,
+      setLimitsReached
     )
     expect(window.URL.createObjectURL).toBeCalledWith(new Blob(['dummy']))
     expect(window.URL.revokeObjectURL).toBeCalledWith(
@@ -184,6 +187,7 @@ describe('Handles coverletter submit', () => {
     setQueryData: jest.fn(),
     getQueryData: jest.fn(),
   } as any
+  const setLimitsReached = jest.fn()
 
   const updayeCoveletterSpy = jest.spyOn(coverletterApis, 'updateCoverLetter')
   const handleCoverletterDownloadSpy = jest.spyOn(
@@ -204,7 +208,8 @@ describe('Handles coverletter submit', () => {
       reset,
       setSubmitSuccess,
       setNotify,
-      queryClient
+      queryClient,
+      setLimitsReached
     )
     expect(result).toBeFalsy()
     expect(updayeCoveletterSpy).not.toBeCalled()
@@ -221,7 +226,8 @@ describe('Handles coverletter submit', () => {
       reset,
       setSubmitSuccess,
       setNotify,
-      queryClient
+      queryClient,
+      setLimitsReached
     )
     expect(result).toBeFalsy()
     expect(updayeCoveletterSpy).toBeCalledTimes(1)
@@ -246,7 +252,8 @@ describe('Handles coverletter submit', () => {
       reset,
       setSubmitSuccess,
       setNotify,
-      queryClient
+      queryClient,
+      setLimitsReached
     )
     expect(result).toBeTruthy()
     expect(updayeCoveletterSpy).toBeCalledTimes(1)
@@ -272,7 +279,8 @@ describe('Handles coverletter submit', () => {
       reset,
       setSubmitSuccess,
       setNotify,
-      queryClient
+      queryClient,
+      setLimitsReached
     )
     expect(result).toBeTruthy()
     expect(updayeCoveletterSpy).toBeCalledTimes(1)

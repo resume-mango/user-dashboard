@@ -205,7 +205,6 @@ export const deleteSigleResume = async (
       queryClient.setQueryData('resumes', data)
     } else throw new Error('Failed to delete resume')
   } catch (err) {
-    console.log(err)
     setNotify({
       type: 'danger',
       heading: 'Err!',

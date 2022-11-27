@@ -629,52 +629,6 @@ const HeadWrappper = styled.div`
   }
 `
 
-const GridWrapper = styled.div`
-  display: flex;
-  max-width: 1300px;
-  justify-content: space-around;
-  div {
-    padding: 1rem;
-  }
-  @media (max-width: 900px) {
-    display: block;
-  }
-`
-const PlansWrapper = styled.div`
-  h3 {
-    margin: 1rem 0;
-  }
-  ul {
-    margin-bottom: 2.3rem;
-    li {
-      display: flex;
-      font-size: 1rem;
-      padding: 0.5rem 0;
-      img {
-        margin-right: 15px;
-      }
-    }
-  }
-  @media (max-width: 480px) {
-    ul {
-      li {
-        font-size: 0.8rem;
-      }
-    }
-  }
-`
-const ImageWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  img {
-    width: 100%;
-  }
-  @media (max-width: 900px) {
-    max-width: 480px;
-  }
-`
-
 const PaymentCardWrapper = styled.span`
   display: flex;
   align-items: center;

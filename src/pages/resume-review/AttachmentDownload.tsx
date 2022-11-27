@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React, { Fragment, useState } from 'react'
 import styled from 'styled-components'
 import FileIcon from '../../components/svgs/files'

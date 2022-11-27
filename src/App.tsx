@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, Suspense } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import axios from 'axios'
 import { Router } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
@@ -37,7 +37,6 @@ export interface Cypresswindow extends Window {
 declare let window: Cypresswindow
 
 if (window.Cypress) {
-  console.log('hit')
   window.tgHistory = history
 }
 const cookie = new Cookies()
@@ -87,7 +86,7 @@ const App = () => {
     }
   )
 
-  const { isLoading, token } = useAuth()
+  const { isLoading } = useAuth()
 
   return (
     <Fragment>

@@ -38,7 +38,6 @@ const Alert: React.FC<IProps> = ({
   const redirectUser = () => {
     if (popup) return alert('Popup Close')
     if (handleRedirect) {
-      console.log('hit')
       return handleRedirect()
     }
     if (!redirect) return history.goBack()

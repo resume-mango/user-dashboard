@@ -18,7 +18,6 @@ const UploadScreen: React.FC<IProps> = ({ setFiles, setShow, type }) => {
       setFiles(acceptedFiles)
       return setShow(false)
     } catch (err) {
-      console.log(err)
       return
     }
   }, [])
@@ -34,7 +33,6 @@ const UploadScreen: React.FC<IProps> = ({ setFiles, setShow, type }) => {
         })
       )
     } catch (err) {
-      console.log(err)
       return
     }
   }, [])

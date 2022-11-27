@@ -1,13 +1,5 @@
-import dayjs from 'dayjs'
-import React, { Fragment, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import CrossIcon from '../../components/svgs/cross'
-import DustBinIcon from '../../components/svgs/dustbin'
-import LocationIcon from '../../components/svgs/location'
-import PenIcon from '../../components/svgs/pen'
-import ResumeIcon from '../../components/svgs/resumeIcon'
-import detectOutsideClick from '../../hooks/detectOutsideClick'
 
 interface IProps {
   event: any

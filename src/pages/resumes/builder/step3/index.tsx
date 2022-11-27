@@ -42,7 +42,7 @@ const Step3 = () => {
       data.references.length > 0 && filledFeilds.push('references')
     } else {
       otherFields.map((field) => {
-        ;(data as any)[field].length > 0 && filledFeilds.push(field.toString())
+        (data as any)[field].length > 0 && filledFeilds.push(field.toString())
       })
     }
     setOtherFields(filledFeilds)

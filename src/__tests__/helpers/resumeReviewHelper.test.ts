@@ -204,7 +204,7 @@ describe('Resume Review Helpers', () => {
       expect(setIsDownloading).not.toHaveBeenCalled()
       expect(setNotify).not.toHaveBeenCalled()
     })
-    test('Should fail due to api error ', async () => {
+    test('Should fail due to api error', async () => {
       downloadAttachmentApiSpy.mockResolvedValue(null)
       await resumeReviewHelper.handleDownloadAttachment(
         chatId,
@@ -217,7 +217,7 @@ describe('Resume Review Helpers', () => {
       expect(setIsDownloading).toHaveBeenCalledTimes(2)
       expect(setNotify).toHaveBeenCalledTimes(1)
     })
-    test('Should successfully download ', async () => {
+    test('Should successfully download', async () => {
       downloadAttachmentApiSpy.mockResolvedValue({
         data: 'dummy',
         headers: {

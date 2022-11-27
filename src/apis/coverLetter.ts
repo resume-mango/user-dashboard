@@ -15,7 +15,6 @@ export const downloadCoverLetter = async (id: string, type: string) => {
     if (err.response && err.response.data) {
       const data = await new Response(err.response.data).text()
       const message = JSON.parse(data).error.message || null
-      console.log(message)
       if (message && message === 'download limits reached!') {
         return (res = 'limit reached')
       }

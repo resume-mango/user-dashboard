@@ -23,7 +23,6 @@ import Modal from '../../components/ui/modal'
 import CheckIcon from '../../components/svgs/check'
 import JustCheckIcon from '../../components/svgs/justCheckIcon'
 import CrossIcon from '../../components/svgs/cross'
-import Confirmation from '../../components/ui/confirmation'
 
 const ReviewChat = () => {
   const queryParams = getUrlParams()
@@ -40,7 +39,6 @@ const ReviewChat = () => {
     data: ticketData,
     isLoading: ticketLoading,
     isError: isTicketError,
-    error: ticketError,
   } = getReviewTicketById({ ticket } as any)
 
   const {
@@ -48,16 +46,6 @@ const ReviewChat = () => {
     isLoading: ticketCreatedLoading,
     isError: ticketCreatedError,
   } = getReviewTicketsCreatedCount()
-
-  const ticketErr =
-    (ticketError &&
-      (ticketError as any).response &&
-      (ticketError as any).response.data &&
-      (ticketError as any).response.data.error &&
-      (ticketError as any).response.data.error.message &&
-      (ticketError as any).response.data.error.message ===
-        'failed to find resume!') ||
-    false
 
   const ticketStatus = (ticketData && ticketData.status === 'open') || false
   const {

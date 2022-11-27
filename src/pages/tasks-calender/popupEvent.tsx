@@ -19,7 +19,7 @@ const PopupEvent: React.FC<IProps> = ({
   setPopupData,
 }) => {
   const { data, date } = event
-  const handleClose = (e: any) => {
+  const handleClose = () => {
     setPopupData(null)
   }
 

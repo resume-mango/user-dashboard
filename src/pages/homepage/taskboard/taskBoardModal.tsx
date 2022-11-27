@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Input from '../../../components/form/Input'
 import TextArea from '../../../components/form/textarea'
 import CrossIcon from '../../../components/svgs/cross'
-import { useMutation, useQueryClient } from 'react-query'
+import { useQueryClient } from 'react-query'
 import DropButton from '../../../components/ui/DropButton'
 import DownArrowIcon from '../../../components/svgs/downArrow'
 import { useNotify } from '../../../contexts/notify'
@@ -14,7 +14,6 @@ import { useTaskboard } from '../../../contexts/taskBorard'
 import { Spinner } from '../../../styled/loader'
 import { Button } from '../../../styled/button'
 import { useViewport } from '../../../contexts/viewPort'
-import axios from 'axios'
 import { ITask } from '../../../apis/task'
 import { convertDateToInput } from '../../../helpers/date'
 import {
@@ -374,11 +373,4 @@ const Modal = styled.div`
   top: 0;
   left: 0;
   background-color: ${({ theme }) => theme.shades.dark[3]};
-`
-
-const SMActionBtnWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  grid-gap: 1.5rem;
 `

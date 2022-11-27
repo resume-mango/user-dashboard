@@ -26,8 +26,7 @@ describe('Detect Multiple Outside Clicks Hook', () => {
     )
   }
   test('should render successfully', async () => {
-    const { getByText, container, debug } = render(<Wrapper />)
-    const wrapper = container.getElementsByClassName('detect-wrapper')[0]
+    const { getByText, container } = render(<Wrapper />)
     const ignored = container.getElementsByClassName('ignored')[0]
     const notIgnored = container.getElementsByClassName('not-ignored')[0]
 

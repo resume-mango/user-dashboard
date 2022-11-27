@@ -1,6 +1,5 @@
 import React, { Fragment, ReactElement, ReactNode } from 'react'
 import { useHistory } from 'react-router-dom'
-import styled from 'styled-components'
 import { useAuth } from '../../contexts/authProvider'
 import { useViewport } from '../../contexts/viewPort'
 import { Button } from '../../styled/button'

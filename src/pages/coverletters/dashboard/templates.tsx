@@ -1,43 +1,40 @@
-import React, { Fragment, useState } from 'react'
-import { useQueryClient } from 'react-query'
+import React, { Fragment } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { newCoverLetter } from '../../../apis/coverLetter'
-import { useNotify } from '../../../contexts/notify'
 import { SK_Wrapper, Spinner } from '../../../styled/loader'
 import { getAllCoverLetterTemplates } from '../../../queries/coverLetterQueries'
 
 const CoverLetterTemplates = () => {
   const { data, isLoading, isError } = getAllCoverLetterTemplates()
-  const [loading, setLoading] = useState<string | null>(null)
+  // const [loading, setLoading] = useState<string | null>(null)
 
   const history = useHistory()
-  const queryClient = useQueryClient()
-  const { setNotify } = useNotify()
+  // const queryClient = useQueryClient()
+  // const { setNotify } = useNotify()
 
-  const createNewResume = async (name: string) => {
-    if (loading) return
-    setLoading(name)
-    try {
-      const { data: resData, error } = await newCoverLetter()
-      if (resData) {
-        resData.template = name
-        queryClient.setQueryData(['coverletter', resData._id], resData)
-        history.push(`edit/${resData._id}`)
-      }
-    } catch (err) {
-      setNotify({
-        type: 'danger',
-        heading: 'Err!',
-        message: 'Failed to create design',
-      })
-    }
-    setLoading(null)
-  }
+  // const createNewResume = async (name: string) => {
+  //   if (loading) return
+  //   setLoading(name)
+  //   try {
+  //     const { data: resData, error } = await newCoverLetter()
+  //     if (resData) {
+  //       resData.template = name
+  //       queryClient.setQueryData(['coverletter', resData._id], resData)
+  //       history.push(`edit/${resData._id}`)
+  //     }
+  //   } catch (err) {
+  //     setNotify({
+  //       type: 'danger',
+  //       heading: 'Err!',
+  //       message: 'Failed to create design',
+  //     })
+  //   }
+  //   setLoading(null)
+  // }
 
   return (
     <Fragment>
-      <Wrapper style={loading !== null ? { pointerEvents: 'none' } : {}}>
+      <Wrapper>
         {isError ? (
           <div className="align-center" style={{ height: '30vh' }}>
             <h3>Failed to load templates!</h3>
@@ -63,11 +60,9 @@ const CoverLetterTemplates = () => {
                 <Item>
                   <img src={item.thumbnail} />
                   <Fragment>
-                    {loading === item.name ? (
-                      <Loader>
-                        <Spinner size="1.5rem" type="primary" />
-                      </Loader>
-                    ) : null}
+                    <Loader>
+                      <Spinner size="1.5rem" type="primary" />
+                    </Loader>
                   </Fragment>
                 </Item>
                 <p>{item.name}</p>

@@ -53,7 +53,6 @@ export const deleteSingleCoverletter = async (
   setLoading(id)
   try {
     const { data: resData, error } = await deleteCoverLetter(id)
-    console.log(resData, error)
 
     if (resData && !error) {
       if (!data || !data.items) return
@@ -62,7 +61,6 @@ export const deleteSingleCoverletter = async (
       queryClient.setQueryData('coverletters', data)
     } else throw new Error('Failed to delete coverletter')
   } catch (err) {
-    console.log(err)
     setNotify({
       type: 'danger',
       heading: 'Err!',
