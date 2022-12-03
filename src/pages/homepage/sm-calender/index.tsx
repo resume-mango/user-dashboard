@@ -82,7 +82,12 @@ const SmallCalender = () => {
                         today={dayjs().isSame(item.date.toString(), 'day')}
                         isCurr={item.isCurr}
                         events={item.events.length > 0 && item.events.length}
-                        className={item.isCurr ? 'today' : ''}
+                        className={
+                          item.isCurr &&
+                          dayjs().isSame(item.date.toString(), 'day')
+                            ? 'today'
+                            : ''
+                        }
                       >
                         {item.day}
                       </StyledDate>
@@ -93,6 +98,12 @@ const SmallCalender = () => {
                       today={dayjs().isSame(item.date.toString(), 'day')}
                       isCurr={item.isCurr}
                       events={item.events.length > 0 && item.events.length}
+                      className={
+                        item.isCurr &&
+                        dayjs().isSame(item.date.toString(), 'day')
+                          ? 'today'
+                          : ''
+                      }
                     >
                       {item.day}
                     </StyledDate>

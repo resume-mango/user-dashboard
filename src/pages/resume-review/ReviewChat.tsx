@@ -166,6 +166,7 @@ const ReviewChat = () => {
     if (emojis && emojis.length > 0) {
       emojis.forEach((item: HTMLElement) => {
         item.className = 'emoji-icon'
+        console.log(item.title)
         return (item.innerHTML = ReactDOMServer.renderToString(
           <Emoji unified={item.title} size={size} />
         ))
@@ -229,7 +230,7 @@ const ReviewChat = () => {
                   {ticket === 'new' && (
                     <Fragment>
                       <Modal show={!acceptTC}>
-                        <TCModal>
+                        <TCModal data-test-id="acceptTc">
                           <CheckIcon
                             size="6rem"
                             color="rgba(240, 132, 56, 1)"
@@ -247,6 +248,7 @@ const ReviewChat = () => {
                               onClick={() => {
                                 setacceptTC(true)
                               }}
+                              data-test-id="confirm"
                             >
                               <JustCheckIcon size="1.2rem" color="#fff" />
                             </Button>
@@ -254,6 +256,7 @@ const ReviewChat = () => {
                               size="lg"
                               btnType="primary"
                               onClick={() => history.push('/resume-review')}
+                              data-test-id="cancel"
                             >
                               <CrossIcon color="#fff" />
                             </Button>
@@ -263,7 +266,7 @@ const ReviewChat = () => {
                     </Fragment>
                   )}
                   <Modal show={alert}>
-                    <TCModal>
+                    <TCModal data-test-id="confirmation">
                       <CheckIcon size="6rem" color="rgba(240, 132, 56, 1)" />
                       <h2>Thank you!</h2>
                       <p>
@@ -277,6 +280,7 @@ const ReviewChat = () => {
                         onClick={() => {
                           setAlert(false)
                         }}
+                        data-test-id="confirmation-submit"
                       >
                         Okay
                       </Button>

@@ -62,6 +62,7 @@ const CoverLetterStepper: React.FC<IProps> = ({ step, setStep, max }) => {
             size={btnSize}
             color="#343434"
             onClick={() => handlePrev()}
+            data-test-id="cancel-prev-btn"
             style={{ marginRight: '1rem' }}
           >
             {step === 1 ? 'Cancel' : 'Previous'}
@@ -71,6 +72,7 @@ const CoverLetterStepper: React.FC<IProps> = ({ step, setStep, max }) => {
             btnType="primary"
             size={btnSize}
             onClick={() => handleNext()}
+            data-test-id="save-next-btn"
             disabled={
               (isSubmitting || !isValid || !isDirty || submit) && step === 2
             }
