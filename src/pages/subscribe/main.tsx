@@ -271,6 +271,7 @@ const MainSubscribe = () => {
                   onClick={() => handleCheckout()}
                   background="#343434"
                   hoverBackground="#202020"
+                  data-test-id="proceed-checkout"
                 >
                   {loadingApi ? (
                     <Fragment>
