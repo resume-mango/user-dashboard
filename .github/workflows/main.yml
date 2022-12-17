@@ -21,6 +21,7 @@ env:
   S3_BUCKET: app.resumemango.com
   BUILD_DIR: build
   AWS_REGION: us-east-2
+  CLOUDFRONT_DIST_ID: E1CQ0TZPU8ZEEH
 
 jobs:
   testing:
@@ -73,5 +74,5 @@ jobs:
       - name: Invalidate Cloudfront cache
         run: |
           aws cloudfront create-invalidation \
-          --distribution-id ${{env.BUILD_DIR}} \
+          --distribution-id ${{env.CLOUDFRONT_DIST_ID}} \
           --paths "/*"
