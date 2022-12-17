@@ -33,8 +33,9 @@ jobs:
         with:
           node-version: 16.18.1
           cache: 'npm'
-     - name: Skip
-       run: echo "Skipped testing"
+
+      - name: Skip
+        run: echo "Skipped testing"
       # - name: Install dependencies
       #   run: npm install --legacy-peer-deps
 
