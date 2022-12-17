@@ -32,6 +32,6 @@ module.exports = {
     new Dotenv({
       path: './.env.production',
     }),
-    new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin({ analyzerMode: process.env.STATS || 'disabled' }),
   ],
 }

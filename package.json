@@ -11,7 +11,8 @@
     "lint": "tsc --noEmit && eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "test": "jest --coverage --silent",
     "test:dev": "jest --coverage",
-    "test:watch": "jest --watch --coverage false"
+    "test:watch": "jest --watch --coverage false",
+    "analyze": "STATS=server npm run build"
   },
   "keywords": [],
   "author": "",
