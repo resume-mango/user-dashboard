@@ -30,7 +30,7 @@ module.exports = {
 
     new CleanWebpackPlugin(),
     new Dotenv({
-      path: './.env.development',
+      path: './.env.production',
     }),
     new BundleAnalyzerPlugin({ analyzerMode: process.env.STATS || 'disabled' }),
   ],
