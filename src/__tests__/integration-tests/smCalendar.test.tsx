@@ -19,7 +19,7 @@ describe('<SmallCalender/>', () => {
       .persist()
       .get(`/v1/calendar`)
       .query(true)
-      .reply(200, calendarData)
+      .reply(200, calendarData())
   })
   afterEach(cleanup)
 
@@ -35,7 +35,7 @@ describe('<SmallCalender/>', () => {
 
   test('Fails to render calendar', async () => {
     getCalendarSpy.mockReturnValue({
-      data: calendarData,
+      data: calendarData(),
       isLoading: false,
       isError: true,
     })
@@ -45,7 +45,7 @@ describe('<SmallCalender/>', () => {
   })
   test('Successfully renders calendar', async () => {
     getCalendarSpy.mockReturnValue({
-      data: calendarData,
+      data: calendarData(),
       isLoading: false,
       isError: false,
     })

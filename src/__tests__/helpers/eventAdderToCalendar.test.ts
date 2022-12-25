@@ -43,8 +43,7 @@ describe('Calendar EVent Added Helper', () => {
       ...getDatesForCurrMonth,
       ...getDatesforNextMonth,
     ]
-
-    const result = eventAdder(dates, calendarData)
+    const result = eventAdder(dates, calendarData())
     expect(result.filter((obj) => obj.events.length > 0).length).toBe(3)
   })
 
