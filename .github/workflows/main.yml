@@ -22,6 +22,8 @@ env:
   BUILD_DIR: build
   AWS_REGION: us-east-2
   CLOUDFRONT_DIST_ID: E1CQ0TZPU8ZEEH
+  PROD_ENV_FILE: ${{ secrets.PROD_ENV_BASE_64 }}
+  STAGING_ENV_FILE: ${{ secrets.STAGING_ENV_BASE_64 }}
 
 jobs:
   testing:
@@ -37,16 +39,21 @@ jobs:
 
       - name: Skip
         run: echo "Skipped testing"
-      # - name: Install dependencies
-      #   run: npm install --legacy-peer-deps
 
-      # - name: Lints Project
-      #   run: npm run lint
+      - name: Add Staging ENV File
+        run: |
+          echo $STAGING_ENV_FILE | base64 --decode > .env.staging
 
-      # - name: Tests Project
-      #   env:
-      #     NODE_OPTIONS: '--max_old_space_size=4096'
-      #   run: npm run test
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Lints Project
+        run: npm run lint
+
+      - name: Tests Project
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: npm run test
 
   deploy:
     needs: testing
@@ -60,6 +67,10 @@ jobs:
         with:
           role-to-assume: ${{secrets.AWS_ROLE_TO_ASSUME}}
           aws-region: ${{env.AWS_REGION}}
+
+      - name: Add Production ENV File
+        run: |
+          echo $PROD_ENV_FILE | base64 --decode > .env.production
 
       - name: Install Dependencies
         run: npm ci --legacy-peer-deps
