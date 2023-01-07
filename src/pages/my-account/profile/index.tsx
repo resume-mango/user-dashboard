@@ -60,7 +60,7 @@ const Profile = () => {
   }, [user])
 
   const changeName = ({ firstName, lastName }: IName) => {
-    if (!user || !isAuth0User) return
+    if (!user) return
     return changeUserName(
       firstName,
       lastName,
