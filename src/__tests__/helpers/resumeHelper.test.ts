@@ -77,6 +77,9 @@ describe('Resume Helpers', () => {
       })
     })
     test('should successfully update resume', async () => {
+      global.Response = jest.fn().mockReturnValue({
+        text: () => JSON.stringify({ _id: 'xyz', title: 'abc' }),
+      }) as any
       updateResumeSpy.mockResolvedValue({
         data: { _id: 'abc', title: 'abc' },
         error: undefined,

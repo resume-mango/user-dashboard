@@ -14,6 +14,7 @@ import {
   changeUserName,
   handleChangeUserPassword,
 } from '../../../helpers/profileHelper'
+import Confirmation from '../../../components/ui/confirmation'
 
 interface IName {
   firstName: string
@@ -28,6 +29,8 @@ interface StateProps {
 
 const Profile = () => {
   const [data, setData] = useState<StateProps | undefined>(undefined)
+  const [show, setShow] = useState(false)
+
   const { setNotify } = useNotify()
   const { user, isLoading, setUser, setToken } = useAuth()
   const [loading, setLoading] = useState<any>({
@@ -35,6 +38,7 @@ const Profile = () => {
     password: false,
   })
 
+  const isAuth0User = user && user.id && user.id.includes('auth0|')
   const defaultValues = {
     firstName: (user && user.firstName) || '',
     lastName: (user && user.lastName) || '',
@@ -56,7 +60,7 @@ const Profile = () => {
   }, [user])
 
   const changeName = ({ firstName, lastName }: IName) => {
-    if (!user) return
+    if (!user || !isAuth0User) return
     return changeUserName(
       firstName,
       lastName,
@@ -75,87 +79,70 @@ const Profile = () => {
         'Loading'
       ) : (
         <ContentWrapper maxWidth="600px" style={{ marginTop: '1rem' }}>
+          <Confirmation
+            title="Change Password"
+            msg="Are you sure, you want to change password?"
+            show={show}
+          >
+            <Button
+              size="lg"
+              btnType="secondary"
+              onClick={() => {
+                setShow(false)
+                handleChangeUserPassword(setData, setLoading)
+              }}
+              disabled={loading.password}
+            >
+              Confirm
+            </Button>
+            <Button
+              size="lg"
+              onClick={() => setShow(false)}
+              disabled={loading.password}
+            >
+              Cancel
+            </Button>
+          </Confirmation>
           <FormWrapper>
             <h3>Change Name</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse a mauris ornare.
-            </p>
+            <p>Enter your first and last name below</p>
             <FormProvider {...methods}>
-              <form onSubmit={handleSubmit(changeName)}>
-                {/* {(errors.firstName, errors.lastName)} */}
+              {/* {(errors.firstName, errors.lastName)} */}
 
-                <GridForm>
-                  <div>
-                    <Input name="firstName" label="First Name" />
-                  </div>
-                  <div>
-                    <Input name="lastName" label="Last Name" />
-                  </div>
-                </GridForm>
-                <FormButtonWrapper>
+              <GridForm>
+                <div>
+                  <Input name="firstName" label="First Name" />
+                </div>
+                <div>
+                  <Input name="lastName" label="Last Name" />
+                </div>
+              </GridForm>
+              <FormButtonWrapper>
+                {isAuth0User && (
                   <FormButton
-                    loading={loading.name}
                     btnType="secondary"
-                    size="sm"
-                    type="submit"
+                    size="lg"
+                    onClick={() => setShow(true)}
+                    loading={loading.password}
+                    style={{ marginRight: '1rem' }}
                   >
-                    Save
+                    Change Password
                   </FormButton>
-                </FormButtonWrapper>
-              </form>
+                )}
+                <FormButton
+                  onClick={() => handleSubmit(changeName)()}
+                  loading={loading.name}
+                  btnType="primary"
+                  size="sm"
+                >
+                  Save
+                </FormButton>
+              </FormButtonWrapper>
             </FormProvider>
           </FormWrapper>
-
-          <FormWrapper>
-            <h3>Change Password</h3>
-            <p>
-              Please choose a storng password including the numbers and letters
-              for better security.
-            </p>
-            <FormButtonWrapper>
-              <FormButton
-                btnType="primary"
-                size="lg"
-                type="submit"
-                onClick={() => handleChangeUserPassword(setData, setLoading)}
-                loading={loading.password}
-              >
-                Change Password
-              </FormButton>
-            </FormButtonWrapper>
-            {data && (
-              <Fragment>
-                {data.message.split('//')[0] !== 'https:' ? (
-                  <Message
-                    type={data.type}
-                    message={data.message}
-                    id={data.id}
-                  />
-                ) : (
-                  <Fragment>
-                    <Message
-                      type={'info'}
-                      message={
-                        'As you are not signed in with tech email you will not recieve password reset email to change password instead click on button below'
-                      }
-                      id={data.id}
-                      interval={-1}
-                    />
-
-                    <Button
-                      as="a"
-                      btnType="secondary"
-                      size="sm"
-                      href={data.message}
-                    >
-                      Reset
-                    </Button>
-                  </Fragment>
-                )}
-              </Fragment>
-            )}
-          </FormWrapper>
+          {data && (
+            <Message type={data.type} message={data.message} id={data.id} />
+          )}
         </ContentWrapper>
       )}
     </Fragment>

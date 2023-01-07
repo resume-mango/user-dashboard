@@ -4,6 +4,7 @@ import { fetchAuthData } from '../helpers/fetchAuthData'
 import { useWindowFocus } from './windowFocus'
 
 type User = {
+  id: string
   firstName: string
   lastName: string
   plan: {

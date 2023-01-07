@@ -31,6 +31,7 @@ export const changeUserName = async (
   const { data: res, error } = await axiosRequest(options)
   if (res) {
     const userData = {
+      id: user.id,
       firstName,
       lastName,
       role: user.role,
