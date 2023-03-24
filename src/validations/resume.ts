@@ -12,7 +12,7 @@ const months = [
   'Sep',
   'Oct',
   'Nov',
-  'Dec'
+  'Dec',
 ]
 
 const first_name = Yup.string()
@@ -60,15 +60,15 @@ const about_info = Yup.string().test(
 
 const city = Yup.string().max(20, 'Max 20 characters allowed')
 const description = Yup.string().test(
-  'test_length_greater_than_300',
-  'Max 300 characters allowed',
+  'test_length_greater_than_600',
+  'Max 600 characters allowed',
   (value) => {
     if (!value) return true
     const regex = /(<([^>]+)>)/gi
     const noBreak = value.replaceAll('<br>', '!!!!!!!!!!!!!!!')
     const plain = noBreak.replace(regex, '')
 
-    if (plain.length > 300) return false
+    if (plain.length > 600) return false
     else return true
   }
 )
@@ -124,7 +124,7 @@ const experience = Yup.array().of(
     designation: Yup.string().required().max(30, 'Max 30 characters allowed'),
     city,
     description,
-    duration
+    duration,
   })
 )
 
@@ -134,14 +134,14 @@ const education = Yup.array().of(
     degree: Yup.string().required().max(30, 'Max 30 characters allowed'),
     city,
     description,
-    duration
+    duration,
   })
 )
 
 const skills = Yup.array().of(
   Yup.object().shape({
     title: Yup.string().required().max(30, 'Max 30 characters allowed'),
-    rating: Yup.number().required().min(0).max(5, 'Max length 5 allowed')
+    rating: Yup.number().required().min(0).max(5, 'Max length 5 allowed'),
   })
 )
 
@@ -149,7 +149,7 @@ const courses = Yup.array().of(
   Yup.object().shape({
     institution: Yup.string().required().max(30, 'Max 30 characters allowed'),
     course: Yup.string().required().max(30, 'Max 30 characters allowed'),
-    duration
+    duration,
   })
 )
 
@@ -161,13 +161,13 @@ const internships = Yup.array().of(
     employer: Yup.string().required().max(30, 'Max 30 characters allowed'),
     city,
     description,
-    duration
+    duration,
   })
 )
 const languages = Yup.array().of(
   Yup.object().shape({
     language: Yup.string().required().max(30, 'Max 30 characters allowed'),
-    level: Yup.string().max(30, 'Max 30 characters allowed')
+    level: Yup.string().max(30, 'Max 30 characters allowed'),
   })
 )
 
@@ -176,7 +176,7 @@ const references = Yup.array().of(
     name: Yup.string().required().max(30, 'Max 30 characters allowed'),
     company: Yup.string().required().max(30, 'Max 30 characters allowed'),
     phone_number,
-    email_address
+    email_address,
   })
 )
 
@@ -194,5 +194,5 @@ export const validateResumeFrom = Yup.object().shape({
   courses,
   internships,
   languages,
-  references
+  references,
 })
