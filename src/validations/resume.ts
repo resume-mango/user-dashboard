@@ -65,7 +65,7 @@ const description = Yup.string().test(
   (value) => {
     if (!value) return true
     const regex = /(<([^>]+)>)/gi
-    const noBreak = value.replaceAll('<br>', '!!!!!!!!!!!!!!!')
+    const noBreak = value.replaceAll('<br>', '!')
     const plain = noBreak.replace(regex, '')
 
     if (plain.length > 600) return false
