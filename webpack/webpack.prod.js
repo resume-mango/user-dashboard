@@ -19,10 +19,8 @@ module.exports = {
     minimizer: [
       new TerserPlugin({
         test: /\.js(\?.*)?$/i,
-        cache: true,
         extractComments: false,
         parallel: true,
-        sourceMap: true, // Must be set to true if using source-mapsin production
         terserOptions: {
           sourceMap: {
             file: '[name].map',
