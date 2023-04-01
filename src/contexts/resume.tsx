@@ -24,7 +24,7 @@ interface Context {
   submitResume: (
     type?: 'txt' | 'pdf' | 'docx' | null,
     autoSave?: boolean
-  ) => void
+  ) => any
 }
 
 const defaultAvatar = {
@@ -323,6 +323,7 @@ const ResumeProvider = ({ initialData, templateName, children }: any) => {
       )
       setIsSaving(false)
     }
+    return true
   }
 
   return (

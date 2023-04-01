@@ -2,6 +2,9 @@
   "compilerOptions": {
     "types": ["node", "jest", "@testing-library/jest-dom"],
     "target": "es6",
+    "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/",
     "lib": ["es6", "dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,

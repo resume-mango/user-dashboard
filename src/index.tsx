@@ -4,6 +4,13 @@ import App from './App'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './contexts/authProvider'
 import { WindowFocusContextProvider } from './contexts/windowFocus'
+import * as Sentry from '@sentry/react'
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  integrations: [new Sentry.BrowserTracing()],
+  tracesSampleRate: 1.0,
+})
 
 ReactDOM.render(
   <React.StrictMode>

@@ -60,7 +60,7 @@ describe('Resume Context', () => {
 
     const queryClient = useQueryClient()
 
-    queryClient.setQueryData('resumes', resumesData)
+    queryClient.setQueryData('resumes', { items: resumesData })
     return (
       <Fragment>
         <p>Resume Data: {JSON.stringify(data.title)}</p>

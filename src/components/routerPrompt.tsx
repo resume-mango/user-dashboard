@@ -2,15 +2,26 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import { Button } from '../styled/button'
+import { Spinner } from '../styled/loader'
 import CrossIcon from './svgs/cross'
 
 interface IProps {
   show: boolean
   setShow: (_val: boolean) => void
   exludedPaths?: Array<string>
+  handleSaveAndExit?: () => void
+  isSaved?: boolean
+  isSaving?: boolean
 }
 
-const RouterPrompt: React.FC<IProps> = ({ show, setShow, exludedPaths }) => {
+const RouterPrompt: React.FC<IProps> = ({
+  show,
+  setShow,
+  exludedPaths,
+  handleSaveAndExit,
+  isSaving,
+  isSaved,
+}) => {
   const history = useHistory()
   const [showPrompt, setShowPrompt] = useState(false)
   const [currentPath, setCurrentPath] = useState('')
@@ -22,8 +33,12 @@ const RouterPrompt: React.FC<IProps> = ({ show, setShow, exludedPaths }) => {
     setShowPrompt(true)
   }
 
-  const onCancel = () => {
-    setShowPrompt(false)
+  const onCancel = async () => {
+    if (handleSaveAndExit) {
+      handleSaveAndExit()
+    } else {
+      setShowPrompt(false)
+    }
   }
 
   useEffect(() => {
@@ -63,6 +78,11 @@ const RouterPrompt: React.FC<IProps> = ({ show, setShow, exludedPaths }) => {
     setConfirmedNavigation(true)
   }, [])
 
+  useEffect(() => {
+    if (!handleSaveAndExit || !isSaved) return
+    handleConfirm()
+  }, [isSaved])
+
   return showPrompt ? (
     <Wrapper className="prompt-wrapper">
       <Box>
@@ -75,11 +95,27 @@ const RouterPrompt: React.FC<IProps> = ({ show, setShow, exludedPaths }) => {
           lost
         </p>
         <ChildWrapper>
-          <Button onClick={handleConfirm} btnType="ghost" size="lg">
+          <Button
+            onClick={handleConfirm}
+            btnType="ghost"
+            size="lg"
+            disabled={isSaving}
+          >
             Ok
           </Button>
-          <Button onClick={onCancel} btnType="primary" size="lg">
-            Cancel
+          <Button
+            onClick={handleSaveAndExit || onCancel}
+            btnType="primary"
+            size="lg"
+            disabled={isSaving}
+          >
+            {isSaving ? (
+              <Spinner type="white" size="1.2rem" />
+            ) : handleSaveAndExit ? (
+              'Save and Exit'
+            ) : (
+              'Cancel'
+            )}
           </Button>
         </ChildWrapper>
       </Box>

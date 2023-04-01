@@ -391,14 +391,15 @@ export const submitResumeFrom = async (
         )
       }
 
-      const resumes: Array<any> | undefined =
-        queryClient.getQueryData('resumes')
+      const resumes: any = queryClient.getQueryData('resumes')
       if (resumes) {
-        const find = resumes.findIndex((item) => item._id === resData._id)
+        const find = resumes.items.findIndex(
+          (item: any) => item._id === resData._id
+        )
         if (find >= 0) {
-          resumes.splice(find, 1, resData)
+          resumes.items.splice(find, 1, resData)
         } else {
-          resumes.unshift(resData)
+          resumes.items.unshift(resData)
         }
         queryClient.setQueryData('resumes', resumes)
       }

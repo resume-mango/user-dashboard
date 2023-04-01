@@ -60,16 +60,18 @@ const ResumeStepper: React.FC<IProps> = ({ step, setStep, max }) => {
         ) : null}
 
         <FormButtonWrapper>
-          <Button
-            type="button"
-            btnType="ghost"
-            size={btnSize}
-            color="#343434"
-            onClick={() => handlePrev()}
-            style={{ marginRight: '1rem' }}
-          >
-            {step === 1 ? 'Cancel' : 'Previous'}
-          </Button>
+          {step > 1 && (
+            <Button
+              type="button"
+              btnType="ghost"
+              size={btnSize}
+              color="#343434"
+              onClick={() => handlePrev()}
+              style={{ marginRight: '1rem' }}
+            >
+              Previous
+            </Button>
+          )}
           <Button
             type="button"
             btnType="primary"

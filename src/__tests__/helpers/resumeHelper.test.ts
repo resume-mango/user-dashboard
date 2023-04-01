@@ -84,7 +84,9 @@ describe('Resume Helpers', () => {
         data: { _id: 'abc', title: 'abc' },
         error: undefined,
       })
-      queryClient.getQueryData.mockReturnValue([{ _id: 'abc' }, { _id: 'efg' }])
+      queryClient.getQueryData.mockReturnValue({
+        items: [{ _id: 'abc' }, { _id: 'efg' }],
+      })
       const result = await resumeHelper.submitResumeFrom(
         template,
         type,
@@ -111,7 +113,9 @@ describe('Resume Helpers', () => {
         data: { _id: 'xyz', title: 'abc' },
         error: undefined,
       })
-      queryClient.getQueryData.mockReturnValue([{ _id: 'abc' }, { _id: 'efg' }])
+      queryClient.getQueryData.mockReturnValue({
+        items: [{ _id: 'abc' }, { _id: 'efg' }],
+      })
       const result = await resumeHelper.submitResumeFrom(
         template,
         type,

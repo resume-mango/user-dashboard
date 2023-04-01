@@ -4,10 +4,11 @@ const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const SentryWebpackPlugin = require('@sentry/webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
   mode: 'production',
-  devtool: 'source-map',
   stats: {
     assets: true,
     chunks: true,
@@ -15,6 +16,20 @@ module.exports = {
   },
   optimization: {
     usedExports: true,
+    minimizer: [
+      new TerserPlugin({
+        test: /\.js(\?.*)?$/i,
+        cache: true,
+        extractComments: false,
+        parallel: true,
+        sourceMap: true, // Must be set to true if using source-mapsin production
+        terserOptions: {
+          sourceMap: {
+            file: '[name].map',
+          },
+        },
+      }),
+    ],
   },
 
   plugins: [
@@ -31,6 +46,20 @@ module.exports = {
     new CleanWebpackPlugin(),
     new Dotenv({
       path: './.env.production',
+    }),
+    new SentryWebpackPlugin({
+      org: 'resume-mango',
+      project: 'user-dashboard',
+
+      // Specify the directory containing build artifacts
+      include: './build',
+
+      // Auth tokens can be obtained from https://sentry.io/settings/account/api/auth-tokens/
+      // and needs the `project:releases` and `org:read` scopes
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+
+      // Optionally uncomment the line below to override automatic release name detection
+      // release: process.env.RELEASE,
     }),
     new BundleAnalyzerPlugin({ analyzerMode: process.env.STATS || 'disabled' }),
   ],

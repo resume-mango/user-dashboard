@@ -11,7 +11,8 @@ import RouterPrompt from '../../../components/routerPrompt'
 import { useAuth } from '../../../contexts/authProvider'
 
 const ResumeBuilder = ({ isLoading }: { isLoading: boolean }) => {
-  const { data, step, setStep } = useResume()
+  const { data, step, setStep, submitResume, submitSuccess, isSaving } =
+    useResume()
   const { showExitPrompt, setShowExitPrompt } = useExitPrompt(false)
   const { user } = useAuth()
   const {
@@ -76,13 +77,15 @@ const ResumeBuilder = ({ isLoading }: { isLoading: boolean }) => {
 
   const isFreeUser =
     user && user.role && !['ceo', 'pro'].some((r) => user.role.includes(r))
-
   return (
     <Fragment>
       <RouterPrompt
         show={showExitPrompt}
         setShow={setShowExitPrompt}
         exludedPaths={paths}
+        handleSaveAndExit={() => submitResume(null, step === 3)}
+        isSaved={submitSuccess}
+        isSaving={isSaving}
       />
       <Wrapper>
         <HeaderStepper
