@@ -11,7 +11,8 @@ import useExitPrompt from '../../../hooks/useExitPromt'
 import { useAuth } from '../../../contexts/authProvider'
 
 const CoverLetterBuilder = ({ isLoading }: { isLoading: boolean }) => {
-  const { data, step, setStep } = useCoverLetter()
+  const { data, step, setStep, submitCoverletter, isSaving, submitSuccess } =
+    useCoverLetter()
   const { showExitPrompt, setShowExitPrompt } = useExitPrompt(false)
   const { user } = useAuth()
 
@@ -62,6 +63,9 @@ const CoverLetterBuilder = ({ isLoading }: { isLoading: boolean }) => {
       <RouterPrompt
         show={showExitPrompt}
         setShow={setShowExitPrompt}
+        handleSaveAndExit={() => submitCoverletter(null, true)}
+        isSaving={isSaving}
+        isSaved={submitSuccess}
         exludedPaths={paths}
       />
 

@@ -391,17 +391,33 @@ export const submitResumeFrom = async (
         )
       }
 
-      const resumes: any = queryClient.getQueryData('resumes')
-      if (resumes) {
-        const find = resumes.items.findIndex(
-          (item: any) => item._id === resData._id
-        )
-        if (find >= 0) {
-          resumes.items.splice(find, 1, resData)
+      const resumes: any = queryClient.getQueriesData('resumes')
+
+      if (resumes && resumes.length > 0) {
+        let found: any
+
+        resumes.every((v: any, i: number) => {
+          if (v.length > 0) {
+            const index = v[1].items.findIndex(
+              (k: any) => k._id === initialData._id
+            )
+            if (index !== -1) {
+              found = { keyIndex: i, itemIndex: index }
+              return false
+            }
+          }
+          return true
+        })
+
+        let page = resumes[0][1]
+
+        if (found) {
+          page = resumes[found.keyIndex][1]
+          page.items.splice(found.itemIndex, 1, resData)
         } else {
-          resumes.items.unshift(resData)
+          page.items.unshift(resData)
         }
-        queryClient.setQueryData('resumes', resumes)
+        queryClient.setQueryData(resumes[0], page)
       }
 
       resData.fields = watch()

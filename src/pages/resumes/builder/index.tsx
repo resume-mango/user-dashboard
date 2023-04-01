@@ -83,7 +83,7 @@ const ResumeBuilder = ({ isLoading }: { isLoading: boolean }) => {
         show={showExitPrompt}
         setShow={setShowExitPrompt}
         exludedPaths={paths}
-        handleSaveAndExit={() => submitResume(null, step === 3)}
+        handleSaveAndExit={() => submitResume(null, true)}
         isSaved={submitSuccess}
         isSaving={isSaving}
       />

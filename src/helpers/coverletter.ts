@@ -167,16 +167,35 @@ export const submitCoveletterForm = async (
       }
 
       const coverletters: Array<any> | undefined =
-        queryClient.getQueryData('coverletters')
-      if (coverletters) {
-        const find = coverletters.findIndex((item) => item._id === resData._id)
-        if (find >= 0) {
-          coverletters.splice(find, 1, resData)
+        queryClient.getQueriesData('coverletters')
+
+      if (coverletters && coverletters.length > 0) {
+        let found: any
+
+        coverletters.every((v: any, i: number) => {
+          if (v.length > 0) {
+            const index = v[1].items.findIndex(
+              (k: any) => k._id === initialData._id
+            )
+            if (index !== -1) {
+              found = { keyIndex: i, itemIndex: index }
+              return false
+            }
+          }
+          return true
+        })
+
+        let page = coverletters[0][1]
+
+        if (found) {
+          page = coverletters[found.keyIndex][1]
+          page.items.splice(found.itemIndex, 1, resData)
         } else {
-          coverletters.unshift(resData)
+          page.items.unshift(resData)
         }
-        queryClient.setQueryData('coverletters', coverletters)
+        queryClient.setQueryData(coverletters[0], page)
       }
+
       resData.fields = watch()
 
       queryClient.setQueryData(['coverletter', resData._id], resData)
