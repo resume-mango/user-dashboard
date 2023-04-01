@@ -24,6 +24,7 @@ describe('Resume Helpers', () => {
     const queryClient = {
       setQueryData: jest.fn(),
       getQueryData: jest.fn(),
+      getQueriesData: jest.fn(),
     } as any
 
     const setLimitsReached = jest.fn()
@@ -84,9 +85,14 @@ describe('Resume Helpers', () => {
         data: { _id: 'abc', title: 'abc' },
         error: undefined,
       })
-      queryClient.getQueryData.mockReturnValue({
-        items: [{ _id: 'abc' }, { _id: 'efg' }],
-      })
+      queryClient.getQueriesData.mockReturnValue([
+        [
+          ['resumes', { page: 0, limit: 15 }],
+          {
+            items: [{ _id: 'abc' }, { _id: 'efg' }],
+          },
+        ],
+      ])
       const result = await resumeHelper.submitResumeFrom(
         template,
         type,
@@ -101,7 +107,7 @@ describe('Resume Helpers', () => {
       )
       expect(result).toBeTruthy()
       expect(updateResumeSpy).toBeCalledTimes(1)
-      expect(queryClient.getQueryData).toBeCalledTimes(1)
+      expect(queryClient.getQueriesData).toBeCalledTimes(1)
       expect(queryClient.setQueryData).toBeCalledTimes(2)
       expect(reset).toBeCalledTimes(1)
       expect(watch).toBeCalledTimes(1)
@@ -113,9 +119,14 @@ describe('Resume Helpers', () => {
         data: { _id: 'xyz', title: 'abc' },
         error: undefined,
       })
-      queryClient.getQueryData.mockReturnValue({
-        items: [{ _id: 'abc' }, { _id: 'efg' }],
-      })
+      queryClient.getQueriesData.mockReturnValue([
+        [
+          ['resumes', { page: 0, limit: 15 }],
+          {
+            items: [{ _id: 'abc' }, { _id: 'efg' }],
+          },
+        ],
+      ])
       const result = await resumeHelper.submitResumeFrom(
         template,
         type,
@@ -130,7 +141,7 @@ describe('Resume Helpers', () => {
       )
       expect(result).toBeTruthy()
       expect(updateResumeSpy).toBeCalledTimes(1)
-      expect(queryClient.getQueryData).toBeCalledTimes(1)
+      expect(queryClient.getQueriesData).toBeCalledTimes(1)
       expect(queryClient.setQueryData).toBeCalledTimes(2)
       expect(reset).toBeCalledTimes(1)
       expect(watch).toBeCalledTimes(1)

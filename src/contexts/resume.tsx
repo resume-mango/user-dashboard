@@ -216,23 +216,7 @@ const ResumeProvider = ({ initialData, templateName, children }: any) => {
 
   const data = queryClient.getQueriesData('resumes')
 
-  // let currPage: any
-
-  // data.every((v: any, i) => {
-  //   if (v.length > 0) {
-  //     const index = v[1].items.findIndex((k: any) => k._id === initialData._id)
-  //     if (index !== -1) {
-  //       currPage = { keyIndex: i, itemIndex: index }
-  //       return false
-  //     }
-  //   }
-  //   return true
-  // })
-
-  // const key = data && data[currPage?.keyIndex][0]
-  // const vl = data && data[currPage?.keyIndex][1].items[currPage?.itemIndex]
-
-  // console.log(currPage, key, val)
+  console.log(data)
 
   const submitResume = async (
     type?: 'txt' | 'pdf' | 'docx' | null,

@@ -398,6 +398,7 @@ export const submitResumeFrom = async (
 
         resumes.every((v: any, i: number) => {
           if (v.length > 0) {
+            console.log(v)
             const index = v[1].items.findIndex(
               (k: any) => k._id === initialData._id
             )
@@ -441,6 +442,7 @@ export const submitResumeFrom = async (
     }
     result = true
   } catch (err) {
+    console.log(err)
     setNotify({
       type: 'danger',
       heading: 'Err!',

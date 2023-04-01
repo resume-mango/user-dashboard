@@ -66,7 +66,9 @@ describe('Coverletter Context', () => {
 
     const queryClient = useQueryClient()
 
-    queryClient.setQueryData('coverletters', coverLetterData)
+    queryClient.setQueryData(['coverletters', { limit: 15, page: 0 }], {
+      items: [coverLetterData],
+    })
     return (
       <Fragment>
         <p>Coveletter Data: {JSON.stringify(data.title)}</p>

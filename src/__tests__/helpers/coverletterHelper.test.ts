@@ -186,6 +186,7 @@ describe('Handles coverletter submit', () => {
   const queryClient = {
     setQueryData: jest.fn(),
     getQueryData: jest.fn(),
+    getQueriesData: jest.fn(),
   } as any
   const setLimitsReached = jest.fn()
 
@@ -242,7 +243,12 @@ describe('Handles coverletter submit', () => {
       data: { _id: 'abc', title: 'abc' },
       error: undefined,
     })
-    queryClient.getQueryData.mockReturnValue([{ _id: 'abc' }, { _id: 'efg' }])
+    queryClient.getQueriesData.mockReturnValue([
+      [
+        ['coverletters', { page: 0, limit: 15 }],
+        { items: [{ _id: 'abc' }, { _id: 'efg' }] },
+      ],
+    ])
     const result = await coverletterHelper.submitCoveletterForm(
       template,
       type,
@@ -257,7 +263,7 @@ describe('Handles coverletter submit', () => {
     )
     expect(result).toBeTruthy()
     expect(updayeCoveletterSpy).toBeCalledTimes(1)
-    expect(queryClient.getQueryData).toBeCalledTimes(1)
+    expect(queryClient.getQueriesData).toBeCalledTimes(1)
     expect(queryClient.setQueryData).toBeCalledTimes(2)
     expect(reset).toBeCalledTimes(1)
     expect(watch).toBeCalledTimes(1)
@@ -269,7 +275,12 @@ describe('Handles coverletter submit', () => {
       data: { _id: 'xyz', title: 'abc' },
       error: undefined,
     })
-    queryClient.getQueryData.mockReturnValue([{ _id: 'abc' }, { _id: 'efg' }])
+    queryClient.getQueriesData.mockReturnValue([
+      [
+        ['coverletters', { page: 0, limit: 15 }],
+        { items: [{ _id: 'abc' }, { _id: 'efg' }] },
+      ],
+    ])
     const result = await coverletterHelper.submitCoveletterForm(
       template,
       type,
@@ -284,7 +295,7 @@ describe('Handles coverletter submit', () => {
     )
     expect(result).toBeTruthy()
     expect(updayeCoveletterSpy).toBeCalledTimes(1)
-    expect(queryClient.getQueryData).toBeCalledTimes(1)
+    expect(queryClient.getQueriesData).toBeCalledTimes(1)
     expect(queryClient.setQueryData).toBeCalledTimes(2)
     expect(reset).toBeCalledTimes(1)
     expect(watch).toBeCalledTimes(1)
