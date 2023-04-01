@@ -78,9 +78,6 @@ jobs:
       - name: Build
         run: SENTRY_AUTH_TOKEN=${{secrets.SENTRY_AUTH_TOKEN}} npm run build
 
-      - name: Build
-        run: npm run build
-
       - name: Copy files to the s3 with AWS CLI
         run: |
           aws s3 sync --delete ${{env.BUILD_DIR}} s3://${{env.S3_BUCKET}}
