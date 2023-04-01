@@ -37,9 +37,6 @@ jobs:
           node-version: 16.18.1
           cache: 'npm'
 
-      - name: Skip
-        run: echo "Skipped testing"
-
       - name: Add Staging ENV File
         run: |
           echo $STAGING_ENV_FILE | base64 --decode > .env.staging
@@ -74,6 +71,12 @@ jobs:
 
       - name: Install Dependencies
         run: npm ci --legacy-peer-deps
+
+      - name: Install Sentry cli
+        run: npm i -g @sentry/cli
+
+      - name: Build
+        run: SENTRY_AUTH_TOKEN=${{secrets.SENTRY_AUTH_TOKEN}} npm run build
 
       - name: Build
         run: npm run build
