@@ -2,7 +2,7 @@ name: Build and Deploy React App to CloudFront
 
 on:
   push:
-    branches: ['main']
+    branches: ["main"]
 
   workflow_dispatch:
 
@@ -18,7 +18,7 @@ permissions:
 #   NEXT_PUBLIC_GOOGLE_ANALYTICS: ${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }}
 
 env:
-  S3_BUCKET: app.resumemango.com
+  S3_BUCKET: app.careermango.co
   BUILD_DIR: build
   AWS_REGION: us-east-2
   CLOUDFRONT_DIST_ID: E1CQ0TZPU8ZEEH
@@ -35,7 +35,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.18.1
-          cache: 'npm'
+          cache: "npm"
 
       - name: Add Staging ENV File
         run: |
@@ -49,7 +49,7 @@ jobs:
 
       - name: Tests Project
         env:
-          NODE_OPTIONS: '--max_old_space_size=4096'
+          NODE_OPTIONS: "--max_old_space_size=4096"
         run: npm run test
 
   deploy:
