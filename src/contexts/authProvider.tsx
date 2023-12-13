@@ -1,7 +1,7 @@
-import React, { ReactNode, useEffect, useState } from 'react'
-import Cookies from 'universal-cookie'
-import { fetchAuthData } from '../helpers/fetchAuthData'
-import { useWindowFocus } from './windowFocus'
+import React, { ReactNode, useEffect, useState } from "react"
+import Cookies from "universal-cookie"
+import { fetchAuthData } from "../helpers/fetchAuthData"
+import { useWindowFocus } from "./windowFocus"
 
 type User = {
   id: string
@@ -23,7 +23,7 @@ interface IContext {
 }
 /* istanbul ignore next */
 const contextValues = {
-  token: '',
+  token: "",
   isLoading: true,
   user: {},
   setUser: (_val: any) => {
@@ -36,15 +36,15 @@ const contextValues = {
 const AuthContext = React.createContext<IContext>(contextValues)
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState('')
+  const [token, setToken] = useState("")
   const [user, setUser] = useState<User | Record<string, any> | undefined>(
     undefined
   )
   const [isLoading, setIsLoading] = useState(true)
   const cookies = new Cookies()
-  const isSess = cookies.get('rm_ia')
+  const isSess = cookies.get("rm_ia")
   const { windowIsActive } = useWindowFocus()
-  const location = `${process.env.AUTH_HOST}/auth/login?rm_path=${window.location.pathname}&rm_name=app`
+  const location = `${process.env.AUTH_HOST}/login?rm_path=${window.location.pathname}&rm_name=app`
 
   const checkAuth = async () => {
     await fetchAuthData(location, setUser, setToken, setIsLoading)
@@ -57,7 +57,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       checkAuth()
     } else {
       setUser(undefined)
-      setToken('')
+      setToken("")
       window.location.href = location
     }
   }, [token, isSess, windowIsActive])

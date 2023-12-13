@@ -1,4 +1,4 @@
-import axiosRequest from '../helpers/axiosRequest'
+import axiosRequest from "../helpers/axiosRequest"
 
 /**
  * Refresh user session data
@@ -9,8 +9,8 @@ export const apiRefreshSession = async () => {
   let error: string
 
   const options = {
-    method: 'GET',
-    url: `${process.env.AUTH_HOST}/auth/refresh`,
+    method: "GET",
+    url: `${process.env.AUTH_HOST}/refresh`,
   }
 
   try {

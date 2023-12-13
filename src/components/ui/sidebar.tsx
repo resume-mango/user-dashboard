@@ -1,24 +1,24 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
-import styled from 'styled-components'
-import logoText from '../../public/logo/resume-mango-full-logo-white-letters.png'
-import logoIcon from '../../public/logo/resume-mango-logo.png'
-import { Button } from '../../styled/button'
-import DashboardIcon from '../svgs/Dashboard'
-import BreifCaseIcon from '../svgs/breifCaseIcon'
-import ResumeIcon from '../svgs/resumeIcon'
-import TaskIcon from '../svgs/taskIcon'
-import UserIcon from '../svgs/userIcon'
-import QuestionIcon from '../svgs/questionIcon'
-import LogoutIcon from '../svgs/logoutIcon'
-import dayjs from 'dayjs'
-import TrackerIcon from '../svgs/tracker'
-import ClipboardClockIcon from '../svgs/clipoardClock'
-import LockIcon from '../svgs/lock'
-import { useAuth } from '../../contexts/authProvider'
-import DegreeHatIcon from '../svgs/degreeHatIcon'
-import BulbIcon from '../svgs/bulbIcon'
-import { getUnreadChats } from '../../queries/chatQueries'
+import React, { Fragment, useEffect, useState } from "react"
+import { useHistory, useLocation } from "react-router-dom"
+import styled from "styled-components"
+import logoText from "../../public/logo/resume-mango-full-logo-white-letters.png"
+import logoIcon from "../../public/logo/resume-mango-logo.png"
+import { Button } from "../../styled/button"
+import DashboardIcon from "../svgs/Dashboard"
+import BreifCaseIcon from "../svgs/breifCaseIcon"
+import ResumeIcon from "../svgs/resumeIcon"
+import TaskIcon from "../svgs/taskIcon"
+import UserIcon from "../svgs/userIcon"
+import QuestionIcon from "../svgs/questionIcon"
+import LogoutIcon from "../svgs/logoutIcon"
+import dayjs from "dayjs"
+import TrackerIcon from "../svgs/tracker"
+import ClipboardClockIcon from "../svgs/clipoardClock"
+import LockIcon from "../svgs/lock"
+import { useAuth } from "../../contexts/authProvider"
+import DegreeHatIcon from "../svgs/degreeHatIcon"
+import BulbIcon from "../svgs/bulbIcon"
+import { getUnreadChats } from "../../queries/chatQueries"
 
 const Sidebar = ({
   mobile,
@@ -46,7 +46,7 @@ const Sidebar = ({
           <Button
             btnType="primary"
             size="sm"
-            onClick={() => history.push('/resumes/new')}
+            onClick={() => history.push("/resumes/new")}
           >
             Create Resume
           </Button>
@@ -64,21 +64,21 @@ const Navlinks = ({
   setShow: (val: boolean) => any
   setShowUpgrade: (val: boolean) => any
 }) => {
-  const today = dayjs().format('YYYY/MM/DD')
+  const today = dayjs().format("YYYY/MM/DD")
   const { user } = useAuth()
   const history = useHistory()
   const handleLogout = () => {
-    window.location.href = `${process.env.AUTH_HOST}/auth/logout`
+    window.location.href = `${process.env.AUTH_HOST}/logout`
   }
 
   const { data: unread } = getUnreadChats()
 
   const location = useLocation()
 
-  const [active, setActive] = useState('/')
+  const [active, setActive] = useState("/")
 
-  const proUser = user && user.role && user.role.includes('pro')
-  const ceoUser = user && user.role && user.role.includes('ceo')
+  const proUser = user && user.role && user.role.includes("pro")
+  const ceoUser = user && user.role && user.role.includes("ceo")
 
   const handleNav = (link: string, role?: string[]) => {
     if (role && role.length > 0) {
@@ -93,8 +93,8 @@ const Navlinks = ({
   }
 
   useEffect(() => {
-    const path = location.pathname.split('/')[1]
-    setActive(path ? path : '/')
+    const path = location.pathname.split("/")[1]
+    setActive(path ? path : "/")
   }, [location.pathname])
 
   return (
@@ -104,8 +104,8 @@ const Navlinks = ({
         <ul>
           <li>
             <a
-              onClick={() => handleNav('/')}
-              className={active === '/' ? 'active' : ''}
+              onClick={() => handleNav("/")}
+              className={active === "/" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <DashboardIcon size="1.1rem" /> Dashboard
@@ -114,8 +114,8 @@ const Navlinks = ({
           </li>
           <li>
             <a
-              onClick={() => handleNav('/progress-tracker', ['pro', 'ceo'])}
-              className={active === 'progress-tracker' ? 'active' : ''}
+              onClick={() => handleNav("/progress-tracker", ["pro", "ceo"])}
+              className={active === "progress-tracker" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <TrackerIcon size="1.2rem" className="stroke-icon" /> Progress
@@ -127,9 +127,9 @@ const Navlinks = ({
           <li>
             <a
               onClick={() =>
-                handleNav(`/calendar/view/${today}`, ['pro', 'ceo'])
+                handleNav(`/calendar/view/${today}`, ["pro", "ceo"])
               }
-              className={active === 'calendar' ? 'active' : ''}
+              className={active === "calendar" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <TaskIcon size="1.1rem" /> Calendar
@@ -139,11 +139,11 @@ const Navlinks = ({
           </li>
           <li>
             <a
-              onClick={() => handleNav('/resumes', ['pro', 'ceo'])}
-              className={active === 'resumes' ? 'active' : ''}
+              onClick={() => handleNav("/resumes", ["pro", "ceo"])}
+              className={active === "resumes" ? "active" : ""}
             >
               <div className="link-wrapper">
-                <ResumeIcon size="1.1rem" style={{ marginTop: '0.3rem' }} />
+                <ResumeIcon size="1.1rem" style={{ marginTop: "0.3rem" }} />
                 Resumes
               </div>
               {!proUser && !ceoUser && <LockIcon size="1.1rem" />}
@@ -151,8 +151,8 @@ const Navlinks = ({
           </li>
           <li>
             <a
-              onClick={() => handleNav('/coverletters', ['pro', 'ceo'])}
-              className={active === 'coverletters' ? 'active' : ''}
+              onClick={() => handleNav("/coverletters", ["pro", "ceo"])}
+              className={active === "coverletters" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <BreifCaseIcon size="1.1rem" /> Cover letters
@@ -162,8 +162,8 @@ const Navlinks = ({
           </li>
           <li>
             <a
-              onClick={() => handleNav('/classes')}
-              className={active === 'classes' ? 'active' : ''}
+              onClick={() => handleNav("/classes")}
+              className={active === "classes" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <DegreeHatIcon size="1.3rem" /> Classes
@@ -173,8 +173,8 @@ const Navlinks = ({
           </li>
           <li>
             <a
-              onClick={() => handleNav('/resume-review', ['ceo'])}
-              className={active === 'resume-review' ? 'active' : ''}
+              onClick={() => handleNav("/resume-review", ["ceo"])}
+              className={active === "resume-review" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <BulbIcon size="1.2rem" /> Resume Review
@@ -187,12 +187,12 @@ const Navlinks = ({
             </a>
           </li>
         </ul>
-        <h6 style={{ marginTop: '1.5rem' }}>COMING SOON</h6>
+        <h6 style={{ marginTop: "1.5rem" }}>COMING SOON</h6>
         <ul>
           <li>
             <a
-              onClick={() => handleNav('/resources')}
-              className={active === 'resources' ? 'active' : ''}
+              onClick={() => handleNav("/resources")}
+              className={active === "resources" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <ClipboardClockIcon size="1.3rem" /> Resources
@@ -201,8 +201,8 @@ const Navlinks = ({
           </li>
           <li>
             <a
-              onClick={() => handleNav('/job-search')}
-              className={active === 'job-search' ? 'active' : ''}
+              onClick={() => handleNav("/job-search")}
+              className={active === "job-search" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <ClipboardClockIcon size="1.3rem" /> Jobs search
@@ -211,8 +211,8 @@ const Navlinks = ({
           </li>
           <li>
             <a
-              onClick={() => handleNav('/interviews')}
-              className={active === 'interviews' ? 'active' : ''}
+              onClick={() => handleNav("/interviews")}
+              className={active === "interviews" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <ClipboardClockIcon size="1.3rem" /> Simulated Interviews
@@ -227,13 +227,13 @@ const Navlinks = ({
           </li> */}
         </ul>
       </div>
-      <div style={{ marginTop: '1.5rem' }}>
+      <div style={{ marginTop: "1.5rem" }}>
         <h6>YOUR ACCOUNT</h6>
         <ul>
           <li>
             <a
-              onClick={() => handleNav('/my-account')}
-              className={active === 'my-account' ? 'active' : ''}
+              onClick={() => handleNav("/my-account")}
+              className={active === "my-account" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <UserIcon size="1rem" /> My account
@@ -242,8 +242,8 @@ const Navlinks = ({
           </li>
           <li>
             <a
-              onClick={() => handleNav('/support')}
-              className={active === 'support' ? 'active' : ''}
+              onClick={() => handleNav("/support")}
+              className={active === "support" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <QuestionIcon size="1.1rem" /> Help and support
@@ -277,7 +277,7 @@ const NavWrapper = styled.div<{ mobile: boolean; show: boolean }>`
   z-index: 2;
   @media (max-width: 1025px) {
     transform: ${({ show }) =>
-      !show ? 'translateX(-300px)' : 'translateX(0)'};
+      !show ? "translateX(-300px)" : "translateX(0)"};
   }
 `
 const NavLinksWrapper = styled.nav`

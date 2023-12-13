@@ -1,5 +1,5 @@
-import axios from 'axios'
-import Cookies from 'universal-cookie'
+import axios from "axios"
+import Cookies from "universal-cookie"
 
 /**
  * Fetches user auth data
@@ -17,12 +17,12 @@ export const fetchAuthData = async (
 ) => {
   const cookies = new Cookies()
   return await axios
-    .get(`${process.env.AUTH_HOST}/auth/data`)
+    .get(`${process.env.AUTH_HOST}/data`)
     .then((res: any) => {
       if (!res || !res.data) return false
 
       if (res.data.token) {
-        axios.defaults.headers.common['Authorization'] = res.data.token
+        axios.defaults.headers.common["Authorization"] = res.data.token
       }
       setUser(res.data.user)
       // setUser({ ...res.data.user, role: ['standard'] })
@@ -32,8 +32,8 @@ export const fetchAuthData = async (
     })
     .catch((err) => {
       if (err.response && err.response.status && err.response.status === 401) {
-        cookies.remove('rm_ia', {
-          path: '/',
+        cookies.remove("rm_ia", {
+          path: "/",
           domain: process.env.COOKIE_DOMAIN,
         })
         window.location.href = location
