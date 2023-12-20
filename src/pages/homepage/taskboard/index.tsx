@@ -1,29 +1,29 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState } from "react"
 import {
   DragDropContext,
   DragStart,
   DragUpdate,
   DropResult,
-} from 'react-beautiful-dnd'
-import styled from 'styled-components'
-import Confirmation from '../../../components/ui/confirmation'
-import Loading from '../../../components/ui/Loading'
-import { TaskBoardProvider, useTaskboard } from '../../../contexts/taskBorard'
+} from "react-beautiful-dnd"
+import styled from "styled-components"
+import Confirmation from "../../../components/ui/confirmation"
+import Loading from "../../../components/ui/Loading"
+import { TaskBoardProvider, useTaskboard } from "../../../contexts/taskBorard"
 
 import {
   progressTrackerHandleDragEnd,
   progressTrackerHandleDragStart,
   progressTrackerHandleDragUpdate,
-} from '../../../helpers/progressTrackerHelpers'
-import { Button } from '../../../styled/button'
+} from "../../../helpers/progressTrackerHelpers"
+import { Button } from "../../../styled/button"
 import {
   SK_Heading,
   SK_Wrapper,
   SK_Thumbnail,
   Spinner,
-} from '../../../styled/loader'
-import DraggableElement from './drag-element'
-import TaskBoardModal from './taskBoardModal'
+} from "../../../styled/loader"
+import DraggableElement from "./drag-element"
+import TaskBoardModal from "./taskBoardModal"
 
 const TaskBoard = () => {
   return (
@@ -49,8 +49,8 @@ const TaskboardComponent = () => {
     isPosUpdating,
   } = useTaskboard()
 
-  const lists = ['todo', 'inprogress', 'completed']
-  const queryAttr = 'data-rbd-drag-handle-draggable-id'
+  const lists = ["todo", "inprogress", "completed"]
+  const queryAttr = "data-rbd-drag-handle-draggable-id"
 
   const getDraggedDom = (draggableId: string) => {
     const domQuery = `[${queryAttr}='${draggableId}']`
@@ -116,19 +116,19 @@ const TaskboardComponent = () => {
           }
           disabled={isDeleting}
         >
-          {isDeleting ? <Spinner size="1.2rem" type="white" /> : 'Delete'}
+          {isDeleting ? <Spinner size="1.2rem" type="white" /> : "Delete"}
         </Button>
       </Confirmation>
       <FlexWrapper>
-        <h3>Task Board</h3>
+        {!isError && <h3>Task Board</h3>}
         <Loading
           loading={isDeleting || isPosUpdating}
-          startText={'Saving'}
-          endText={'Saved!'}
+          startText={"Saving"}
+          endText={"Saved!"}
         />
       </FlexWrapper>
       {isError ? (
-        <h3>Failed to Fetch Tasks</h3>
+        <h3 style={{ textAlign: "center" }}>Failed to Fetch Tasks</h3>
       ) : isLoading || !data ? (
         <Sekeleton>
           <SK_Wrapper>

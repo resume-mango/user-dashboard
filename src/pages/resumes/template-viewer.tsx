@@ -1,18 +1,18 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react'
-import { useFormContext } from 'react-hook-form'
-import { useHistory } from 'react-router-dom'
-import styled from 'styled-components'
-import DownArrowIcon from '../../components/svgs/downArrow'
-import DownloadIcon from '../../components/svgs/download'
-import DropButton from '../../components/ui/DropButton'
-import { useResume } from '../../contexts/resume'
-import { Button } from '../../styled/button'
-import templateMapper from '../../helpers/templateMapper'
-import PreviewSkeleton from '../../components/ui/previewSkeleton'
-import { getAllResumeTemplates } from '../../queries/resumeQueries'
-import { useViewport } from '../../contexts/viewPort'
-import { Spinner } from '../../styled/loader'
-import '../../styled/template_global.css'
+import React, { Fragment, useEffect, useRef, useState } from "react"
+import { useFormContext } from "react-hook-form"
+import { useHistory } from "react-router-dom"
+import styled from "styled-components"
+import DownArrowIcon from "../../components/svgs/downArrow"
+import DownloadIcon from "../../components/svgs/download"
+import DropButton from "../../components/ui/DropButton"
+import { useResume } from "../../contexts/resume"
+import { Button } from "../../styled/button"
+import templateMapper from "../../helpers/templateMapper"
+import PreviewSkeleton from "../../components/ui/previewSkeleton"
+import { getAllResumeTemplates } from "../../queries/resumeQueries"
+import { useViewport } from "../../contexts/viewPort"
+import { Spinner } from "../../styled/loader"
+import "../../styled/template_global.css"
 
 const TemplateViewer = ({ isLoading }: { isLoading: boolean }) => {
   const [showDownload, setShowDownload] = useState(false)
@@ -57,17 +57,17 @@ const TemplateViewer = ({ isLoading }: { isLoading: boolean }) => {
     if (!ref || !ref.current || !templateData) return
     const page = ref.current.children[0] as HTMLElement
     page.style.transform = `scale(${scale})`
-    ref.current.style.width = page.getBoundingClientRect().width + 'px'
-    ref.current.style.height = page.getBoundingClientRect().height + 'px'
+    ref.current.style.width = page.getBoundingClientRect().width + "px"
+    ref.current.style.height = page.getBoundingClientRect().height + "px"
     const calcX = (page.clientWidth * (scale - 1)) / 2
     const calcY = (page.clientHeight * (scale - 1)) / 2
     page.style.transform = `translate3d(${calcX}px, ${calcY}px, 0px) scale(${scale})`
-    const dummyBufferEl = document.createElement('div')
-    dummyBufferEl.style.height = '50px'
+    const dummyBufferEl = document.createElement("div")
+    dummyBufferEl.style.height = "50px"
     dummyBufferEl.style.transform = `scale(${scale})`
-    dummyBufferEl.style.visibility = 'hidden'
-    dummyBufferEl.style.position = 'absolute'
-    dummyBufferEl.style.opacity = '0'
+    dummyBufferEl.style.visibility = "hidden"
+    dummyBufferEl.style.position = "absolute"
+    dummyBufferEl.style.opacity = "0"
     document.body.appendChild(dummyBufferEl)
     const bufferHeight = dummyBufferEl.getBoundingClientRect().height
     setBuffer(bufferHeight)
@@ -87,15 +87,15 @@ const TemplateViewer = ({ isLoading }: { isLoading: boolean }) => {
     setIsTemplateMapping(true)
     const timer = setTimeout(() => {
       if (!ref || !ref.current) return
-      const container = document.querySelector('.rhs_wrapper')
+      const container = document.querySelector(".rhs_wrapper")
       container && container.scrollTo(0, 0)
-      const page = ref.current.querySelector('.page')
+      const page = ref.current.querySelector(".page")
       if (!page) return
       const wrapper = page.children[0] as HTMLElement
 
       if (!wrapper) return
       const template = JSON.parse(JSON.stringify(templateData))
-      wrapper.innerHTML = ''
+      wrapper.innerHTML = ""
       const pages = templateMapper(template, data, wrapper, buffer)
       if (!pages) return
       updatePages(Object.keys(pages).length)
@@ -115,12 +115,12 @@ const TemplateViewer = ({ isLoading }: { isLoading: boolean }) => {
 
   useEffect(() => {
     if (!ref || !ref.current) return
-    const page = ref.current.querySelector('.page') as HTMLElement
+    const page = ref.current.querySelector(".page") as HTMLElement
     if (!page) return
     const wrapper = page.children[0] as HTMLElement
     if (!wrapper) return
     wrapper.style.transform = `translateY(-${page.clientHeight * (curr - 1)}px)`
-    wrapper.style.height = page.clientHeight * curr + 'px'
+    wrapper.style.height = page.clientHeight * curr + "px"
   }, [curr, ref.current])
 
   useEffect(() => {
@@ -133,9 +133,9 @@ const TemplateViewer = ({ isLoading }: { isLoading: boolean }) => {
     setPages(total)
   }
 
-  const handleClick = (type: 'prev' | 'next') => {
-    if (type === 'prev') curr > 1 && curr <= pages && setCurr(curr - 1)
-    if (type === 'next') curr >= 1 && curr < pages && setCurr(curr + 1)
+  const handleClick = (type: "prev" | "next") => {
+    if (type === "prev") curr > 1 && curr <= pages && setCurr(curr - 1)
+    if (type === "next") curr >= 1 && curr < pages && setCurr(curr + 1)
     return
   }
 
@@ -172,22 +172,22 @@ const TemplateViewer = ({ isLoading }: { isLoading: boolean }) => {
                 </Fragment>
               </DropButton.Button>
               <DropButton.Item>
-                <a onClick={() => submitResume('pdf')}>Download PDF</a>
+                <a onClick={() => submitResume("pdf")}>Download PDF</a>
               </DropButton.Item>
 
               <DropButton.Item>
-                <a onClick={() => submitResume('docx')}>Export to DOCX</a>
+                <a onClick={() => submitResume("docx")}>Export to DOCX</a>
               </DropButton.Item>
 
               <DropButton.Item>
-                <a onClick={() => submitResume('txt')}>Export to TXT</a>
+                <a onClick={() => submitResume("txt")}>Export to TXT</a>
               </DropButton.Item>
             </DownloadBtn>
           )}
         </div>
       </HeadWrapper>
       {isError ? (
-        <div className="align-center" style={{ height: '40vh' }}>
+        <div className="align-center" style={{ height: "40vh" }}>
           <h3>Failed to load design!</h3>
         </div>
       ) : (
@@ -201,8 +201,8 @@ const TemplateViewer = ({ isLoading }: { isLoading: boolean }) => {
                     active={template === item.name}
                     data-test-id={
                       template === item.name
-                        ? 'active-template'
-                        : 'inactive-template'
+                        ? "active-template"
+                        : "inactive-template"
                     }
                   >
                     <div
@@ -211,7 +211,7 @@ const TemplateViewer = ({ isLoading }: { isLoading: boolean }) => {
                     >
                       <img src={item.thumbnail} alt="" />
                     </div>
-                    <p>{item.name}</p>
+                    <p>{item.friendly_name || item.name}</p>
                   </Template>
                 ))}
             </TemplateGrid>
@@ -221,8 +221,8 @@ const TemplateViewer = ({ isLoading }: { isLoading: boolean }) => {
               <PageToggler>
                 <button
                   type="button"
-                  style={{ transform: 'rotateZ(90deg)' }}
-                  onClick={() => handleClick('prev')}
+                  style={{ transform: "rotateZ(90deg)" }}
+                  onClick={() => handleClick("prev")}
                 >
                   <DownArrowIcon size="0.75rem" color="#fff" />
                 </button>
@@ -231,8 +231,8 @@ const TemplateViewer = ({ isLoading }: { isLoading: boolean }) => {
                 </p>
                 <button
                   type="button"
-                  style={{ transform: 'rotateZ(270deg)' }}
-                  onClick={() => handleClick('next')}
+                  style={{ transform: "rotateZ(270deg)" }}
+                  onClick={() => handleClick("next")}
                 >
                   <DownArrowIcon size="0.75rem" color="#fff" />
                 </button>
@@ -257,12 +257,12 @@ const TemplateViewer = ({ isLoading }: { isLoading: boolean }) => {
                     !data ||
                     isTemplateMapping ||
                     isTemplateLoading
-                      ? { visibility: 'hidden' }
-                      : { visibility: 'visible' }
+                      ? { visibility: "hidden" }
+                      : { visibility: "visible" }
                   }
                 >
                   <div className="page">
-                    <div style={{ width: '100%' }} />
+                    <div style={{ width: "100%" }} />
                   </div>
                 </TemplateWrapper>
               </PreviewWrapper>
@@ -380,7 +380,7 @@ const Template = styled.div<{ active: boolean }>`
     cursor: pointer;
     transition: all ease-in-out 150ms;
     overflow: hidden;
-    outline-width: ${({ active }) => (active ? '2px' : '1px')};
+    outline-width: ${({ active }) => (active ? "2px" : "1px")};
     outline-color: ${({ theme, active }) => active && theme.shades.primary[2]};
     img {
       width: 100%;

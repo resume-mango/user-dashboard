@@ -1,13 +1,13 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import DashPageHeader from '../../components/ui/dashPageHeader'
-import { useAuth } from '../../contexts/authProvider'
-import { useViewport } from '../../contexts/viewPort'
-import { Spinner } from '../../styled/loader'
-import InfoBoxes from './InfoBoxes'
-import ResumeCoverLetter from './resumeCoverLetter'
-import SmallCalender from './sm-calender'
-import TaskBoard from './taskboard'
+import React, { Fragment, useEffect, useState } from "react"
+import styled from "styled-components"
+import DashPageHeader from "../../components/ui/dashPageHeader"
+import { useAuth } from "../../contexts/authProvider"
+import { useViewport } from "../../contexts/viewPort"
+import { Spinner } from "../../styled/loader"
+import InfoBoxes from "./InfoBoxes"
+import ResumeCoverLetter from "./resumeCoverLetter"
+import SmallCalender from "./sm-calender"
+import TaskBoard from "./taskboard"
 
 const Homepage = () => {
   const [dashType, setDashType] = useState<string | null>(null)
@@ -18,11 +18,11 @@ const Homepage = () => {
 
   useEffect(() => {
     if (!user || !user.role) return
-    const hasPerm = user.role.some((r: any) => ['pro', 'ceo'].includes(r))
+    const hasPerm = user.role.some((r: any) => ["pro", "ceo"].includes(r))
     if (hasPerm) {
-      setDashType('full-access')
+      setDashType("full-access")
     } else {
-      setDashType('limited-access')
+      setDashType("limited-access")
     }
   }, [user])
 
@@ -31,31 +31,31 @@ const Homepage = () => {
       <DashPageHeader
         name={
           hours < 12
-            ? 'Good Morning'
+            ? "Good Morning"
             : hours < 18
-            ? 'Good Afternoon'
-            : 'Good Evening'
+            ? "Good Afternoon"
+            : "Good Evening"
         }
         title={
           <Fragment>
             Hello&nbsp;
-            <span>{(user && user.firstName) || ''}</span>
+            <span>{(user && user.firstName) || ""}</span>
           </Fragment>
         }
       ></DashPageHeader>
 
-      {dashType === 'limited-access' ? (
+      {dashType === "limited-access" ? (
         <ResumeCoverLetter freeUser />
-      ) : dashType === 'full-access' ? (
+      ) : dashType === "full-access" ? (
         <Fragment>
           <GridWrapper
             style={
-              width > 1200 ? { borderBottom: '1px solid #e2e9f3' } : undefined
+              width > 1200 ? { borderBottom: "1px solid #e2e9f3" } : undefined
             }
           >
             <div
               style={
-                width > 1200 ? { borderRight: '1px solid #e2e9f3' } : undefined
+                width > 1200 ? { borderRight: "1px solid #e2e9f3" } : undefined
               }
             >
               <InfoBoxes />
@@ -65,10 +65,10 @@ const Homepage = () => {
               <SmallCalender />
             </div>
           </GridWrapper>
-          <GridWrapper>
+          <GridWrapper style={{ flex: 1 }}>
             <div
               style={
-                width > 1200 ? { borderRight: '1px solid #e2e9f3' } : undefined
+                width > 1200 ? { borderRight: "1px solid #e2e9f3" } : undefined
               }
             >
               <TaskBoard />

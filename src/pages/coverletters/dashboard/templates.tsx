@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react'
-import { useHistory } from 'react-router-dom'
-import styled from 'styled-components'
-import { SK_Wrapper, Spinner } from '../../../styled/loader'
-import { getAllCoverLetterTemplates } from '../../../queries/coverLetterQueries'
+import React, { Fragment } from "react"
+import { useHistory } from "react-router-dom"
+import styled from "styled-components"
+import { SK_Wrapper, Spinner } from "../../../styled/loader"
+import { getAllCoverLetterTemplates } from "../../../queries/coverLetterQueries"
 
 const CoverLetterTemplates = () => {
   const { data, isLoading, isError } = getAllCoverLetterTemplates()
@@ -36,7 +36,7 @@ const CoverLetterTemplates = () => {
     <Fragment>
       <Wrapper>
         {isError ? (
-          <div className="align-center" style={{ height: '30vh' }}>
+          <div className="align-center" style={{ height: "30vh" }}>
             <h3>Failed to load templates!</h3>
           </div>
         ) : !data || isLoading ? (
@@ -65,7 +65,7 @@ const CoverLetterTemplates = () => {
                     </Loader>
                   </Fragment>
                 </Item>
-                <p>{item.name}</p>
+                <p>{item.friendly_name || item.name}</p>
               </ItemWrapper>
             ))}
           </GridWrapper>

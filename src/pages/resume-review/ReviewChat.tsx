@@ -1,34 +1,34 @@
-import { Fragment, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import DashPageHeader from '../../components/ui/dashPageHeader'
-import MessageBox from './MessageBox'
+import { Fragment, useEffect, useState } from "react"
+import styled from "styled-components"
+import DashPageHeader from "../../components/ui/dashPageHeader"
+import MessageBox from "./MessageBox"
 import {
   chatFetcher,
   getReviewTicketById,
   getReviewTicketsCreatedCount,
-} from '../../queries/chatQueries'
-import { useInfiniteQuery } from 'react-query'
-import ReactHtmlParser from 'react-html-parser'
-import getUrlParams from '../../hooks/getUrlParams'
-import { useHistory, useParams } from 'react-router-dom'
-import { LoadingDots, LoadingWrapper, Spinner } from '../../styled/loader'
-import ReviewSidebar from './reviewSidebar'
-import WarningIcon from '../../components/svgs/warning'
-import ViewResume from './viewResume'
-import AttachmentDownload from './AttachmentDownload'
-import ReactDOMServer from 'react-dom/server'
-import { Emoji } from 'emoji-picker-react'
-import { Button } from '../../styled/button'
-import Modal from '../../components/ui/modal'
-import CheckIcon from '../../components/svgs/check'
-import JustCheckIcon from '../../components/svgs/justCheckIcon'
-import CrossIcon from '../../components/svgs/cross'
+} from "../../queries/chatQueries"
+import { useInfiniteQuery } from "react-query"
+import ReactHtmlParser from "react-html-parser"
+import getUrlParams from "../../hooks/getUrlParams"
+import { useHistory, useParams } from "react-router-dom"
+import { LoadingDots, LoadingWrapper, Spinner } from "../../styled/loader"
+import ReviewSidebar from "./reviewSidebar"
+import WarningIcon from "../../components/svgs/warning"
+import ViewResume from "./viewResume"
+import AttachmentDownload from "./AttachmentDownload"
+import ReactDOMServer from "react-dom/server"
+import { Emoji } from "emoji-picker-react"
+import { Button } from "../../styled/button"
+import Modal from "../../components/ui/modal"
+import CheckIcon from "../../components/svgs/check"
+import JustCheckIcon from "../../components/svgs/justCheckIcon"
+import CrossIcon from "../../components/svgs/cross"
 
 const ReviewChat = () => {
   const queryParams = getUrlParams()
   const { ticket } = useParams<{ ticket: string }>()
-  const resumeId = queryParams.get('ref')
-  const preview = queryParams.get('preview')
+  const resumeId = queryParams.get("ref")
+  const preview = queryParams.get("preview")
   const history = useHistory()
   const [showPreview, setShowPreview] = useState(preview || false)
   const [acceptTC, setacceptTC] = useState(false)
@@ -47,7 +47,7 @@ const ReviewChat = () => {
     isError: ticketCreatedError,
   } = getReviewTicketsCreatedCount()
 
-  const ticketStatus = (ticketData && ticketData.status === 'open') || false
+  const ticketStatus = (ticketData && ticketData.status === "open") || false
   const {
     isLoading,
     isError,
@@ -57,7 +57,7 @@ const ReviewChat = () => {
     isFetching,
     isFetchingNextPage,
   } = useInfiniteQuery(
-    ['chats', ticket],
+    ["chats", ticket],
     ({ pageParam = 0 }) =>
       chatFetcher({ ticketId: ticket, page: pageParam, limit: 5 }),
     {
@@ -67,10 +67,10 @@ const ReviewChat = () => {
         if (hasNext) return pages.length
         return undefined
       },
-      enabled: ticket !== 'new' && !preview,
-      refetchOnWindowFocus: ticket !== 'new' && !preview && ticketStatus,
+      enabled: ticket !== "new" && !preview,
+      refetchOnWindowFocus: ticket !== "new" && !preview && ticketStatus,
       refetchInterval:
-        ticket !== 'new' && !preview && ticketStatus ? 1000 * 60 : 0,
+        ticket !== "new" && !preview && ticketStatus ? 1000 * 60 : 0,
     }
   )
 
@@ -84,7 +84,7 @@ const ReviewChat = () => {
   const pagesLength = data?.pages.length
 
   useEffect(() => {
-    const messageSection = document.getElementById('message-section')
+    const messageSection = document.getElementById("message-section")
     if (!messageSection) return
     const lastPage =
       data && data.pages.length > 1 && data.pages[data.pages.length - 1]
@@ -100,7 +100,7 @@ const ReviewChat = () => {
   }, [pagesLength])
 
   useEffect(() => {
-    return scrollToBottom('first-page-length')
+    return scrollToBottom("first-page-length")
   }, [firstPageLength])
 
   useEffect(() => {
@@ -111,14 +111,14 @@ const ReviewChat = () => {
   useEffect(() => {
     if (isLoading) return
 
-    const wrapper = document.getElementById('main-section')
-    const header = document.querySelector('header')
-    const messageBox = document.getElementById('message-box')
-    const messageSection = document.getElementById('message-section')
+    const wrapper = document.getElementById("main-section")
+    const header = document.querySelector("header")
+    const messageBox = document.getElementById("message-box")
+    const messageSection = document.getElementById("message-section")
     if (!wrapper || !header || !messageBox || !messageSection) return
 
-    wrapper.style.maxHeight = '100vh'
-    messageSection.style.overflowY = 'scroll'
+    wrapper.style.maxHeight = "100vh"
+    messageSection.style.overflowY = "scroll"
     messageSection.style.height = `${
       wrapper.clientHeight - header.clientHeight - messageBox.clientHeight
     }px`
@@ -126,29 +126,29 @@ const ReviewChat = () => {
     scrollToBottom()
 
     const timer = setTimeout(() => {
-      messageSection.style.opacity = '1'
-      messageBox.style.opacity = '1'
+      messageSection.style.opacity = "1"
+      messageBox.style.opacity = "1"
     }, 500)
     return () => {
       clearTimeout(timer)
     }
   }, [isLoading, preview, ticketStatus, acceptTC])
 
-  const scrollToBottom = (val?: 'first-page-length' | undefined) => {
+  const scrollToBottom = (val?: "first-page-length" | undefined) => {
     if (
       (data && data.pages.length === 1) ||
-      (val === 'first-page-length' &&
+      (val === "first-page-length" &&
         data &&
         firstPageLength > data.pages[0].limit)
     ) {
-      const messageSection = document.getElementById('message-section')
+      const messageSection = document.getElementById("message-section")
       if (!messageSection) return
       messageSection.scrollTop = messageSection.scrollHeight
     }
     return
   }
   const parseMessage = (val: string) => {
-    const dummy = document.createElement('div')
+    const dummy = document.createElement("div")
     dummy.innerHTML = val
     const element =
       dummy.children.length === 1 && (dummy.children[0] as HTMLElement)
@@ -162,11 +162,10 @@ const ReviewChat = () => {
         size = 40
       }
     }
-    const emojis = dummy.querySelectorAll('span.composer-emoji') as any
+    const emojis = dummy.querySelectorAll("span.composer-emoji") as any
     if (emojis && emojis.length > 0) {
       emojis.forEach((item: HTMLElement) => {
-        item.className = 'emoji-icon'
-        console.log(item.title)
+        item.className = "emoji-icon"
         return (item.innerHTML = ReactDOMServer.renderToString(
           <Emoji unified={item.title} size={size} />
         ))
@@ -178,8 +177,8 @@ const ReviewChat = () => {
 
   const handeShowResume = (show: boolean) => {
     !show
-      ? history.replace({ search: '' })
-      : history.replace({ search: '?preview=true' })
+      ? history.replace({ search: "" })
+      : history.replace({ search: "?preview=true" })
     return setShowPreview(show)
   }
 
@@ -204,7 +203,7 @@ const ReviewChat = () => {
                 <Button
                   btnType="secondary"
                   size="lg"
-                  onClick={() => history.push('/resume-review')}
+                  onClick={() => history.push("/resume-review")}
                 >
                   Back to Portal
                 </Button>
@@ -212,22 +211,22 @@ const ReviewChat = () => {
 
               {isError ||
               ticketCreatedError ||
-              (ticket === 'new' &&
+              (ticket === "new" &&
                 ticketCreatedData &&
                 ticketCreatedData.count >= ticketCreatedData.total) ? (
                 <div
                   className="align-center"
-                  style={{ height: '90%', flex: 1 }}
+                  style={{ height: "90%", flex: 1 }}
                 >
                   <h3>Failed to load chat!</h3>
                 </div>
               ) : isLoading || ticketCreatedLoading ? (
-                <LoadingWrapper style={{ height: '90%' }}>
+                <LoadingWrapper style={{ height: "90%" }}>
                   <Spinner size="2rem" type="primary" />
                 </LoadingWrapper>
               ) : (
                 <Fragment>
-                  {ticket === 'new' && (
+                  {ticket === "new" && (
                     <Fragment>
                       <Modal show={!acceptTC}>
                         <TCModal data-test-id="acceptTc">
@@ -237,7 +236,7 @@ const ReviewChat = () => {
                           />
                           <h2>Confirm</h2>
                           <p>
-                            Do you agree to our <a> terms and conditions </a>{' '}
+                            Do you agree to our <a> terms and conditions </a>{" "}
                             and
                             <a> privacy policy </a>
                           </p>
@@ -255,7 +254,7 @@ const ReviewChat = () => {
                             <Button
                               size="lg"
                               btnType="primary"
-                              onClick={() => history.push('/resume-review')}
+                              onClick={() => history.push("/resume-review")}
                               data-test-id="cancel"
                             >
                               <CrossIcon color="#fff" />
@@ -289,7 +288,7 @@ const ReviewChat = () => {
                   <Modal show={showAlert}>
                     <TCModal>
                       <WarningIcon size="6rem" color="rgba(240, 132, 56, 1)" />
-                      <h2 style={{ marginTop: '1rem' }}>Err!</h2>
+                      <h2 style={{ marginTop: "1rem" }}>Err!</h2>
                       <p>
                         Failed to find resume, looks like you might have deleted
                         the resume...
@@ -312,7 +311,7 @@ const ReviewChat = () => {
                         <div className="load-more">
                           <a onClick={() => fetchNextPage()}>
                             {!isFetchingNextPage ? (
-                              'Load older messages'
+                              "Load older messages"
                             ) : (
                               <LoadingDots color="rgba(240, 132, 56, 1)">
                                 Loading Messages
@@ -338,9 +337,9 @@ const ReviewChat = () => {
                                       <ChatWrapper
                                         type={
                                           item.senderType &&
-                                          item.senderType === 'reviewer'
-                                            ? 'reciever'
-                                            : 'sender'
+                                          item.senderType === "reviewer"
+                                            ? "reciever"
+                                            : "sender"
                                         }
                                         key={i}
                                         id={item._id}
@@ -348,9 +347,9 @@ const ReviewChat = () => {
                                         <div className="message">
                                           <p className="label">
                                             {item.senderType &&
-                                            item.senderType === 'reviewer'
-                                              ? 'Reviewer'
-                                              : 'You'}
+                                            item.senderType === "reviewer"
+                                              ? "Reviewer"
+                                              : "You"}
                                           </p>
                                           <div className="bubble">
                                             {item.message && (
@@ -473,23 +472,23 @@ const ChatSection = styled.div`
     }
   }
 `
-const ChatWrapper = styled.div<{ type: 'sender' | 'reciever' }>`
+const ChatWrapper = styled.div<{ type: "sender" | "reciever" }>`
   width: 100%;
   display: flex;
   justify-content: ${({ type }) =>
-    type === 'sender' ? 'flex-end' : 'flex-start'};
+    type === "sender" ? "flex-end" : "flex-start"};
   .message {
     max-width: 50%;
     width: fit-content;
   }
   .label {
-    text-align: ${({ type }) => (type === 'sender' ? 'end' : 'start')};
+    text-align: ${({ type }) => (type === "sender" ? "end" : "start")};
     margin-bottom: 0.2rem;
   }
   .bubble {
     background-color: #0f102a;
     background-color: ${({ type }) =>
-      type === 'sender' ? '#F08438' : '#0f102a'};
+      type === "sender" ? "#F08438" : "#0f102a"};
     padding: 0.5rem 1rem;
     border-radius: 6px;
     color: white;

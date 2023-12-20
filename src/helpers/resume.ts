@@ -1,15 +1,15 @@
-import axios from 'axios'
-import { UseFormReset, UseFormWatch } from 'react-hook-form/dist/types/form'
-import { QueryClient } from 'react-query'
+import axios from "axios"
+import { UseFormReset, UseFormWatch } from "react-hook-form/dist/types/form"
+import { QueryClient } from "react-query"
 import {
   deletePicture,
   deleteResume,
   downloadResume,
   updateResume,
   uploadPicture,
-} from '../apis/resume'
-import { IImgTransformStyle } from '../typings/imageUpload'
-import { IResumeDefault } from '../typings/resume'
+} from "../apis/resume"
+import { IImgTransformStyle } from "../typings/imageUpload"
+import { IResumeDefault } from "../typings/resume"
 
 /**
  * Uploads Resume Avatar
@@ -36,15 +36,15 @@ export const uploadResumeAvatar = async (
   try {
     const { data: resData, error } = await uploadPicture(data.id, formData)
     if (resData && !error) {
-      setValue('avatar', resData.fields.avatar)
+      setValue("avatar", resData.fields.avatar)
     } else {
-      throw new Error('Failed to upload image')
+      throw new Error("Failed to upload image")
     }
   } catch (err) {
     setNotify({
-      type: 'danger',
-      heading: 'Err!',
-      message: 'Failed to upload image',
+      type: "danger",
+      heading: "Err!",
+      message: "Failed to upload image",
     })
   }
 
@@ -75,13 +75,13 @@ export const deleteResumeAvatar = async (
     const { data: resData, error } = await deletePicture(data.id)
     if (resData && !error) {
       /* istanbul ignore next line */
-      setValue('avatar', resData.fields.avatar)
-    } else throw new Error('Failed to delete Image')
+      setValue("avatar", resData.fields.avatar)
+    } else throw new Error("Failed to delete Image")
   } catch (err) {
     setNotify({
-      type: 'danger',
-      heading: 'Err!',
-      message: 'Failed to delete image',
+      type: "danger",
+      heading: "Err!",
+      message: "Failed to delete image",
     })
   }
 
@@ -128,7 +128,7 @@ export const appendBlobToFromData = async (
         setNotify
       )
     },
-    'image/jpeg',
+    "image/jpeg",
     80
   )
 }
@@ -160,9 +160,9 @@ export const processdCanvasToBlob = (
   setNotify: (_val: any) => void
 ) => {
   if (!blob) return
-  formData.append('processed', blob, 'processed.jpg')
-  formData.append('image', orignalImage)
-  formData.append('style', JSON.stringify(style))
+  formData.append("processed", blob, "processed.jpg")
+  formData.append("image", orignalImage)
+  formData.append("style", JSON.stringify(style))
   return uploadResumeAvatar(
     formData,
     data,
@@ -202,13 +202,13 @@ export const deleteSigleResume = async (
       if (!data || !data.items) return
       const newData = data.items.filter((item: any) => item._id !== id)
       data.items = newData
-      queryClient.setQueryData('resumes', data)
-    } else throw new Error('Failed to delete resume')
+      queryClient.setQueryData("resumes", data)
+    } else throw new Error("Failed to delete resume")
   } catch (err) {
     setNotify({
-      type: 'danger',
-      heading: 'Err!',
-      message: 'Failed to delete resume',
+      type: "danger",
+      heading: "Err!",
+      message: "Failed to delete resume",
     })
   }
   return setLoading(null)
@@ -226,26 +226,26 @@ export const deleteSigleResume = async (
 export const handleResumeDownload = async (
   name: string,
   id: string,
-  type: 'pdf' | 'docx' | 'txt',
+  type: "pdf" | "docx" | "txt",
   setNotify: (_val: any) => void,
   setLimitsReached?: (_val: boolean) => void
 ) => {
   const res: any = await downloadResume(id, type)
 
   if (res) {
-    if (res === 'limit reached' && setLimitsReached) {
+    if (res === "limit reached" && setLimitsReached) {
       return setLimitsReached(true)
     }
 
     if (res.data) {
-      const docName = name ? name.replaceAll(/\s/g, '-') : 'untitled-resume'
+      const docName = name ? name.replaceAll(/\s/g, "-") : "untitled-resume"
 
-      const filename = docName + '.' + type
+      const filename = docName + "." + type
 
       const url = window.URL.createObjectURL(new Blob([res.data]))
-      const link = document.createElement('a')
+      const link = document.createElement("a")
       link.href = url
-      link.setAttribute('download', filename)
+      link.setAttribute("download", filename)
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
@@ -253,9 +253,9 @@ export const handleResumeDownload = async (
     }
   }
   return setNotify({
-    type: 'danger',
-    heading: 'Err!',
-    message: 'Failed to donwload design',
+    type: "danger",
+    heading: "Err!",
+    message: "Failed to donwload design",
   })
 }
 
@@ -281,7 +281,7 @@ export const resumeToggleAccordian = (
   if (!show) {
     if (!accordian || accordian.length === 0) {
       const values: any = defaultValues
-      setOpen(name + '.0')
+      setOpen(name + ".0")
       append(values)
     }
     return setShow(name)
@@ -313,11 +313,11 @@ export const resumeOpensAccordianItem = (
   open: string | null,
   setOpen: (_val: any) => void
 ) => {
-  if (open === name + '.' + index) {
+  if (open === name + "." + index) {
     trigger(name)
     setOpen(null)
   } else {
-    setOpen(name + '.' + index)
+    setOpen(name + "." + index)
   }
 }
 
@@ -337,7 +337,7 @@ export const resumeAddItemToAccoridan = (
   setOpen: (_val: any) => void
 ) => {
   const values = defaultValues
-  setOpen(name + '.' + fieldsCount)
+  setOpen(name + "." + fieldsCount)
   append(values)
   //   clearErrors([`courses.${fields.length}.course`])
 }
@@ -358,7 +358,7 @@ export const resumeAddItemToAccoridan = (
  */
 export const submitResumeFrom = async (
   template: string,
-  type: 'txt' | 'pdf' | 'docx' | null | undefined,
+  type: "txt" | "pdf" | "docx" | null | undefined,
   initialData: any,
   data: any,
   watch: UseFormWatch<any>,
@@ -381,7 +381,7 @@ export const submitResumeFrom = async (
     })
     if (resData && !error) {
       if (type) {
-        const name = resData.title ? resData.title : ''
+        const name = resData.title ? resData.title : ""
         await handleResumeDownload(
           name,
           initialData._id,
@@ -391,14 +391,13 @@ export const submitResumeFrom = async (
         )
       }
 
-      const resumes: any = queryClient.getQueriesData('resumes')
+      const resumes: any = queryClient.getQueriesData("resumes")
 
       if (resumes && resumes.length > 0) {
         let found: any
 
         resumes.every((v: any, i: number) => {
           if (v.length > 0) {
-            console.log(v)
             const index = v[1].items.findIndex(
               (k: any) => k._id === initialData._id
             )
@@ -423,7 +422,7 @@ export const submitResumeFrom = async (
 
       resData.fields = watch()
 
-      queryClient.setQueryData(['resume', resData._id], resData)
+      queryClient.setQueryData(["resume", resData._id], resData)
       setSubmitSuccess(true)
       reset(
         {},
@@ -437,16 +436,16 @@ export const submitResumeFrom = async (
     } else {
       if (axios.isCancel(error)) setSubmitSuccess(true)
       else {
-        throw new Error('Failed to update design')
+        throw new Error("Failed to update design")
       }
     }
     result = true
   } catch (err) {
     console.log(err)
     setNotify({
-      type: 'danger',
-      heading: 'Err!',
-      message: 'Failed to update design',
+      type: "danger",
+      heading: "Err!",
+      message: "Failed to update design",
     })
   }
   return result

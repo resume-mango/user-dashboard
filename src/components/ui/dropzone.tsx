@@ -1,10 +1,10 @@
-import React, { Fragment, useCallback } from 'react'
-import Resizer from 'react-image-file-resizer'
-import { useDropzone } from 'react-dropzone'
-import styled from 'styled-components'
-import { Button } from '../../styled/button'
-import CrossIcon from '../svgs/cross'
-import { useNotify } from '../../contexts/notify'
+import React, { Fragment, useCallback } from "react"
+import Resizer from "react-image-file-resizer"
+import { useDropzone } from "react-dropzone"
+import styled from "styled-components"
+import { Button } from "../../styled/button"
+import CrossIcon from "../svgs/cross"
+import { useNotify } from "../../contexts/notify"
 
 interface IProps {
   setImage: (val: any) => void
@@ -17,13 +17,13 @@ const resizeFile = (file: any) =>
       file,
       1600,
       1200,
-      'JPEG',
+      "JPEG",
       80,
       0,
       (uri) => {
         resolve(uri)
       },
-      'file',
+      "file",
       250,
       250
     )
@@ -50,11 +50,10 @@ const Dropzone: React.FC<IProps> = ({ setImage, setShow }) => {
   }, [])
   const onDropRejected = useCallback(async (rejectedFiles) => {
     try {
-      console.log(rejectedFiles)
       if (!rejectedFiles || rejectedFiles.length === 0) return
       rejectedFiles.forEach((item: Record<string, any>) =>
         setNotify({
-          type: 'warning',
+          type: "warning",
           message: item.file.name,
           heading: item.errors[0].message,
         })
@@ -65,7 +64,7 @@ const Dropzone: React.FC<IProps> = ({ setImage, setShow }) => {
   }, [])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'],
+    accept: ["image/png", "image/jpg", "image/jpeg", "image/webp"],
     maxFiles: 1,
     onDrop,
     onDropRejected,

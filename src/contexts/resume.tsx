@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import { IResumeDefault } from '../typings/resume'
-import '../styled/template_global.css'
-import { getResumeTemplate } from '../queries/resumeQueries'
-import { useNotify } from './notify'
-import { useQueryClient } from 'react-query'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { validateResumeFrom } from '../validations/resume'
-import { handleResumeDownload, submitResumeFrom } from '../helpers/resume'
-import { loadFonts } from '../helpers/loadFonts'
-import UpgradePlan from '../components/upcgradeModal'
+import React, { useEffect, useState } from "react"
+import { FormProvider, useForm } from "react-hook-form"
+import { IResumeDefault } from "../typings/resume"
+import "../styled/template_global.css"
+import { getResumeTemplate } from "../queries/resumeQueries"
+import { useNotify } from "./notify"
+import { useQueryClient } from "react-query"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { validateResumeFrom } from "../validations/resume"
+import { handleResumeDownload, submitResumeFrom } from "../helpers/resume"
+import { loadFonts } from "../helpers/loadFonts"
+import UpgradePlan from "../components/upcgradeModal"
 
 interface Context {
   data: IResumeDefault & { id: string | null }
@@ -22,15 +22,15 @@ interface Context {
   setStep: (val: number) => void
   setTemplate: (name: string) => void
   submitResume: (
-    type?: 'txt' | 'pdf' | 'docx' | null,
+    type?: "txt" | "pdf" | "docx" | null,
     autoSave?: boolean
   ) => any
 }
 
 const defaultAvatar = {
   blank: true,
-  orignal: '',
-  processed: '',
+  orignal: "",
+  processed: "",
   style: {
     width: 0,
     height: 0,
@@ -44,15 +44,15 @@ const defaultAvatar = {
 }
 
 const defaultValues = {
-  title: 'Untitled',
-  first_name: '',
-  last_name: '',
-  email_address: '',
-  phone_number: '',
+  title: "Untitled",
+  first_name: "",
+  last_name: "",
+  email_address: "",
+  phone_number: "",
   avatar: defaultAvatar,
-  designation: '',
-  address: '',
-  about_info: '',
+  designation: "",
+  address: "",
+  about_info: "",
   experience: [],
   education: [],
   skills: [],
@@ -97,9 +97,9 @@ const ResumeProvider = ({ initialData, templateName, children }: any) => {
   const queryClient = useQueryClient()
 
   const methods = useForm<IResumeDefault>({
-    mode: 'onChange',
+    mode: "onChange",
     defaultValues,
-    criteriaMode: 'all',
+    criteriaMode: "all",
     resolver: yupResolver(validateResumeFrom),
   })
   const {
@@ -125,15 +125,15 @@ const ResumeProvider = ({ initialData, templateName, children }: any) => {
 
     const { fields } = initialData
     const resumeData = {
-      title: initialData.title || 'Untitled',
-      first_name: fields.first_name || '',
-      last_name: fields.last_name || '',
+      title: initialData.title || "Untitled",
+      first_name: fields.first_name || "",
+      last_name: fields.last_name || "",
       avatar: fields.avatar || defaultAvatar,
-      email_address: fields.email_address || '',
-      phone_number: fields.phone_number || '',
-      designation: fields.designation || '',
-      address: fields.address || '',
-      about_info: fields.about_info || '',
+      email_address: fields.email_address || "",
+      phone_number: fields.phone_number || "",
+      designation: fields.designation || "",
+      address: fields.address || "",
+      about_info: fields.about_info || "",
       experience: fields.experience || [],
       education: fields.education || [],
       skills: fields.skills || [],
@@ -178,16 +178,16 @@ const ResumeProvider = ({ initialData, templateName, children }: any) => {
 
   useEffect(() => {
     if (!document || !queryEnabled || cssReady) return
-    const old = document.getElementById('css_style')
+    const old = document.getElementById("css_style")
     if (old) {
       old.remove()
     }
-    const link = document.createElement('link')
-    link.id = 'css_style'
-    link.setAttribute('rel', 'stylesheet')
-    link.setAttribute('type', 'text/css')
+    const link = document.createElement("link")
+    link.id = "css_style"
+    link.setAttribute("rel", "stylesheet")
+    link.setAttribute("type", "text/css")
     link.setAttribute(
-      'href',
+      "href",
       `${process.env.API_HOST}/css/resumes/${template}.css`
     )
 
@@ -199,27 +199,25 @@ const ResumeProvider = ({ initialData, templateName, children }: any) => {
     }
     /* istanbul ignore next */
     link.onerror = () => {
-      return console.log('stylesheet could not be loaded')
+      return console.log("stylesheet could not be loaded")
     }
   }, [cssReady, queryEnabled])
 
   const currData = watch()
 
   const regex = /(<([^>]+)>)/gi
-  const hasTextinDescription = currData.about_info.replace(regex, '').length
+  const hasTextinDescription = currData.about_info.replace(regex, "").length
 
   useEffect(() => {
     if (!hasTextinDescription && isDirty) {
-      setValue('about_info', '')
+      setValue("about_info", "")
     }
   }, [currData.about_info])
 
-  const data = queryClient.getQueriesData('resumes')
-
-  console.log(data)
+  const data = queryClient.getQueriesData("resumes")
 
   const submitResume = async (
-    type?: 'txt' | 'pdf' | 'docx' | null,
+    type?: "txt" | "pdf" | "docx" | null,
     autoSave?: boolean
   ) => {
     const submitForm = async (data: any) => {
@@ -304,9 +302,9 @@ const ResumeProvider = ({ initialData, templateName, children }: any) => {
       trigger()
       if (!isValid) {
         return setNotify({
-          type: 'warning',
-          heading: 'Invalid fields!',
-          message: 'Valid fields are required to proceed',
+          type: "warning",
+          heading: "Invalid fields!",
+          message: "Valid fields are required to proceed",
         })
       }
     }

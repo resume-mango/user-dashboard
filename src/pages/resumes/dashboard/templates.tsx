@@ -1,26 +1,26 @@
-import React, { Fragment } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
-import styled from 'styled-components'
-import { SK_Wrapper } from '../../../styled/loader'
-import { getAllResumeTemplates } from '../../../queries/resumeQueries'
+import React, { Fragment } from "react"
+import { useHistory, useParams } from "react-router-dom"
+import styled from "styled-components"
+import { SK_Wrapper } from "../../../styled/loader"
+import { getAllResumeTemplates } from "../../../queries/resumeQueries"
 
 const ResumeTemplates = () => {
   const { data, isLoading, isError } = getAllResumeTemplates()
 
   const { type } = useParams<{
-    type: 'all' | 'image' | 'noimage'
+    type: "all" | "image" | "noimage"
   }>()
 
   const history = useHistory()
 
-  const filterTemplates = (data: any, type: 'all' | 'image' | 'noimage') => {
+  const filterTemplates = (data: any, type: "all" | "image" | "noimage") => {
     if (!data) return
     switch (type) {
-      case 'all':
+      case "all":
         return data
-      case 'image':
+      case "image":
         return data.filter((item: any) => item.image)
-      case 'noimage':
+      case "noimage":
         return data.filter((item: any) => !item.image)
 
       default:
@@ -34,7 +34,7 @@ const ResumeTemplates = () => {
     <Fragment>
       <Wrapper>
         {isError ? (
-          <div className="align-center" style={{ height: '30vh' }}>
+          <div className="align-center" style={{ height: "30vh" }}>
             <h3>Failed to load templates!</h3>
           </div>
         ) : !templates || isLoading ? (
@@ -58,7 +58,7 @@ const ResumeTemplates = () => {
                 <Item>
                   <img src={item.thumbnail} />
                 </Item>
-                <p>{item.name}</p>
+                <p>{item.friendly_name || item.name}</p>
               </ItemWrapper>
             ))}
           </GridWrapper>
