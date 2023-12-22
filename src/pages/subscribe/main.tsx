@@ -1,25 +1,25 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import Logo from '../../public/logo/resume-mango-full-logo.png'
-import CheckCircle from '../../public/images/check-filled.svg'
-import ItemsInBox from '../../public/images/items-in-box.png'
-import { Spinner } from '../../styled/loader'
-import Alert from '../../components/ui/alert'
-import { NavLink, useHistory } from 'react-router-dom'
-import { useViewport } from '../../contexts/viewPort'
+import React, { Fragment, useEffect, useState } from "react"
+import styled from "styled-components"
+import Logo from "../../public/logo/logo.png"
+import CheckCircle from "../../public/images/check-filled.svg"
+import ItemsInBox from "../../public/images/items-in-box.png"
+import { Spinner } from "../../styled/loader"
+import Alert from "../../components/ui/alert"
+import { NavLink, useHistory } from "react-router-dom"
+import { useViewport } from "../../contexts/viewPort"
 import {
   apiCreateSubscription,
   apiUpgradeSubscription,
-} from '../../apis/subscribe'
-import { useNotify } from '../../contexts/notify'
-import CrossIcon from '../../components/svgs/cross'
-import getQueryAdvance from '../../hooks/getQueryAdvance'
-import axios from 'axios'
-import { useQueryClient } from 'react-query'
-import { useAuth } from '../../contexts/authProvider'
+} from "../../apis/subscribe"
+import { useNotify } from "../../contexts/notify"
+import CrossIcon from "../../components/svgs/cross"
+import getQueryAdvance from "../../hooks/getQueryAdvance"
+import axios from "axios"
+import { useQueryClient } from "react-query"
+import { useAuth } from "../../contexts/authProvider"
 
 const MainSubscribe = () => {
-  const [plan, setPlan] = useState('')
+  const [plan, setPlan] = useState("")
   const [loadingApi, setLoadingApi] = useState(false)
   const [upgraded, setUpgraded] = useState(false)
   const [alreadyOnPremium, setAlreadyOnPremium] = useState(false)
@@ -38,7 +38,7 @@ const MainSubscribe = () => {
   const history = useHistory()
 
   const { data, isError, isLoading }: any = getQueryAdvance(
-    'subscribe',
+    "subscribe",
     () => fetcher(),
     true,
     {
@@ -75,9 +75,9 @@ const MainSubscribe = () => {
     const { data, error } = await apiCreateSubscription(plan)
     if (!data || error) {
       setNotify({
-        type: 'danger',
-        heading: 'Err',
-        message: 'Something went wrong!',
+        type: "danger",
+        heading: "Err",
+        message: "Something went wrong!",
       })
       setLoadingApi(false)
     } else {
@@ -88,7 +88,7 @@ const MainSubscribe = () => {
   useEffect(() => {
     if (!upgraded) return
     const timer = setTimeout(() => {
-      history.replace('/my-account/membership')
+      history.replace("/my-account/membership")
     }, 3000)
     return () => clearTimeout(timer)
   }, [upgraded])
@@ -99,16 +99,16 @@ const MainSubscribe = () => {
     const { data, error } = await apiUpgradeSubscription(plan)
     if (!data || error) {
       setNotify({
-        type: 'danger',
-        heading: 'Err',
-        message: 'Failed to upgrade plan!',
+        type: "danger",
+        heading: "Err",
+        message: "Failed to upgrade plan!",
       })
       setLoadingApi(false)
     } else {
-      setToken('')
+      setToken("")
       setLoadingApi(false)
       setUpgraded(true)
-      queryClient.setQueryData('activeSubscription', data)
+      queryClient.setQueryData("activeSubscription", data)
       return true
     }
   }
@@ -142,9 +142,9 @@ const MainSubscribe = () => {
             <LHSWrapper>
               <img
                 src={Logo}
-                alt="resume-mango logo"
-                width="200px"
-                style={{ margin: '1.5rem' }}
+                alt="career-mango logo"
+                width="175"
+                style={{ marginBottom: "1.5rem" }}
               />
 
               <Section>
@@ -188,7 +188,7 @@ const MainSubscribe = () => {
                   src={Logo}
                   alt="resume-mango logo"
                   width="200px"
-                  style={{ margin: '.5rem' }}
+                  style={{ margin: ".5rem" }}
                 />
               )}
               <NavLink to="/">
@@ -212,9 +212,9 @@ const MainSubscribe = () => {
                 resume
               </h2> */}
               <h3>
-                {data.subscription_type === 'new'
-                  ? 'Select Plan'
-                  : 'Upgrade Plan'}
+                {data.subscription_type === "new"
+                  ? "Select Plan"
+                  : "Upgrade Plan"}
               </h3>
               {data?.plans.map((item: any, i: number) => (
                 <PlanSelect key={i} onClick={() => setPlan(item._id)}>
@@ -226,8 +226,8 @@ const MainSubscribe = () => {
                   </div>
                   <div>
                     <p>
-                      <b>${item.price} </b>/{' '}
-                      {item.type === 'pro'
+                      <b>${item.price} </b>/{" "}
+                      {item.type === "pro"
                         ? `${item.interval_count * 24} Hrs`
                         : item.interval}
                     </p>
@@ -246,7 +246,7 @@ const MainSubscribe = () => {
                       <div className="item" key={i}>
                         <p>{item.description}</p>
                         <p
-                          className={`amount ${item.amount < 0 && 'negative'}`}
+                          className={`amount ${item.amount < 0 && "negative"}`}
                         >
                           ${Math.abs(item.amount)}
                         </p>
@@ -256,7 +256,7 @@ const MainSubscribe = () => {
                       <p className="total">NEXT INVOICE</p>
                       <p
                         className={`total amount ${
-                          data.invoice.total < 0 && 'negative'
+                          data.invoice.total < 0 && "negative"
                         }`}
                       >
                         ${data.invoice.total}&nbsp;
@@ -265,7 +265,7 @@ const MainSubscribe = () => {
                     </div>
                   </InvoiceWrapper>
                 )}
-              {data.subscription_type === 'new' ? (
+              {data.subscription_type === "new" ? (
                 <CheckoutBtn
                   disabled={loadingApi}
                   onClick={() => handleCheckout()}
@@ -276,18 +276,18 @@ const MainSubscribe = () => {
                   {loadingApi ? (
                     <Fragment>
                       Processing
-                      <Spinner size="1.3rem" style={{ marginLeft: '1rem' }} />
+                      <Spinner size="1.3rem" style={{ marginLeft: "1rem" }} />
                     </Fragment>
                   ) : (
-                    'Proceed to Checkout'
+                    "Proceed to Checkout"
                   )}
                 </CheckoutBtn>
-              ) : data.subscription_type === 'exists' ? (
+              ) : data.subscription_type === "exists" ? (
                 <CheckoutBtn
                   onClick={() => handleUpgrade()}
                   // onClick={() => setUpgraded(!upgraded)}
-                  background={upgraded ? '#26bf7b' : '#343434'}
-                  hoverBackground={upgraded ? '#26bf7b' : '#202020'}
+                  background={upgraded ? "#26bf7b" : "#343434"}
+                  hoverBackground={upgraded ? "#26bf7b" : "#202020"}
                 >
                   {upgraded ? (
                     <Fragment>
@@ -316,10 +316,10 @@ const MainSubscribe = () => {
                   ) : loadingApi ? (
                     <Fragment>
                       Upgrading
-                      <Spinner size="1.3rem" style={{ marginLeft: '1rem' }} />
+                      <Spinner size="1.3rem" style={{ marginLeft: "1rem" }} />
                     </Fragment>
                   ) : (
-                    'Upgrade Plan '
+                    "Upgrade Plan "
                   )}
                 </CheckoutBtn>
               ) : null}
@@ -421,7 +421,7 @@ const InvoiceWrapper = styled.div`
       letter-spacing: 1.5px;
     }
     .negative:before {
-      content: '-';
+      content: "-";
     }
     .total {
       font-weight: 600;
@@ -439,9 +439,11 @@ const Main = styled.main`
 const LHSWrapper = styled.div`
   height: 100%;
   background-color: #f7f7f7;
+  padding: 4rem;
 `
 
 const RHSWrapper = styled.div`
+  padding: 2rem;
   height: 100%;
   .rhs-section {
     padding-bottom: 2rem;
@@ -462,9 +464,6 @@ const RHSWrapper = styled.div`
 `
 
 const Section = styled.div`
-  padding-bottom: 4rem;
-  width: 80%;
-  margin: auto;
   h1 {
     max-width: 567px;
   }
@@ -532,9 +531,9 @@ const Circle = styled.div<{ checked: boolean }>`
   margin-right: 1.5rem;
   border: 3px solid #fff;
   outline: 2px solid
-    ${({ checked }) => (checked ? 'rgba(240, 132, 56, 1)' : '#ddd')};
+    ${({ checked }) => (checked ? "rgba(240, 132, 56, 1)" : "#ddd")};
   background-color: ${({ checked }) =>
-    checked ? 'rgba(240, 132, 56, 1)' : '#fff'};
+    checked ? "rgba(240, 132, 56, 1)" : "#fff"};
 `
 
 const MobileImg = styled.div`

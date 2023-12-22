@@ -8,15 +8,14 @@ import React, {
   useEffect,
   useRef,
   useState,
-} from 'react'
-import { NavLink, useHistory } from 'react-router-dom'
-import styled from 'styled-components'
-import { useViewport } from '../../contexts/viewPort'
-import logolg from '../../public/logo/resume-mango-full-logo.png'
-import logosm from '../../public/logo/resume-mango-logo.png'
-import CheckIcon1 from '../svgs/check1'
-import CrossIcon from '../svgs/cross'
-import WarningIcon from '../svgs/warning'
+} from "react"
+import { NavLink, useHistory } from "react-router-dom"
+import styled from "styled-components"
+import { useViewport } from "../../contexts/viewPort"
+import logolg from "../../public/logo/logo.png"
+import CheckIcon1 from "../svgs/check1"
+import CrossIcon from "../svgs/cross"
+import WarningIcon from "../svgs/warning"
 
 interface IStepper {
   current: number
@@ -59,7 +58,7 @@ const HeaderStepper = ({ current, max, backRoute, children }: IStepper) => {
       current > 0 &&
       current <= ref.current.children.length
     ) {
-      const stepEls = ref.current.querySelectorAll('.step')
+      const stepEls = ref.current.querySelectorAll(".step")
       const currEl = stepEls[current - 1]
       const rect = currEl.getBoundingClientRect()
       const elWidth =
@@ -103,16 +102,16 @@ const Step: React.FC<IStep> = ({
   return (
     <StepWrapper active={index && current ? index <= current : false}>
       {index === 1 && (
-        <NavLink to="/">
+        <NavLink to="/" style={{ width: "100%" }}>
           <LogoWrapper>
-            <img src={width > 1200 ? logolg : logosm} alt="resume-mango" />
+            <img src={logolg} alt="career-mango" width={175} />
           </LogoWrapper>
         </NavLink>
       )}
       <StepItem className="step">
         <div
           onClick={onClick}
-          style={{ cursor: 'pointer', userSelect: 'none' }}
+          style={{ cursor: "pointer", userSelect: "none" }}
         >
           <p>
             Step {index} of {max}
@@ -167,6 +166,11 @@ const LogoWrapper = styled.div`
   user-select: none;
   width: fit-content;
   height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
   @media (max-width: 1300px) {
     width: 175px;
     img {
@@ -176,7 +180,8 @@ const LogoWrapper = styled.div`
   @media (max-width: 1200px) {
     display: flex;
     align-items: center;
-    width: 57px;
+    object-fit: center;
+    width: 150px;
   }
 `
 const CloseWrapper = styled.div`
@@ -207,7 +212,7 @@ const Wrapper = styled.div`
   left: 0;
   width: 100%;
   &::before {
-    content: '';
+    content: "";
     display: block;
     background-color: #fff;
     width: 100%;

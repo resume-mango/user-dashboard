@@ -1,13 +1,13 @@
-import dayjs from 'dayjs'
-import React, { Fragment, useState } from 'react'
-import styled from 'styled-components'
-import DownArrowIcon from '../../components/svgs/downArrow'
-import WarningIcon from '../../components/svgs/warning'
-import logoIcon from '../../public/logo/resume-mango-logo.png'
-import logoText from '../../public/logo/resume-mango-full-logo-white-letters.png'
-import { SK_Heading, SK_Text, SK_Wrapper } from '../../styled/loader'
-import { useHistory } from 'react-router-dom'
-import { Button } from '../../styled/button'
+import dayjs from "dayjs"
+import React, { Fragment, useState } from "react"
+import styled from "styled-components"
+import DownArrowIcon from "../../components/svgs/downArrow"
+import WarningIcon from "../../components/svgs/warning"
+import logoIcon from "../../public/logo/logo-icon.svg"
+import logoText from "../../public/logo/resume-mango-full-logo-white-letters.png"
+import { SK_Heading, SK_Text, SK_Wrapper } from "../../styled/loader"
+import { useHistory } from "react-router-dom"
+import { Button } from "../../styled/button"
 
 const ReviewAccordian = ({
   data,
@@ -37,11 +37,11 @@ const ReviewAccordian = ({
           <div className="item-wrapper">
             <div className="item">
               <p className="item-label">Ticket ID</p>
-              <p>{(data && data._id) || '-'}</p>
+              <p>{(data && data._id) || "-"}</p>
             </div>
             <div className="item">
               <p className="item-label">Status</p>
-              <p className="capitalize">{(data && data.status) || '-'}</p>
+              <p className="capitalize">{(data && data.status) || "-"}</p>
             </div>
           </div>
         </Accordian>
@@ -62,9 +62,9 @@ const ReviewAccordian = ({
                 {(data &&
                   data.assignedTo &&
                   data.assignedTo.firstName &&
-                  (data.assignedTo.firstName + ' ' + data.assignedTo.lastName ||
-                    '')) ||
-                  '-'}
+                  (data.assignedTo.firstName + " " + data.assignedTo.lastName ||
+                    "")) ||
+                  "-"}
               </p>
             </div>
           </div>
@@ -84,15 +84,15 @@ const ReviewAccordian = ({
           <div className="item-wrapper">
             <div className="item">
               <p className="item-label">Name</p>
-              <p>{(data && data.resume && data.resume.title) || '-'}</p>
+              <p>{(data && data.resume && data.resume.title) || "-"}</p>
             </div>
             <div className="item">
               <p className="item-label">Date Created</p>
               <p>
                 {(data &&
                   data.createdAt &&
-                  dayjs(data.createdAt).format('DD/MM/YYYY')) ||
-                  '-'}
+                  dayjs(data.createdAt).format("DD/MM/YYYY")) ||
+                  "-"}
               </p>
             </div>
             <div className="item">
@@ -110,7 +110,7 @@ const ReviewAccordian = ({
                   <p></p>
                 </Fragment>
               )) ||
-                '-'}
+                "-"}
             </div>
           </div>
         </Accordian>
@@ -145,7 +145,7 @@ const ReviewSidebar = ({
           <Button
             btnType="primary"
             size="sm"
-            onClick={() => history.push('/resumes/new')}
+            onClick={() => history.push("/resumes/new")}
           >
             Create Resume
           </Button>
@@ -154,21 +154,21 @@ const ReviewSidebar = ({
           {isError ? (
             <div className="align-center">
               <WarningIcon size="2rem" />
-              <p style={{ marginLeft: '0.5rem' }}>
+              <p style={{ marginLeft: "0.5rem" }}>
                 Failed to load ticket details!
               </p>
             </div>
           ) : isLoading ? (
-            <div style={{ padding: '2.5rem', height: '100%' }}>
+            <div style={{ padding: "2.5rem", height: "100%" }}>
               <AccordianWrapper>
                 <SK_Wrapper>
                   <SK_Heading className="mb-1" />
                   <SK_Text className="mb" />
                   <SK_Text className="mb" />
                   <SK_Text className="mb" />
-                  <SK_Text style={{ marginBottom: '1rem' }} />
+                  <SK_Text style={{ marginBottom: "1rem" }} />
                   <SK_Heading className="mb-1" />
-                  <SK_Text style={{ marginBottom: '5rem' }} />
+                  <SK_Text style={{ marginBottom: "5rem" }} />
                 </SK_Wrapper>
                 <SK_Wrapper>
                   <SK_Heading className="mb-1" />
@@ -218,7 +218,7 @@ const Accordian = styled.div<{ show: boolean }>`
     svg {
       transition: all ease-in-out 0.5s;
       transform: ${({ show }) =>
-        show ? 'rotateZ(360deg)' : 'rotateZ(180deg)'};
+        show ? "rotateZ(360deg)" : "rotateZ(180deg)"};
       path {
         stroke: ${({ theme }) => theme.colors.primary};
         stroke-width: 2;
@@ -228,9 +228,9 @@ const Accordian = styled.div<{ show: boolean }>`
   .item-wrapper {
     transition: all ease-in-out 0.5s;
     height: 100%;
-    max-height: ${({ show }) => (show ? '1000px' : '0px')};
+    max-height: ${({ show }) => (show ? "1000px" : "0px")};
     opacity: ${({ show }) => (show ? 1 : 0)};
-    visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
+    visibility: ${({ show }) => (show ? "visible" : "hidden")};
 
     overflow: hidden;
     p {

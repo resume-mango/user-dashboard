@@ -1,11 +1,11 @@
-import React, { Fragment, ReactNode, useState } from 'react'
-import styled from 'styled-components'
-import { useViewport } from '../../contexts/viewPort'
-import logoIcon from '../../public/logo/resume-mango-logo.png'
-import logoText from '../../public/logo/text-brown.png'
-import HamburgerIcon from '../svgs/hamburger'
-import UpgradePlan from '../upcgradeModal'
-import Sidebar from './sidebar'
+import React, { Fragment, ReactNode, useState } from "react"
+import styled from "styled-components"
+import { useViewport } from "../../contexts/viewPort"
+import logoIcon from "../../public/logo/logo-icon.svg"
+import logoText from "../../public/logo/text-brown.png"
+import HamburgerIcon from "../svgs/hamburger"
+import UpgradePlan from "../upcgradeModal"
+import Sidebar from "./sidebar"
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const [show, setShow] = useState(false)
@@ -29,11 +29,11 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                 <img
                   src={logoIcon}
                   alt="resume-mango-icon"
-                  width={width > 480 ? '75px' : '60px'}
+                  width={width > 480 ? "75px" : "60px"}
                 />
-                <img src={logoText} width={width > 480 ? '175px' : '150px'} />
+                <img src={logoText} width={width > 480 ? "175px" : "150px"} />
               </a>
-              <a onClick={() => setShow(!show)} style={{ marginRight: '1rem' }}>
+              <a onClick={() => setShow(!show)} style={{ marginRight: "1rem" }}>
                 <HamburgerIcon size="1.5rem" color="rgba(52,52,52,1)" />
               </a>
             </MobileNav>

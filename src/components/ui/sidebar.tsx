@@ -1,8 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react"
 import { useHistory, useLocation } from "react-router-dom"
 import styled from "styled-components"
-import logoText from "../../public/logo/resume-mango-full-logo-white-letters.png"
-import logoIcon from "../../public/logo/resume-mango-logo.png"
+import logoIcon from "../../public/logo/logo-white.svg"
 import { Button } from "../../styled/button"
 import DashboardIcon from "../svgs/Dashboard"
 import BreifCaseIcon from "../svgs/breifCaseIcon"
@@ -38,8 +37,7 @@ const Sidebar = ({
         <NavBrand>
           <LogoWrapper>
             <a href={`${process.env.BASE_HOST}`}>
-              <img src={logoIcon} width="75px" />
-              <img src={logoText} width="125px" />
+              <img src={logoIcon} width="175" />
             </a>
           </LogoWrapper>
           <p>All-in-one job hunting platform</p>
