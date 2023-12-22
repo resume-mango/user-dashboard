@@ -1,13 +1,14 @@
-import React, { Fragment } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
-import ResumeProvider from '../../contexts/resume'
-import { useViewport } from '../../contexts/viewPort'
-import { Button } from '../../styled/button'
-import { getResume } from '../../queries/resumeQueries'
-import PageNotFound from '../404'
-import ResumeBuilder from './builder'
-import TemplateViewer from './template-viewer'
-import NewResume from './createNew'
+import React, { Fragment } from "react"
+import { useHistory, useParams } from "react-router-dom"
+import ResumeProvider from "../../contexts/resume"
+import { useViewport } from "../../contexts/viewPort"
+import { Button } from "../../styled/button"
+import { getResume } from "../../queries/resumeQueries"
+import PageNotFound from "../404"
+import ResumeBuilder from "./builder"
+import TemplateViewer from "./template-viewer"
+import NewResume from "./createNew"
+import { Helmet } from "react-helmet"
 
 const SingleResume = () => {
   const { id, type } = useParams<{ id: string; type: string }>()
@@ -16,37 +17,41 @@ const SingleResume = () => {
 
   return (
     <Fragment>
+      <Helmet>
+        <title>Resumes</title>
+        <meta name="description" content="Career Mango Resumes Page" />
+      </Helmet>
       {width < 768 && width !== 0 ? (
         <div
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            height: '90%',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            height: "90%",
           }}
         >
-          <h3 style={{ textAlign: 'center' }}>
+          <h3 style={{ textAlign: "center" }}>
             Builder not available, Please visit desktop site...
           </h3>
           <Button
             btnType="primary"
             size="lg"
             style={{
-              width: 'fit-content',
-              padding: '0 1rem',
-              marginTop: '1rem',
+              width: "fit-content",
+              padding: "0 1rem",
+              marginTop: "1rem",
             }}
-            onClick={() => history.push('/')}
+            onClick={() => history.push("/")}
           >
             Back to Dashboard
           </Button>
         </div>
       ) : width >= 768 ? (
         <Fragment>
-          {type === 'new' ? (
+          {type === "new" ? (
             <NewResume templateName={id} />
-          ) : ['edit', 'preview'].indexOf(type) !== -1 ? (
+          ) : ["edit", "preview"].indexOf(type) !== -1 ? (
             <OldResume type={type} id={id} width={width} />
           ) : (
             <PageNotFound />
@@ -77,14 +82,14 @@ const OldResume = ({
   return (
     <Fragment>
       {isError ? (
-        <div className="align-center" style={{ height: '30vh' }}>
+        <div className="align-center" style={{ height: "30vh" }}>
           <h3>Failed to load design!</h3>
         </div>
       ) : (
-        <ResumeProvider initialData={initialData} templateName={'template1'}>
-          {type === 'preview' ? (
+        <ResumeProvider initialData={initialData} templateName={"template1"}>
+          {type === "preview" ? (
             <TemplateViewer isLoading={isLoading} />
-          ) : type === 'edit' ? (
+          ) : type === "edit" ? (
             <ResumeBuilder isLoading={isLoading} />
           ) : null}
         </ResumeProvider>

@@ -1,27 +1,28 @@
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-import React, { Fragment, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import styled from 'styled-components'
-import CrossIcon from '../../components/svgs/cross'
-import Modal from '../../components/ui/modal'
-import Search from '../../components/ui/search'
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
+import React, { Fragment, useState } from "react"
+import { useHistory } from "react-router-dom"
+import styled from "styled-components"
+import CrossIcon from "../../components/svgs/cross"
+import Modal from "../../components/ui/modal"
+import Search from "../../components/ui/search"
 import {
   GetReviewParams,
   getReviewTickets,
   getReviewTicketsCreatedCount,
-} from '../../queries/chatQueries'
-import { getAllResumes, GetResumesParams } from '../../queries/resumeQueries'
-import { Button } from '../../styled/button'
-import { LoadingWrapper, Spinner } from '../../styled/loader'
-import { PaginationWrapper } from '../../styled/pages'
+} from "../../queries/chatQueries"
+import { getAllResumes, GetResumesParams } from "../../queries/resumeQueries"
+import { Button } from "../../styled/button"
+import { LoadingWrapper, Spinner } from "../../styled/loader"
+import { PaginationWrapper } from "../../styled/pages"
+import { Helmet } from "react-helmet"
 
 const ReviewList = () => {
   dayjs.extend(relativeTime)
 
   const [showModal, setShowModal] = useState(false)
-  const [searchValue, setSearchValue] = useState('')
-  const [query, setQuery] = useState('')
+  const [searchValue, setSearchValue] = useState("")
+  const [query, setQuery] = useState("")
   const [page, setPage] = useState(0)
   const [ReviewPage, setReviewPage] = useState(0)
   const history = useHistory()
@@ -53,14 +54,14 @@ const ReviewList = () => {
     isError: ticketCreatedError,
   } = getReviewTicketsCreatedCount()
 
-  const handlePage = (type: 'review' | 'resume', action: 'next' | 'prev') => {
-    if (action === 'next') {
-      type === 'review'
+  const handlePage = (type: "review" | "resume", action: "next" | "prev") => {
+    if (action === "next") {
+      type === "review"
         ? setReviewPage((page) => page + 1)
         : setPage((page) => page + 1)
     }
-    if (action === 'prev') {
-      type === 'review'
+    if (action === "prev") {
+      type === "review"
         ? setReviewPage((page) => page - 1)
         : setPage((page) => page - 1)
     }
@@ -71,6 +72,10 @@ const ReviewList = () => {
   }
   return (
     <Fragment>
+      <Helmet>
+        <title>Resume Review</title>
+        <meta name="description" content="Career Mango Resume Review Page" />
+      </Helmet>
       <StyledDashHeader>
         <div className="header-wrapper">
           <h1>Request Review</h1>
@@ -89,15 +94,17 @@ const ReviewList = () => {
           </Button>
         </div>
         <div>
-          {!ticketCreatedLoading && !ticketCreatedError && ticketCreatedData && (
-            <p>
-              <span>
-                {ticketCreatedData.count || 0}/{ticketCreatedData.total || 0}
-                &nbsp;
-              </span>
-              Resumes can be reviewed this month
-            </p>
-          )}
+          {!ticketCreatedLoading &&
+            !ticketCreatedError &&
+            ticketCreatedData && (
+              <p>
+                <span>
+                  {ticketCreatedData.count || 0}/{ticketCreatedData.total || 0}
+                  &nbsp;
+                </span>
+                Resumes can be reviewed this month
+              </p>
+            )}
         </div>
       </StyledDashHeader>
       <Modal show={showModal}>
@@ -109,22 +116,22 @@ const ReviewList = () => {
             </span>
           </div>
           {isError ? (
-            <div className="align-center" style={{ height: '90%' }}>
+            <div className="align-center" style={{ height: "90%" }}>
               <h3>Failed to load resumes!</h3>
             </div>
           ) : isLoading ? (
-            <LoadingWrapper style={{ height: '90%' }}>
+            <LoadingWrapper style={{ height: "90%" }}>
               <Spinner size="2rem" type="primary" />
             </LoadingWrapper>
           ) : data && data.items && data.items.length > 0 ? (
             <Fragment>
               <div className="search">
                 <Search
-                  placeholder={'Title of your resume...'}
+                  placeholder={"Title of your resume..."}
                   value={searchValue}
                   setValue={setSearchValue}
                   handleSubmit={() => handleSearch()}
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                 />
               </div>
               <div className="list-wrapper">
@@ -135,7 +142,7 @@ const ReviewList = () => {
                       key={i}
                       onClick={() =>
                         history.push({
-                          pathname: '/resume-review/new',
+                          pathname: "/resume-review/new",
                           search: `?ref=${item._id}`,
                         })
                       }
@@ -145,7 +152,7 @@ const ReviewList = () => {
                       ) : (
                         <img src="https://resume-mango.s3.us-east-2.amazonaws.com/public/template-images/resumes/empty/template10.jpg" />
                       )}
-                      <p>{item.title || 'Untitled'}</p>
+                      <p>{item.title || "Untitled"}</p>
                     </div>
                   ))}
                 </div>
@@ -154,7 +161,7 @@ const ReviewList = () => {
                     <Button
                       btnType="secondary"
                       disabled={page === 0}
-                      onClick={() => handlePage('resume', 'prev')}
+                      onClick={() => handlePage("resume", "prev")}
                       data-test-id="pagination-prev"
                     >
                       Previous
@@ -162,7 +169,7 @@ const ReviewList = () => {
                     <Button
                       btnType="secondary"
                       disabled={page + 1 >= Math.ceil(data.total / data.limit)}
-                      onClick={() => handlePage('resume', 'next')}
+                      onClick={() => handlePage("resume", "next")}
                       data-test-id="pagination-next"
                     >
                       Next
@@ -172,14 +179,14 @@ const ReviewList = () => {
               </div>
             </Fragment>
           ) : (
-            <div className="align-center" style={{ height: '90%' }}>
+            <div className="align-center" style={{ height: "90%" }}>
               <div>
                 <h3>No resumes found!</h3>
                 <Button
                   btnType="primary"
                   size="sm"
-                  onClick={() => history.push('/resumes/new')}
-                  style={{ margin: '2rem auto' }}
+                  onClick={() => history.push("/resumes/new")}
+                  style={{ margin: "2rem auto" }}
                 >
                   Create Resume
                 </Button>
@@ -191,11 +198,11 @@ const ReviewList = () => {
 
       <Wrapper>
         {reviewError ? (
-          <div className="align-center" style={{ height: '50vh' }}>
+          <div className="align-center" style={{ height: "50vh" }}>
             <h3>Failed to load review tickets!</h3>
           </div>
         ) : reviewLoading ? (
-          <LoadingWrapper style={{ height: '50vh' }}>
+          <LoadingWrapper style={{ height: "50vh" }}>
             <Spinner size="2.5rem" type="primary" />
           </LoadingWrapper>
         ) : reviewData && reviewData.items && reviewData.items.length > 0 ? (
@@ -219,25 +226,25 @@ const ReviewList = () => {
               >
                 <div className="title item">
                   <p>
-                    {(item.resume && item.resume.title) || 'Untitled Resume'}
+                    {(item.resume && item.resume.title) || "Untitled Resume"}
                   </p>
                   <div className="title-label">
                     <span>
                       Created {dayjs(dayjs(item.createdAt)).fromNow(true)} ago
                     </span>
-                    {item.status === 'open' && (
+                    {item.status === "open" && (
                       <Fragment>
                         <span className="divider" />
                         <span>
                           {dayjs(item.createdAt)
-                            .add(48, 'hour')
-                            .diff(dayjs(), 'second') > 0
+                            .add(48, "hour")
+                            .diff(dayjs(), "second") > 0
                             ? `Response due in 
                         ${dayjs(dayjs()).to(
-                          dayjs(item.createdAt).add(48, 'hour'),
+                          dayjs(item.createdAt).add(48, "hour"),
                           true
                         )}`
-                            : 'Will respond shortly'}
+                            : "Will respond shortly"}
                         </span>
                       </Fragment>
                     )}
@@ -245,42 +252,42 @@ const ReviewList = () => {
                 </div>
                 <p className="grey truncate item">#{item._id}</p>
                 <p className="capitalize item item-status">
-                  <span>{item.status || '-'}</span>
+                  <span>{item.status || "-"}</span>
                 </p>
                 <p className="item">
                   {item.assignedTo
                     ? item.assignedTo.firstName
                       ? item.assignedTo.firstName +
-                          ' ' +
-                          item.assignedTo.lastName || ''
+                          " " +
+                          item.assignedTo.lastName || ""
                       : item.assignedTo.email
-                    : 'Not assigned'}
+                    : "Not assigned"}
                 </p>
                 <p
                   className="item"
-                  style={{ display: 'flex', alignItems: 'center' }}
+                  style={{ display: "flex", alignItems: "center" }}
                 >
                   {item.current_status ? (
-                    item.current_status.user === 'new_message' ? (
+                    item.current_status.user === "new_message" ? (
                       <Fragment>
                         <span className="truncate">New message </span>
                         <span className="circle green" />
                       </Fragment>
-                    ) : item.current_status.user === 'awaiting' ? (
+                    ) : item.current_status.user === "awaiting" ? (
                       <Fragment>
                         <span className="truncate">Awaiting Response</span>
                         <span className="circle yellow" />
                       </Fragment>
-                    ) : item.current_status.user === 'reviewed' ? (
+                    ) : item.current_status.user === "reviewed" ? (
                       <Fragment>
                         <span className="truncate"> Reviewed </span>
                         <span className="circle grey" />
                       </Fragment>
                     ) : (
-                      '-'
+                      "-"
                     )
                   ) : (
-                    '-'
+                    "-"
                   )}
                 </p>
               </ListItem>
@@ -290,7 +297,7 @@ const ReviewList = () => {
                 <Button
                   btnType="secondary"
                   disabled={ReviewPage === 0}
-                  onClick={() => handlePage('review', 'prev')}
+                  onClick={() => handlePage("review", "prev")}
                 >
                   Previous
                 </Button>
@@ -300,7 +307,7 @@ const ReviewList = () => {
                     ReviewPage + 1 >=
                     Math.ceil(reviewData.total / reviewData.limit)
                   }
-                  onClick={() => handlePage('review', 'next')}
+                  onClick={() => handlePage("review", "next")}
                 >
                   Next
                 </Button>
@@ -308,7 +315,7 @@ const ReviewList = () => {
             )}
           </div>
         ) : (
-          <div className="align-center" style={{ height: '50vh' }}>
+          <div className="align-center" style={{ height: "50vh" }}>
             <h3>No review tickets found!</h3>
           </div>
         )}
@@ -451,7 +458,7 @@ const ListItem = styled.div`
       margin: 0 0.5rem;
       ::before {
         display: flex;
-        content: '';
+        content: "";
         width: 7px;
         height: 7px;
         background-color: rgba(52, 52, 52, 0.4);

@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react'
-import { Switch, Route } from 'react-router-dom'
-import DashboardLayout from './components/ui/dashboardLayout'
-import Protected from './components/privateRoute'
-import SuspenseWrapper from './components/ui/suspenseWrapper'
-import { useViewport } from './contexts/viewPort'
-import NotSupported from './pages/NotSupported'
+import React, { Fragment } from "react"
+import { Switch, Route } from "react-router-dom"
+import DashboardLayout from "./components/ui/dashboardLayout"
+import Protected from "./components/privateRoute"
+import SuspenseWrapper from "./components/ui/suspenseWrapper"
+import { useViewport } from "./contexts/viewPort"
+import NotSupported from "./pages/NotSupported"
 
 // import LazyHomePage from './pages/homepage'
 // import LazyResumeDashboard from './pages/resumes/dashboard'
@@ -21,31 +21,31 @@ import NotSupported from './pages/NotSupported'
 // import LazySubscribe from './pages/subscribe'
 // import LazyPageNotFound from './pages/404'
 
-const LazyHomePage = React.lazy(() => import('./pages/homepage'))
+const LazyHomePage = React.lazy(() => import("./pages/homepage"))
 
 const LazyCoverLetterDashboard = React.lazy(
-  () => import('./pages/coverletters/dashboard')
+  () => import("./pages/coverletters/dashboard")
 )
 const LazyResumeDashboard = React.lazy(
-  () => import('./pages/resumes/dashboard')
+  () => import("./pages/resumes/dashboard")
 )
-const LazyProgressTracker = React.lazy(() => import('./pages/progress-tracker'))
+const LazyProgressTracker = React.lazy(() => import("./pages/progress-tracker"))
 const LazyResumeReviewList = React.lazy(
-  () => import('./pages/resume-review/ReviewList')
+  () => import("./pages/resume-review/ReviewList")
 )
 const LazyResumeReviewChat = React.lazy(
-  () => import('./pages/resume-review/ReviewChat')
+  () => import("./pages/resume-review/ReviewChat")
 )
-const LazyMyAccount = React.lazy(() => import('./pages/my-account'))
-const LazyTaskCalender = React.lazy(() => import('./pages/tasks-calender'))
-const LazyTipsTricks = React.lazy(() => import('./pages/tips-tricks'))
-const LazySingleResume = React.lazy(() => import('./pages/resumes'))
-const LazySingleCoverLetter = React.lazy(() => import('./pages/coverletters'))
-const LazyClasses = React.lazy(() => import('./pages/classes'))
-const LazyCommingSoon = React.lazy(() => import('./pages/comingSoon'))
-const LazyHelpSupport = React.lazy(() => import('./pages/help-support'))
-const LazySubscribe = React.lazy(() => import('./pages/subscribe'))
-const LazyPageNotFound = React.lazy(() => import('./pages/404'))
+const LazyMyAccount = React.lazy(() => import("./pages/my-account"))
+const LazyTaskCalender = React.lazy(() => import("./pages/tasks-calender"))
+const LazyTipsTricks = React.lazy(() => import("./pages/tips-tricks"))
+const LazySingleResume = React.lazy(() => import("./pages/resumes"))
+const LazySingleCoverLetter = React.lazy(() => import("./pages/coverletters"))
+const LazyClasses = React.lazy(() => import("./pages/classes"))
+const LazyCommingSoon = React.lazy(() => import("./pages/comingSoon"))
+const LazyHelpSupport = React.lazy(() => import("./pages/help-support"))
+const LazySubscribe = React.lazy(() => import("./pages/subscribe"))
+const LazyPageNotFound = React.lazy(() => import("./pages/404"))
 
 const AllRoutes = () => {
   const { width } = useViewport()
@@ -58,25 +58,25 @@ const AllRoutes = () => {
           <Route
             exact
             path={[
-              '/',
-              '/progress-tracker',
-              '/resources',
-              '/resume-review',
-              '/interviews',
-              '/job-search',
-              '/tips-tricks',
-              '/classes',
-              '/resumes',
-              '/resumes/templates/:type',
-              '/coverletters',
-              '/coverletters/all-templates',
-              '/calendar',
-              '/calendar/view/:year?/:month?/:day?',
-              '/calendar/event/:type',
-              '/my-account',
-              '/my-account/membership',
-              '/my-account/payments',
-              '/support',
+              "/",
+              "/progress-tracker",
+              "/resources",
+              "/resume-review",
+              "/interviews",
+              "/job-search",
+              "/tips-tricks",
+              "/classes",
+              "/resumes",
+              "/resumes/templates/:type",
+              "/coverletters",
+              "/coverletters/all-templates",
+              "/calendar",
+              "/calendar/view/:year?/:month?/:day?",
+              "/calendar/event/:type",
+              "/my-account",
+              "/my-account/membership",
+              "/my-account/payments",
+              "/support",
             ]}
           >
             <DashboardLayout>
@@ -92,7 +92,7 @@ const AllRoutes = () => {
               />
               <Protected
                 path="/resumes"
-                role={['pro', 'ceo']}
+                role={["pro", "ceo"]}
                 //   component={LazyResumeDashboard}
                 component={
                   <SuspenseWrapper>
@@ -102,7 +102,7 @@ const AllRoutes = () => {
               />
               <Protected
                 path="/coverletters"
-                role={['pro', 'ceo']}
+                role={["pro", "ceo"]}
                 component={
                   <SuspenseWrapper>
                     <LazyCoverLetterDashboard />
@@ -111,7 +111,7 @@ const AllRoutes = () => {
               />
               <Protected
                 path="/resume-review"
-                role={['ceo']}
+                role={["ceo"]}
                 component={
                   <SuspenseWrapper>
                     <LazyResumeReviewList />
@@ -169,7 +169,7 @@ const AllRoutes = () => {
               />
 
               <Protected
-                role={['standard']}
+                role={["standard"]}
                 path="/tips-tricks"
                 exact
                 //   component={LazyTipsTricks}
@@ -182,7 +182,7 @@ const AllRoutes = () => {
 
               <Protected
                 path="/progress-tracker"
-                role={['pro', 'ceo']}
+                role={["pro", "ceo"]}
                 //   component={LazyProgressTracker}
                 component={
                   <SuspenseWrapper>
@@ -192,7 +192,7 @@ const AllRoutes = () => {
               />
               <Protected
                 path="/calendar"
-                role={['pro', 'ceo']}
+                role={["pro", "ceo"]}
                 //   component={LazyTaskCalender}
                 component={
                   <SuspenseWrapper>
@@ -203,7 +203,7 @@ const AllRoutes = () => {
               <Protected
                 path="/classes"
                 exact
-                role={['pro', 'ceo']}
+                role={["pro", "ceo"]}
                 //   component={LazyClasses}
                 component={
                   <SuspenseWrapper>
@@ -216,7 +216,7 @@ const AllRoutes = () => {
 
           <Protected
             path="/resume-review/:ticket"
-            role={['ceo']}
+            role={["ceo"]}
             component={
               <SuspenseWrapper>
                 <LazyResumeReviewChat />

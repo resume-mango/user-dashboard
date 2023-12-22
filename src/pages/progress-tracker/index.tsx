@@ -1,38 +1,43 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState } from "react"
 import {
   DragDropContext,
   DragStart,
   DragUpdate,
   DropResult,
-} from 'react-beautiful-dnd'
-import { useHistory } from 'react-router-dom'
-import { CSSTransition } from 'react-transition-group'
-import styled, { keyframes } from 'styled-components'
-import CheckIcon1 from '../../components/svgs/check1'
-import Confirmation from '../../components/ui/confirmation'
-import DashPageHeader from '../../components/ui/dashPageHeader'
+} from "react-beautiful-dnd"
+import { useHistory } from "react-router-dom"
+import { CSSTransition } from "react-transition-group"
+import styled, { keyframes } from "styled-components"
+import CheckIcon1 from "../../components/svgs/check1"
+import Confirmation from "../../components/ui/confirmation"
+import DashPageHeader from "../../components/ui/dashPageHeader"
 import {
   ProgressTrackerProvider,
   useProgressTracker,
-} from '../../contexts/progressTracker'
-import { Button } from '../../styled/button'
+} from "../../contexts/progressTracker"
+import { Button } from "../../styled/button"
 import {
   SK_Heading,
   SK_Thumbnail,
   SK_Wrapper,
   Spinner,
-} from '../../styled/loader'
-import DraggableElement from './drag-element'
-import TaskModal from './TaskModal'
+} from "../../styled/loader"
+import DraggableElement from "./drag-element"
+import TaskModal from "./TaskModal"
 import {
   progressTrackerHandleDragEnd,
   progressTrackerHandleDragStart,
   progressTrackerHandleDragUpdate,
-} from '../../helpers/progressTrackerHelpers'
+} from "../../helpers/progressTrackerHelpers"
+import { Helmet } from "react-helmet"
 
 const ProgressTracker = () => {
   return (
     <ProgressTrackerProvider>
+      <Helmet>
+        <title>Progress Tracker</title>
+        <meta name="description" content="Career Mango Progress Tracker Page" />
+      </Helmet>
       <ProgressTrackerComponent />
     </ProgressTrackerProvider>
   )
@@ -57,13 +62,13 @@ const ProgressTrackerComponent = () => {
     isPosUpdating,
   } = useProgressTracker()
 
-  const lists = ['applied', 'responded', 'interview', 'offers', 'rejected']
-  const queryAttr = 'data-rbd-drag-handle-draggable-id'
+  const lists = ["applied", "responded", "interview", "offers", "rejected"]
+  const queryAttr = "data-rbd-drag-handle-draggable-id"
   const history = useHistory()
 
   const handleCreate = () => {
-    setTracker('')
-    setModalAction('create')
+    setTracker("")
+    setModalAction("create")
     setShowModal(true)
   }
 
@@ -124,7 +129,7 @@ const ProgressTrackerComponent = () => {
           ) : (
             <Fragment>
               <CheckIcon1 size="1.5rem" color="#f08438" />
-              <p style={{ color: '#f08438', margin: '0 0.7rem' }}>Done</p>
+              <p style={{ color: "#f08438", margin: "0 0.7rem" }}>Done</p>
             </Fragment>
           )}
         </Loader>
@@ -153,7 +158,7 @@ const ProgressTrackerComponent = () => {
           }
           disabled={isDeleting}
         >
-          {isDeleting ? <Spinner size="1.2rem" type="white" /> : 'Delete'}
+          {isDeleting ? <Spinner size="1.2rem" type="white" /> : "Delete"}
         </Button>
       </Confirmation>
 
@@ -171,13 +176,13 @@ const ProgressTrackerComponent = () => {
           btnType="ghost"
           size="sm"
           disabled={isLoading || isError}
-          onClick={() => history.push('/resumes/new')}
+          onClick={() => history.push("/resumes/new")}
         >
           Create Resume
         </Button>
       </DashPageHeader>
       {isError ? (
-        <div className="align-center" style={{ height: '30vh' }}>
+        <div className="align-center" style={{ height: "30vh" }}>
           <h3>Failed to load progress tracker!</h3>
         </div>
       ) : isLoading ? (
@@ -331,7 +336,7 @@ const LoadingDots = styled.p<{ color: string }>`
   margin: 0 0.7rem;
   color: ${({ theme, color }) => (color ? color : theme.colors.dark)};
   &:after {
-    content: '.';
+    content: ".";
     margin-left: 0.1rem;
     animation: ${({ theme, color }) => dots(color ? color : theme.colors.dark)}
       1s steps(5, end) infinite;

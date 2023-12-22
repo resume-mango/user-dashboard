@@ -1,8 +1,9 @@
-import React, { Fragment, useState } from 'react'
-import styled from 'styled-components'
-import HubspotForm from '../components/hubspotForm'
-import DashPageHeader from '../components/ui/dashPageHeader'
-import { Spinner } from '../styled/loader'
+import React, { Fragment, useState } from "react"
+import styled from "styled-components"
+import HubspotForm from "../components/hubspotForm"
+import DashPageHeader from "../components/ui/dashPageHeader"
+import { Spinner } from "../styled/loader"
+import { Helmet } from "react-helmet"
 
 const HelpSupport = () => {
   const [formLoaded, setFormLoaded] = useState(false)
@@ -14,11 +15,15 @@ const HelpSupport = () => {
   )
   return (
     <Fragment>
+      <Helmet>
+        <title>Help and Support</title>
+        <meta name="description" content="Career Mango Help and Support Page" />
+      </Helmet>
       <DashPageHeader name="Support" title="Help & Support"></DashPageHeader>
 
       {!formLoaded && loader}
 
-      <Wrapper className={!formLoaded ? 'hide' : ''}>
+      <Wrapper className={!formLoaded ? "hide" : ""}>
         <h3>Need Help ?</h3>
         <p>
           Contact us and a member of our team will reply to you within 48 hours!
@@ -29,7 +34,7 @@ const HelpSupport = () => {
             region: String(process.env.HUBSPOT_SUPPORT_REGION),
             portalId: String(process.env.HUBSPOT_SUPPORT_PORTAL_ID),
             formId: String(process.env.HUBSPOT_SUPPORT_FORM_ID),
-            target: '#hubspotForm',
+            target: "#hubspotForm",
           }}
           formLoaded={formLoaded}
           setFormLoaded={setFormLoaded}

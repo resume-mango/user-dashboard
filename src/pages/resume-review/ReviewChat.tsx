@@ -23,6 +23,7 @@ import Modal from "../../components/ui/modal"
 import CheckIcon from "../../components/svgs/check"
 import JustCheckIcon from "../../components/svgs/justCheckIcon"
 import CrossIcon from "../../components/svgs/cross"
+import { Helmet } from "react-helmet"
 
 const ReviewChat = () => {
   const queryParams = getUrlParams()
@@ -184,6 +185,13 @@ const ReviewChat = () => {
 
   return (
     <Fragment>
+      <Helmet>
+        <title>Resume Review Chat</title>
+        <meta
+          name="description"
+          content="Career Mango Resume Review Chat Page"
+        />
+      </Helmet>
       <ReviewSidebar
         data={ticketData}
         isLoading={ticketLoading || ticketCreatedLoading}

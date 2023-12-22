@@ -1,10 +1,15 @@
-import React from 'react'
-import styled from 'styled-components'
-import Image from '../components/svgs/error.svg'
+import React from "react"
+import styled from "styled-components"
+import Image from "../components/svgs/error.svg"
+import { Helmet } from "react-helmet"
 
 const NotSupported = () => {
   return (
     <Wrapper>
+      <Helmet>
+        <title>Not Supported</title>
+        <meta name="description" content="Career Mango Not Supported Page" />
+      </Helmet>
       <div className="img-wrapper">
         <img src={Image} />
       </div>

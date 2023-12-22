@@ -1,22 +1,23 @@
-import dayjs from 'dayjs'
-import React, { Fragment, useState } from 'react'
-import { useQueryClient } from 'react-query'
-import styled from 'styled-components'
-import { useNotify } from '../../contexts/notify'
-import { Badge } from '../../styled/badge'
-import { Button } from '../../styled/button'
-import { Spinner } from '../../styled/loader'
+import dayjs from "dayjs"
+import React, { Fragment, useState } from "react"
+import { useQueryClient } from "react-query"
+import styled from "styled-components"
+import { useNotify } from "../../contexts/notify"
+import { Badge } from "../../styled/badge"
+import { Button } from "../../styled/button"
+import { Spinner } from "../../styled/loader"
 import {
   cancelSubscription,
   getSubscription,
-} from '../../queries/mebershipQueries'
-import Image from '../../public/images/items-in-box.png'
-import { useHistory } from 'react-router-dom'
-import { convertISOToUnixDate } from '../../helpers/date'
-import ClockIcon from '../../components/svgs/clock'
-import MembershipList from './membershipList'
-import LinkArrowIcon from '../../components/svgs/linkArrow'
-import { useAuth } from '../../contexts/authProvider'
+} from "../../queries/mebershipQueries"
+import Image from "../../public/images/items-in-box.png"
+import { useHistory } from "react-router-dom"
+import { convertISOToUnixDate } from "../../helpers/date"
+import ClockIcon from "../../components/svgs/clock"
+import MembershipList from "./membershipList"
+import LinkArrowIcon from "../../components/svgs/linkArrow"
+import { useAuth } from "../../contexts/authProvider"
+import { Helmet } from "react-helmet"
 
 const Memberships = () => {
   const [showMembershipList, setShowMembershipList] = useState(false)
@@ -42,6 +43,10 @@ const Memberships = () => {
 
   return (
     <Fragment>
+      <Helmet>
+        <title>Subscriptions</title>
+        <meta name="description" content="Career Mango Subscriptions Page" />
+      </Helmet>
       {isError ? (
         <div className="flex-center">
           <h3>Failed to load membership!</h3>
@@ -56,29 +61,29 @@ const Memberships = () => {
                 <Fragment>
                   <HeadWrappper>
                     <div className="heading">
-                      <h2>{data.name || 'Unknown'} Plan</h2>
+                      <h2>{data.name || "Unknown"} Plan</h2>
                       <Badge
                         type={
-                          data.status === 'active'
-                            ? 'success'
-                            : data.status === 'pending'
-                            ? 'primary'
-                            : 'ghost'
+                          data.status === "active"
+                            ? "success"
+                            : data.status === "pending"
+                            ? "primary"
+                            : "ghost"
                         }
                       >
                         {data.status}
                       </Badge>
                       {data.cancel_at && (
-                        <Badge type="ghost" style={{ marginLeft: '1rem' }}>
-                          <ClockIcon style={{ marginRight: '.3rem' }} />
+                        <Badge type="ghost" style={{ marginLeft: "1rem" }}>
+                          <ClockIcon style={{ marginRight: ".3rem" }} />
                           Cancels&nbsp;
-                          {dayjs(data.cancel_at).format('MMM DD')}
+                          {dayjs(data.cancel_at).format("MMM DD")}
                         </Badge>
                       )}
                     </div>
                     <div>
                       {!data.cancel_at &&
-                        data.status !== 'cancel requested' &&
+                        data.status !== "cancel requested" &&
                         !data.ended_time && (
                           <Button
                             btnType="secondary"
@@ -91,11 +96,11 @@ const Memberships = () => {
                                 Cancelling
                                 <Spinner
                                   size="1rem"
-                                  style={{ marginLeft: '1rem' }}
+                                  style={{ marginLeft: "1rem" }}
                                 />
                               </Fragment>
                             ) : (
-                              'Cancel Subscription'
+                              "Cancel Subscription"
                             )}
                           </Button>
                         )}
@@ -106,8 +111,8 @@ const Memberships = () => {
                       <p className="info-item-label">Started</p>
                       <p>
                         {data.create_time
-                          ? dayjs(data.create_time).format('DD MMM YYYY')
-                          : '-'}
+                          ? dayjs(data.create_time).format("DD MMM YYYY")
+                          : "-"}
                       </p>
                     </div>
                     {showNextBilling && (
@@ -116,9 +121,9 @@ const Memberships = () => {
                         <p>
                           {data.current_period_end
                             ? dayjs(data.current_period_end).format(
-                                'DD MMM YYYY'
+                                "DD MMM YYYY"
                               )
-                            : '-'}
+                            : "-"}
                         </p>
                       </div>
                     )}
@@ -128,8 +133,8 @@ const Memberships = () => {
                         <p className="info-item-label">Expires On</p>
                         <p>
                           {data.cancel_at
-                            ? dayjs(data.cancel_at).format('DD MMM YYYY')
-                            : '-'}
+                            ? dayjs(data.cancel_at).format("DD MMM YYYY")
+                            : "-"}
                         </p>
                       </div>
                     )}
@@ -150,7 +155,7 @@ const Memberships = () => {
                       <p className="sub-value">{data.name} Plan</p>
                       <p>Amount</p>
                       <p className="sub-value">
-                        ${data.amount ? data.amount : '0.00'}&nbsp;
+                        ${data.amount ? data.amount : "0.00"}&nbsp;
                         {data.currency && data.currency.toUpperCase()}
                       </p>
                     </div>
@@ -173,26 +178,26 @@ const Memberships = () => {
                             </Fragment>
                           </PaymentCardWrapper>
                         ) : (
-                          '-'
+                          "-"
                         )}
                       </p>
                       <p>Created</p>
                       <p className="sub-value">
                         {data.create_time
-                          ? dayjs(data.create_time).format('DD MMM YYYY')
-                          : '-'}
+                          ? dayjs(data.create_time).format("DD MMM YYYY")
+                          : "-"}
                       </p>
                       <p>Current Period</p>
                       <p className="sub-value">
                         {data.current_period_start
                           ? dayjs(data.current_period_start).format(
-                              'DD MMM YYYY'
+                              "DD MMM YYYY"
                             )
-                          : '-'}
+                          : "-"}
                         &nbsp;&nbsp;to&nbsp;&nbsp;
                         {data.current_period_end
-                          ? dayjs(data.current_period_end).format('DD MMM YYYY')
-                          : '-'}
+                          ? dayjs(data.current_period_end).format("DD MMM YYYY")
+                          : "-"}
                       </p>
                     </div>
                   </SubDetails>
@@ -206,9 +211,9 @@ const Memberships = () => {
                             on&nbsp;
                             {data.current_period_end
                               ? dayjs(data.current_period_end).format(
-                                  'DD MMM YYYY'
+                                  "DD MMM YYYY"
                                 )
-                              : 'end of the period'}
+                              : "end of the period"}
                             . It may change if the subscription is updated.
                           </p>
                         </div>
@@ -216,8 +221,8 @@ const Memberships = () => {
                       <InvoiceTable>
                         <thead>
                           <tr>
-                            <th style={{ width: 'auto' }}>Description</th>
-                            <th style={{ width: '120px' }}>Amount</th>
+                            <th style={{ width: "auto" }}>Description</th>
+                            <th style={{ width: "120px" }}>Amount</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -227,7 +232,7 @@ const Memberships = () => {
                                 <td>{item.description}</td>
                                 <td
                                   className={`amount ${
-                                    item.amount < 0 && 'negative'
+                                    item.amount < 0 && "negative"
                                   }`}
                                 >
                                   <span className="currency-symbol">$</span>
@@ -243,21 +248,21 @@ const Memberships = () => {
                           <p className="semibold">Subtotal</p>
                           <p
                             className={`semibold amount ${
-                              data.upcoming_invoice.total < 0 && 'negative'
+                              data.upcoming_invoice.total < 0 && "negative"
                             }`}
                           >
                             <span className="currency-symbol">$</span>
-                            {data.upcoming_invoice.total || '0.00'}
+                            {data.upcoming_invoice.total || "0.00"}
                           </p>
 
                           <p className="semibold">Total </p>
                           <p
                             className={`semibold amount ${
-                              data.upcoming_invoice.total < 0 && 'negative'
+                              data.upcoming_invoice.total < 0 && "negative"
                             }`}
                           >
                             <span className="currency-symbol">$</span>
-                            {data.upcoming_invoice.total || '0.00'}
+                            {data.upcoming_invoice.total || "0.00"}
                           </p>
                           {data.upcoming_invoice.amount_paid > 0 && (
                             <Fragment>
@@ -266,22 +271,22 @@ const Memberships = () => {
                               <p
                                 className={`semibold amount ${
                                   data.upcoming_invoice.amount_paid < 0 &&
-                                  'negative'
+                                  "negative"
                                 }`}
                               >
                                 <span className="currency-symbol">$</span>
-                                {data.upcoming_invoice.amount_paid || '0.00'}
+                                {data.upcoming_invoice.amount_paid || "0.00"}
                               </p>
                             </Fragment>
                           )}
                           <p className="semibold">Amount Due</p>
                           <p
                             className={`semibold amount ${
-                              data.upcoming_invoice.amount_due < 0 && 'negative'
+                              data.upcoming_invoice.amount_due < 0 && "negative"
                             }`}
                           >
                             <span className="currency-symbol">$</span>
-                            {data.upcoming_invoice.amount_due || '0.00'}
+                            {data.upcoming_invoice.amount_due || "0.00"}
                           </p>
                         </div>
                       </InvoiceFooter>
@@ -295,7 +300,7 @@ const Memberships = () => {
                         </div>
                         <div>
                           <LinkWrapper
-                            onClick={() => history.push('/my-account/payments')}
+                            onClick={() => history.push("/my-account/payments")}
                           >
                             View all payments <LinkArrowIcon size="0.8rem" />
                           </LinkWrapper>
@@ -304,35 +309,35 @@ const Memberships = () => {
                       <InvoiceTable>
                         <thead>
                           <tr>
-                            <th style={{ width: 'auto' }}>ID</th>
-                            <th style={{ width: '15%' }}>Status</th>
-                            <th style={{ width: '15%' }}>Amount</th>
-                            <th style={{ width: '15%' }}>Created</th>
-                            <th style={{ width: '15%' }}></th>
+                            <th style={{ width: "auto" }}>ID</th>
+                            <th style={{ width: "15%" }}>Status</th>
+                            <th style={{ width: "15%" }}>Amount</th>
+                            <th style={{ width: "15%" }}>Created</th>
+                            <th style={{ width: "15%" }}></th>
                           </tr>
                         </thead>
 
                         <tbody>
                           <tr>
-                            <td>{data.latest_invoice.id || '-'}</td>
+                            <td>{data.latest_invoice.id || "-"}</td>
                             <td>
                               <Badge
                                 type={
-                                  data.latest_invoice.status === 'paid'
-                                    ? 'success'
-                                    : 'ghost'
+                                  data.latest_invoice.status === "paid"
+                                    ? "success"
+                                    : "ghost"
                                 }
                               >
-                                {data.latest_invoice.status || 'unknown'}
+                                {data.latest_invoice.status || "unknown"}
                               </Badge>
                             </td>
-                            <td>${data.latest_invoice.total || '0.00'}</td>
+                            <td>${data.latest_invoice.total || "0.00"}</td>
                             <td>
                               {(data.latest_invoice.created &&
                                 dayjs(data.latest_invoice.created).format(
-                                  'DD MMM YYYY'
+                                  "DD MMM YYYY"
                                 )) ||
-                                '-'}
+                                "-"}
                             </td>
                             <td>
                               {data.latest_invoice.hosted_invoice_url && (
@@ -364,7 +369,7 @@ const Memberships = () => {
                       <div className="action-wrapper">
                         <Button
                           btnType="primary"
-                          onClick={() => history.push('/subscribe')}
+                          onClick={() => history.push("/subscribe")}
                         >
                           Upgrade
                         </Button>
@@ -372,9 +377,9 @@ const Memberships = () => {
                           btnType="secondary"
                           onClick={() => setShowMembershipList(true)}
                           style={{
-                            width: 'fit-content',
-                            paddingRight: '0.7rem',
-                            paddingLeft: '0.7rem',
+                            width: "fit-content",
+                            paddingRight: "0.7rem",
+                            paddingLeft: "0.7rem",
                           }}
                         >
                           Previous Memberships
@@ -479,7 +484,7 @@ const InvoiceTable = styled.table`
     letter-spacing: 1.5px;
   }
   .negative:before {
-    content: '-';
+    content: "-";
   }
   ${Badge} {
     min-width: 75px;

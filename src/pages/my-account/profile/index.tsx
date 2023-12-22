@@ -1,20 +1,21 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import Input from '../../../components/form/Input'
-import { ContentWrapper } from '../../../styled/pages'
-import { FormButtonWrapper, FormWrapper, GridForm } from '../../../styled/form'
-import Message from '../../../components/ui/message'
-import { useNotify } from '../../../contexts/notify'
-import { yupResolver } from '@hookform/resolvers/yup'
-import FormButton from '../../../components/ui/FormButton'
-import { changeNameSchema } from '../../../validations/user'
-import { Button } from '../../../styled/button'
-import { useAuth } from '../../../contexts/authProvider'
+import React, { Fragment, useEffect, useState } from "react"
+import { FormProvider, useForm } from "react-hook-form"
+import Input from "../../../components/form/Input"
+import { ContentWrapper } from "../../../styled/pages"
+import { FormButtonWrapper, FormWrapper, GridForm } from "../../../styled/form"
+import Message from "../../../components/ui/message"
+import { useNotify } from "../../../contexts/notify"
+import { yupResolver } from "@hookform/resolvers/yup"
+import FormButton from "../../../components/ui/FormButton"
+import { changeNameSchema } from "../../../validations/user"
+import { Button } from "../../../styled/button"
+import { useAuth } from "../../../contexts/authProvider"
 import {
   changeUserName,
   handleChangeUserPassword,
-} from '../../../helpers/profileHelper'
-import Confirmation from '../../../components/ui/confirmation'
+} from "../../../helpers/profileHelper"
+import Confirmation from "../../../components/ui/confirmation"
+import { Helmet } from "react-helmet"
 
 interface IName {
   firstName: string
@@ -23,7 +24,7 @@ interface IName {
 
 interface StateProps {
   message: string
-  type: 'success' | 'danger' | 'info' | 'warning'
+  type: "success" | "danger" | "info" | "warning"
   id: number
 }
 
@@ -38,14 +39,14 @@ const Profile = () => {
     password: false,
   })
 
-  const isAuth0User = user && user.id && user.id.includes('auth0|')
+  const isAuth0User = user && user.id && user.id.includes("auth0|")
   const defaultValues = {
-    firstName: (user && user.firstName) || '',
-    lastName: (user && user.lastName) || '',
+    firstName: (user && user.firstName) || "",
+    lastName: (user && user.lastName) || "",
   }
 
   const methods = useForm<IName>({
-    mode: 'onBlur',
+    mode: "onBlur",
     defaultValues,
     resolver: yupResolver(changeNameSchema),
   })
@@ -54,8 +55,8 @@ const Profile = () => {
 
   useEffect(() => {
     if (!user) return
-    user.firstName && setValue('firstName', user.firstName)
-    user.lastName && setValue('lastName', user.lastName)
+    user.firstName && setValue("firstName", user.firstName)
+    user.lastName && setValue("lastName", user.lastName)
     return
   }, [user])
 
@@ -75,10 +76,14 @@ const Profile = () => {
 
   return (
     <Fragment>
+      <Helmet>
+        <title>My Account - Profile</title>
+        <meta name="description" content="Career Mango Account Profile Page" />
+      </Helmet>
       {isLoading || (user && Object.keys(user).length <= 0) ? (
-        'Loading'
+        "Loading"
       ) : (
-        <ContentWrapper maxWidth="600px" style={{ marginTop: '1rem' }}>
+        <ContentWrapper maxWidth="600px" style={{ marginTop: "1rem" }}>
           <Confirmation
             title="Change Password"
             msg="Are you sure, you want to change password?"
@@ -124,7 +129,7 @@ const Profile = () => {
                     size="lg"
                     onClick={() => setShow(true)}
                     loading={loading.password}
-                    style={{ marginRight: '1rem' }}
+                    style={{ marginRight: "1rem" }}
                   >
                     Change Password
                   </FormButton>

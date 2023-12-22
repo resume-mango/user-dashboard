@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
-import { useViewport } from '../../contexts/viewPort'
-import { Button } from '../../styled/button'
-import PageNotFound from '../404'
-import NewCoverLetter from './createNew'
-import OldCoverLetter from './oldCoverletter'
+import React, { Fragment } from "react"
+import { useHistory, useParams } from "react-router-dom"
+import { useViewport } from "../../contexts/viewPort"
+import { Button } from "../../styled/button"
+import PageNotFound from "../404"
+import NewCoverLetter from "./createNew"
+import OldCoverLetter from "./oldCoverletter"
+import { Helmet } from "react-helmet"
 
 const SingleCoverLetter = () => {
   const { id, type } = useParams<{ id: string; type: string }>()
@@ -12,37 +13,41 @@ const SingleCoverLetter = () => {
   const history = useHistory()
   return (
     <Fragment>
+      <Helmet>
+        <title>Coverletters</title>
+        <meta name="description" content="Coverletters Page" />
+      </Helmet>
       {width < 768 && width !== 0 ? (
         <div
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            height: '90%',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            height: "90%",
           }}
         >
-          <h3 style={{ textAlign: 'center' }}>
+          <h3 style={{ textAlign: "center" }}>
             Builder not available, Please visit desktop site...
           </h3>
           <Button
             btnType="primary"
             size="lg"
             style={{
-              width: 'fit-content',
-              padding: '0 1rem',
-              marginTop: '1rem',
+              width: "fit-content",
+              padding: "0 1rem",
+              marginTop: "1rem",
             }}
-            onClick={() => history.push('/')}
+            onClick={() => history.push("/")}
           >
             Back to Dashboard
           </Button>
         </div>
       ) : width >= 768 ? (
         <Fragment>
-          {type === 'new' ? (
+          {type === "new" ? (
             <NewCoverLetter templateName={id} />
-          ) : ['edit', 'preview'].indexOf(type) !== -1 ? (
+          ) : ["edit", "preview"].indexOf(type) !== -1 ? (
             <OldCoverLetter type={type} id={id} width={width} />
           ) : (
             <PageNotFound />

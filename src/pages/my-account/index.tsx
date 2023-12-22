@@ -1,18 +1,23 @@
-import React, { Fragment } from 'react'
-import { NavLink, Route, Switch, useRouteMatch } from 'react-router-dom'
-import styled from 'styled-components'
-import DashPageHeader from '../../components/ui/dashPageHeader'
-import SubNavBar from '../../components/ui/subNavbar'
-import PageNotFound from '../404'
-import Memberships from './memberships'
-import Payments from './payments'
-import Profile from './profile'
+import React, { Fragment } from "react"
+import { NavLink, Route, Switch, useRouteMatch } from "react-router-dom"
+import styled from "styled-components"
+import DashPageHeader from "../../components/ui/dashPageHeader"
+import SubNavBar from "../../components/ui/subNavbar"
+import PageNotFound from "../404"
+import Memberships from "./memberships"
+import Payments from "./payments"
+import Profile from "./profile"
+import { Helmet } from "react-helmet"
 
 const MyAccount = () => {
   const { path, url } = useRouteMatch()
 
   return (
     <Fragment>
+      <Helmet>
+        <title>My Account </title>
+        <meta name="description" content="Career Mango Account Page" />
+      </Helmet>
       <DashPageHeader name="Setting" title="My Account"></DashPageHeader>
 
       <SubNavBar>

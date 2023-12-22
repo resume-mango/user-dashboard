@@ -1,11 +1,12 @@
-import dayjs from 'dayjs'
-import React, { Fragment, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { Badge } from '../../styled/badge'
-import { Button } from '../../styled/button'
-import { Spinner } from '../../styled/loader'
-import { TableList } from '../../styled/table'
-import { getSubscriptionPayments } from '../../queries/mebershipQueries'
+import dayjs from "dayjs"
+import React, { Fragment, useEffect, useState } from "react"
+import styled from "styled-components"
+import { Badge } from "../../styled/badge"
+import { Button } from "../../styled/button"
+import { Spinner } from "../../styled/loader"
+import { TableList } from "../../styled/table"
+import { getSubscriptionPayments } from "../../queries/mebershipQueries"
+import { Helmet } from "react-helmet"
 
 const Payments = () => {
   const [page, setPage] = useState(0)
@@ -16,15 +17,19 @@ const Payments = () => {
     if (!data || data.items.length === 0) return
   }, [data])
 
-  const handlePage = (type: 'next' | 'prev') => {
-    type === 'next' && setPage((page) => page + 1)
-    type === 'prev' && setPage((page) => page - 1)
+  const handlePage = (type: "next" | "prev") => {
+    type === "next" && setPage((page) => page + 1)
+    type === "prev" && setPage((page) => page - 1)
   }
 
   return (
     <Fragment>
+      <Helmet>
+        <title>Payments</title>
+        <meta name="description" content="Career Mango Payments Page" />
+      </Helmet>
       <h2 style={{ margin: 0 }}>Payment History</h2>
-      <p style={{ marginBottom: '2rem' }}>
+      <p style={{ marginBottom: "2rem" }}>
         This section includes all your payment history, plans and the method of
         payment used .
       </p>
@@ -39,21 +44,21 @@ const Payments = () => {
               <TableList size="sm">
                 <thead>
                   <tr>
-                    <th style={{ width: 'auto' }}>ID</th>
-                    <th style={{ width: '15%' }}>Plan</th>
-                    <th style={{ width: '10%' }}>Amount</th>
-                    <th style={{ width: '15%' }}>Status</th>
-                    <th style={{ width: '18%' }}>Card</th>
-                    <th style={{ width: '18%' }}>Date</th>
+                    <th style={{ width: "auto" }}>ID</th>
+                    <th style={{ width: "15%" }}>Plan</th>
+                    <th style={{ width: "10%" }}>Amount</th>
+                    <th style={{ width: "15%" }}>Status</th>
+                    <th style={{ width: "18%" }}>Card</th>
+                    <th style={{ width: "18%" }}>Date</th>
                   </tr>
                 </thead>
                 <tbody>
                   {data.items.map((item: Record<string, any>, i: number) => (
                     <tr key={i}>
                       <td>{item.id}</td>
-                      <td className="capitalize">{item.plan_name || '-'}</td>
+                      <td className="capitalize">{item.plan_name || "-"}</td>
                       <td>
-                        ${item.amount || '0.00'}&nbsp;
+                        ${item.amount || "0.00"}&nbsp;
                         {item.currency && item.currency}
                       </td>
                       <td className="capitalize">
@@ -61,7 +66,7 @@ const Payments = () => {
                           <RefundWrapper>
                             <Badge type="ghost">Refunded</Badge>
                             <span className="redund-amt">
-                              ${item.amount_refunded || '0.00'}&nbsp;refunded
+                              ${item.amount_refunded || "0.00"}&nbsp;refunded
                             </span>
                           </RefundWrapper>
                         ) : item.amount_refunded > 0 ? (
@@ -74,13 +79,13 @@ const Payments = () => {
                         ) : (
                           <Badge
                             type={
-                              item.status === 'succeeded'
-                                ? 'success'
-                                : item.status === 'cancelled'
-                                ? 'ghost'
-                                : item.status === 'failed'
-                                ? 'danger'
-                                : 'info'
+                              item.status === "succeeded"
+                                ? "success"
+                                : item.status === "cancelled"
+                                ? "ghost"
+                                : item.status === "failed"
+                                ? "danger"
+                                : "info"
                             }
                           >
                             {item.status}
@@ -99,7 +104,7 @@ const Payments = () => {
                           {item.method.last4}
                         </PaymentCardWrapper>
                       </td>
-                      <td>{dayjs(item.date).format('DD MMM YYYY, hh:mm a')}</td>
+                      <td>{dayjs(item.date).format("DD MMM YYYY, hh:mm a")}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -108,14 +113,14 @@ const Payments = () => {
                 <Button
                   btnType="secondary"
                   disabled={page === 0}
-                  onClick={() => handlePage('prev')}
+                  onClick={() => handlePage("prev")}
                 >
                   Previous
                 </Button>
                 <Button
                   btnType="secondary"
                   disabled={!data.has_more}
-                  onClick={() => handlePage('next')}
+                  onClick={() => handlePage("next")}
                 >
                   Next
                 </Button>

@@ -1,10 +1,15 @@
-import React from 'react'
-import styled from 'styled-components'
-import image from '../public/images/comming-soon.svg'
+import React from "react"
+import styled from "styled-components"
+import image from "../public/images/comming-soon.svg"
+import { Helmet } from "react-helmet"
 
 const CommingSoon = () => {
   return (
     <Wrapper>
+      <Helmet>
+        <title>Coming Soon</title>
+        <meta name="description" content="Career Mango Coming Soon Page" />
+      </Helmet>
       <div className="img-wrapper">
         <img src={image} alt="resume-mango-comming-soon" />
       </div>

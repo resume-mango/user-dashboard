@@ -1,10 +1,11 @@
-import dayjs from 'dayjs'
-import React, { Fragment, useState } from 'react'
-import styled from 'styled-components'
-import { Button } from '../../styled/button'
-import { Spinner } from '../../styled/loader'
-import { TableList } from '../../styled/table'
-import { getAllSubscriptions } from '../../queries/mebershipQueries'
+import dayjs from "dayjs"
+import React, { Fragment, useState } from "react"
+import styled from "styled-components"
+import { Button } from "../../styled/button"
+import { Spinner } from "../../styled/loader"
+import { TableList } from "../../styled/table"
+import { getAllSubscriptions } from "../../queries/mebershipQueries"
+import { Helmet } from "react-helmet"
 
 interface IMembershipList {
   setShow: (_val: boolean) => void
@@ -14,9 +15,9 @@ const MembershipList = ({ setShow }: IMembershipList) => {
   const [page, setPage] = useState(0)
 
   const limit = 10
-  const handlePage = (type: 'next' | 'prev') => {
-    type === 'next' && setPage((page) => page + 1)
-    type === 'prev' && setPage((page) => page - 1)
+  const handlePage = (type: "next" | "prev") => {
+    type === "next" && setPage((page) => page + 1)
+    type === "prev" && setPage((page) => page - 1)
   }
 
   const params = {
@@ -29,6 +30,10 @@ const MembershipList = ({ setShow }: IMembershipList) => {
 
   return (
     <Fragment>
+      <Helmet>
+        <title>Last Memberships</title>
+        <meta name="description" content="Career Mango Last Memberships Page" />
+      </Helmet>
       {isError && !data ? (
         <div className="flex-center">
           <h3>Failed to load memberships!</h3>
@@ -55,12 +60,12 @@ const MembershipList = ({ setShow }: IMembershipList) => {
                 <TableList size="sm" className="mb-4">
                   <thead>
                     <tr>
-                      <th style={{ width: '25%' }}>ID</th>
-                      <th style={{ width: 'auto' }}>Plan Name</th>
-                      <th style={{ width: '10%' }}>Amount</th>
-                      <th style={{ width: '15%' }}>Status</th>
-                      <th style={{ width: '15%' }}>Created</th>
-                      <th style={{ width: '15%' }}>Ended</th>
+                      <th style={{ width: "25%" }}>ID</th>
+                      <th style={{ width: "auto" }}>Plan Name</th>
+                      <th style={{ width: "10%" }}>Amount</th>
+                      <th style={{ width: "15%" }}>Status</th>
+                      <th style={{ width: "15%" }}>Created</th>
+                      <th style={{ width: "15%" }}>Ended</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -68,22 +73,22 @@ const MembershipList = ({ setShow }: IMembershipList) => {
                       <tr key={i}>
                         <td>{sub._id}</td>
                         <td className="capitalize">
-                          {sub.name || 'Unknown'} plan
+                          {sub.name || "Unknown"} plan
                         </td>
                         <td>
-                          ${sub.amount || '0.00'}&nbsp;
+                          ${sub.amount || "0.00"}&nbsp;
                           {sub.currency && sub.currency.toUpperCase()}
                         </td>
-                        <td className="capitalize">{sub.status || '-'}</td>
+                        <td className="capitalize">{sub.status || "-"}</td>
                         <td>
                           {sub.create_time
-                            ? dayjs(sub.create_time).format('DD MMM YYYY')
-                            : '-'}
+                            ? dayjs(sub.create_time).format("DD MMM YYYY")
+                            : "-"}
                         </td>
                         <td>
                           {sub.ended_time
-                            ? dayjs(sub.ended_time).format('DD MMM YYYY')
-                            : '-'}
+                            ? dayjs(sub.ended_time).format("DD MMM YYYY")
+                            : "-"}
                         </td>
                       </tr>
                     ))}
@@ -93,21 +98,21 @@ const MembershipList = ({ setShow }: IMembershipList) => {
                   <Button
                     btnType="secondary"
                     disabled={page === 0}
-                    onClick={() => handlePage('prev')}
+                    onClick={() => handlePage("prev")}
                   >
                     Previous
                   </Button>
                   <Button
                     btnType="secondary"
                     disabled={page + 1 >= Math.ceil(data.total / data.limit)}
-                    onClick={() => handlePage('next')}
+                    onClick={() => handlePage("next")}
                   >
                     Next
                   </Button>
                 </PaginationWrapper>
               </Fragment>
             ) : (
-              <div className="flex-center" style={{ height: '150px' }}>
+              <div className="flex-center" style={{ height: "150px" }}>
                 <h3>No past memberships!</h3>
               </div>
             )}

@@ -1,18 +1,23 @@
-import React, { Fragment } from 'react'
-import styled from 'styled-components'
-import CalendarIcon from '../components/svgs/calendar'
-import LocationIcon1 from '../components/svgs/location1'
-import DashPageHeader from '../components/ui/dashPageHeader'
-import Adobe from '../public/images/adobe.svg'
+import React, { Fragment } from "react"
+import styled from "styled-components"
+import CalendarIcon from "../components/svgs/calendar"
+import LocationIcon1 from "../components/svgs/location1"
+import DashPageHeader from "../components/ui/dashPageHeader"
+import Adobe from "../public/images/adobe.svg"
+import { Helmet } from "react-helmet"
 
 const JobSearch = () => {
   return (
     <Fragment>
+      {" "}
+      <Helmet>
+        <title>Jobs</title>
+        <meta name="description" content="Career Mango Jobs Page" />
+      </Helmet>
       <DashPageHeader
         name="Personalised jobs for you"
         title="Find your dream job"
       ></DashPageHeader>
-
       <GridWrapper>
         {[...Array(6)].map((item, i) => (
           <JobBlock key={i}>

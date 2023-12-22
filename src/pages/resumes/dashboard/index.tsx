@@ -1,16 +1,21 @@
-import React, { Fragment } from 'react'
-import { NavLink, Route, Switch, useRouteMatch } from 'react-router-dom'
-import DashPageHeader from '../../../components/ui/dashPageHeader'
-import SubNavBar from '../../../components/ui/subNavbar'
-import PageNotFound from '../../404'
-import ResumeTemplates from './templates'
-import MyDesigns from './my-designs'
+import React, { Fragment } from "react"
+import { NavLink, Route, Switch, useRouteMatch } from "react-router-dom"
+import DashPageHeader from "../../../components/ui/dashPageHeader"
+import SubNavBar from "../../../components/ui/subNavbar"
+import PageNotFound from "../../404"
+import ResumeTemplates from "./templates"
+import MyDesigns from "./my-designs"
+import { Helmet } from "react-helmet"
 
 const ResumeDashboard = () => {
   const { path, url } = useRouteMatch()
 
   return (
     <Fragment>
+      <Helmet>
+        <title>Resume List</title>
+        <meta name="description" content="Career Mango Resume List Page" />
+      </Helmet>
       <DashPageHeader title="Resume Templates"></DashPageHeader>
       <SubNavBar>
         <SubNavBar.Link>

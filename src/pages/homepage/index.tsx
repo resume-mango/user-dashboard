@@ -8,6 +8,7 @@ import InfoBoxes from "./InfoBoxes"
 import ResumeCoverLetter from "./resumeCoverLetter"
 import SmallCalender from "./sm-calender"
 import TaskBoard from "./taskboard"
+import { Helmet } from "react-helmet"
 
 const Homepage = () => {
   const [dashType, setDashType] = useState<string | null>(null)
@@ -28,6 +29,10 @@ const Homepage = () => {
 
   return (
     <Fragment>
+      <Helmet>
+        <title>App Dashboard</title>
+        <meta name="description" content="App Dashboard Page" />
+      </Helmet>
       <DashPageHeader
         name={
           hours < 12

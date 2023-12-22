@@ -1,14 +1,15 @@
-import React, { Fragment, useEffect } from 'react'
-import styled from 'styled-components'
-import HeaderStepper from '../../../components/ui/headerStepper'
-import { useResume } from '../../../contexts/resume'
-import Previewer from '../preview'
-import ResumeStepper from './resumeStepper'
-import TemplateFormSekleton from '../../../components/ui/tempFormSekleton'
-import { useFormContext } from 'react-hook-form'
-import useExitPrompt from '../../../hooks/useExitPromt'
-import RouterPrompt from '../../../components/routerPrompt'
-import { useAuth } from '../../../contexts/authProvider'
+import React, { Fragment, useEffect } from "react"
+import styled from "styled-components"
+import HeaderStepper from "../../../components/ui/headerStepper"
+import { useResume } from "../../../contexts/resume"
+import Previewer from "../preview"
+import ResumeStepper from "./resumeStepper"
+import TemplateFormSekleton from "../../../components/ui/tempFormSekleton"
+import { useFormContext } from "react-hook-form"
+import useExitPrompt from "../../../hooks/useExitPromt"
+import RouterPrompt from "../../../components/routerPrompt"
+import { useAuth } from "../../../contexts/authProvider"
+import { Helmet } from "react-helmet"
 
 const ResumeBuilder = ({ isLoading }: { isLoading: boolean }) => {
   const { data, step, setStep, submitResume, submitSuccess, isSaving } =
@@ -76,9 +77,13 @@ const ResumeBuilder = ({ isLoading }: { isLoading: boolean }) => {
   const paths = data && data.id ? [`/resumes/preview/${data.id}`] : []
 
   const isFreeUser =
-    user && user.role && !['ceo', 'pro'].some((r) => user.role.includes(r))
+    user && user.role && !["ceo", "pro"].some((r) => user.role.includes(r))
   return (
     <Fragment>
+      <Helmet>
+        <title>Resume Bulder</title>
+        <meta name="description" content="Career Mango Resume Builder Page" />
+      </Helmet>
       <RouterPrompt
         show={showExitPrompt}
         setShow={setShowExitPrompt}
@@ -91,7 +96,7 @@ const ResumeBuilder = ({ isLoading }: { isLoading: boolean }) => {
         <HeaderStepper
           max={3}
           current={step}
-          backRoute={`${isFreeUser ? '/' : '/resumes'}`}
+          backRoute={`${isFreeUser ? "/" : "/resumes"}`}
         >
           <HeaderStepper.Step
             name="Personal Info"
@@ -113,7 +118,7 @@ const ResumeBuilder = ({ isLoading }: { isLoading: boolean }) => {
           />
         </HeaderStepper>
 
-        <form id="resumeForm" style={{ overflow: 'hidden' }}>
+        <form id="resumeForm" style={{ overflow: "hidden" }}>
           <LHS>
             {isLoading || !data ? (
               <TemplateFormSekleton />

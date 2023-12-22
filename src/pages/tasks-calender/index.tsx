@@ -1,22 +1,27 @@
-import dayjs from 'dayjs'
-import React, { Fragment } from 'react'
-import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
-import PageNotFound from '../404'
-import Calender from './calender'
-import EventEdit from './eventEdit'
+import dayjs from "dayjs"
+import React, { Fragment } from "react"
+import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom"
+import PageNotFound from "../404"
+import Calender from "./calender"
+import EventEdit from "./eventEdit"
+import { Helmet } from "react-helmet"
 
 const TaskCalender = () => {
   const { path, url } = useRouteMatch()
-  const today = dayjs().format('YYYY/MM/DD')
+  const today = dayjs().format("YYYY/MM/DD")
 
   return (
     <Fragment>
+      <Helmet>
+        <title>Calendar</title>
+        <meta name="description" content="Career Mango Calendar Page" />
+      </Helmet>
       <Switch>
         <Redirect
           exact
-          from={url || url + '/view'}
+          from={url || url + "/view"}
           to={{
-            pathname: `${path}/view/${today}`
+            pathname: `${path}/view/${today}`,
           }}
         />
 
