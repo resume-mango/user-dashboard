@@ -44,7 +44,7 @@ const Memberships = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>Subscriptions</title>
+        <title>Subscriptions - Career Mango App</title>
         <meta name="description" content="Career Mango Subscriptions Page" />
       </Helmet>
       {isError ? (

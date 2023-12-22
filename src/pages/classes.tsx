@@ -57,7 +57,7 @@ const Classes = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>Classes</title>
+        <title>Classes - Career Mango App</title>
         <meta name="description" content="Career Mango Classes Page" />
       </Helmet>
       <DashPageHeader

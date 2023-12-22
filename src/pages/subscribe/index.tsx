@@ -11,7 +11,7 @@ const Subscribe = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>Subscribe</title>
+        <title>Subscribe - Career Mango App</title>
         <meta name="description" content="Career Mango Subscribe Page" />
       </Helmet>
       <Switch>

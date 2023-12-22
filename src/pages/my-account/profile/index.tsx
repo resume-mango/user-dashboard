@@ -77,7 +77,7 @@ const Profile = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>My Account - Profile</title>
+        <title>My Account - Profile - Career Mango App</title>
         <meta name="description" content="Career Mango Account Profile Page" />
       </Helmet>
       {isLoading || (user && Object.keys(user).length <= 0) ? (

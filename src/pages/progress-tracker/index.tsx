@@ -35,7 +35,7 @@ const ProgressTracker = () => {
   return (
     <ProgressTrackerProvider>
       <Helmet>
-        <title>Progress Tracker</title>
+        <title>Progress Tracker - Career Mango App</title>
         <meta name="description" content="Career Mango Progress Tracker Page" />
       </Helmet>
       <ProgressTrackerComponent />

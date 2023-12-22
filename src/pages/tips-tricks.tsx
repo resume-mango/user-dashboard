@@ -6,7 +6,7 @@ const TipsTricks = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>Tips & Tricks</title>
+        <title>Tips & Tricks - Career Mango App</title>
         <meta name="description" content="Career Mango Tips & Tricks Page" />
       </Helmet>
       <DashPageHeader title="Tips & Tricks"></DashPageHeader>

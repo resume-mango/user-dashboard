@@ -7,7 +7,7 @@ const CommingSoon = () => {
   return (
     <Wrapper>
       <Helmet>
-        <title>Coming Soon</title>
+        <title>Coming Soon - Career Mango App</title>
         <meta name="description" content="Career Mango Coming Soon Page" />
       </Helmet>
       <div className="img-wrapper">

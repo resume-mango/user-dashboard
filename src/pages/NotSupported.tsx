@@ -7,7 +7,7 @@ const NotSupported = () => {
   return (
     <Wrapper>
       <Helmet>
-        <title>Not Supported</title>
+        <title>Not Supported - Career Mango App</title>
         <meta name="description" content="Career Mango Not Supported Page" />
       </Helmet>
       <div className="img-wrapper">

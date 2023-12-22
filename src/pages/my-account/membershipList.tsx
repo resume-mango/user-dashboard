@@ -31,7 +31,7 @@ const MembershipList = ({ setShow }: IMembershipList) => {
   return (
     <Fragment>
       <Helmet>
-        <title>Last Memberships</title>
+        <title>Last Memberships - Career Mango App</title>
         <meta name="description" content="Career Mango Last Memberships Page" />
       </Helmet>
       {isError && !data ? (

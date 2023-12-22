@@ -25,7 +25,7 @@ const Payments = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>Payments</title>
+        <title>Payments - Career Mango App</title>
         <meta name="description" content="Career Mango Payments Page" />
       </Helmet>
       <h2 style={{ margin: 0 }}>Payment History</h2>

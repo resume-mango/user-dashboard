@@ -15,7 +15,7 @@ const MyAccount = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>My Account </title>
+        <title>My Account - Career Mango App</title>
         <meta name="description" content="Career Mango Account Page" />
       </Helmet>
       <DashPageHeader name="Setting" title="My Account"></DashPageHeader>

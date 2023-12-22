@@ -13,7 +13,7 @@ const ResumeDashboard = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>Resume List</title>
+        <title>Resume List - Career Mango App</title>
         <meta name="description" content="Career Mango Resume List Page" />
       </Helmet>
       <DashPageHeader title="Resume Templates"></DashPageHeader>

@@ -18,7 +18,7 @@ const SingleResume = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>Resumes</title>
+        <title>Resumes - Career Mango App</title>
         <meta name="description" content="Career Mango Resumes Page" />
       </Helmet>
       {width < 768 && width !== 0 ? (

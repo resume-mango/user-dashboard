@@ -13,7 +13,7 @@ const TaskCalender = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>Calendar</title>
+        <title>Calendar - Career Mango App</title>
         <meta name="description" content="Career Mango Calendar Page" />
       </Helmet>
       <Switch>

@@ -30,7 +30,7 @@ const Homepage = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>App Dashboard</title>
+        <title>App Dashboard - Career Mango App</title>
         <meta name="description" content="App Dashboard Page" />
       </Helmet>
       <DashPageHeader

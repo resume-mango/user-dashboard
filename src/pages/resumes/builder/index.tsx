@@ -81,7 +81,7 @@ const ResumeBuilder = ({ isLoading }: { isLoading: boolean }) => {
   return (
     <Fragment>
       <Helmet>
-        <title>Resume Bulder</title>
+        <title>Resume Bulder - Career Mango App</title>
         <meta name="description" content="Career Mango Resume Builder Page" />
       </Helmet>
       <RouterPrompt

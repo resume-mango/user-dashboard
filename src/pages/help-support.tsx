@@ -16,7 +16,7 @@ const HelpSupport = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>Help and Support</title>
+        <title>Help and Support - Career Mango App</title>
         <meta name="description" content="Career Mango Help and Support Page" />
       </Helmet>
       <DashPageHeader name="Support" title="Help & Support"></DashPageHeader>

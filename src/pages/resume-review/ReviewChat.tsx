@@ -186,7 +186,7 @@ const ReviewChat = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>Resume Review Chat</title>
+        <title>Resume Review Chat - Career Mango App</title>
         <meta
           name="description"
           content="Career Mango Resume Review Chat Page"

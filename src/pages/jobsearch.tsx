@@ -11,7 +11,7 @@ const JobSearch = () => {
     <Fragment>
       {" "}
       <Helmet>
-        <title>Jobs</title>
+        <title>Jobs - Career Mango App</title>
         <meta name="description" content="Career Mango Jobs Page" />
       </Helmet>
       <DashPageHeader

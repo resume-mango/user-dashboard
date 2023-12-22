@@ -5,7 +5,7 @@ const AccessDenied = () => {
   return (
     <div className="align-center">
       <Helmet>
-        <title>Access Denied</title>
+        <title>Access Denied - Career Mango App</title>
         <meta name="description" content="Career Mango Access Denied Page" />
       </Helmet>
       <div>

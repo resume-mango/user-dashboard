@@ -14,7 +14,7 @@ const SingleCoverLetter = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>Coverletters</title>
+        <title>Coverletters - Career Mango App</title>
         <meta name="description" content="Coverletters Page" />
       </Helmet>
       {width < 768 && width !== 0 ? (

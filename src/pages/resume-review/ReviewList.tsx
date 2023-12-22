@@ -73,7 +73,7 @@ const ReviewList = () => {
   return (
     <Fragment>
       <Helmet>
-        <title>Resume Review</title>
+        <title>Resume Review - Career Mango App</title>
         <meta name="description" content="Career Mango Resume Review Page" />
       </Helmet>
       <StyledDashHeader>
