@@ -59,11 +59,6 @@ const CoverLetterTemplates = () => {
               >
                 <Item>
                   <img src={item.thumbnail} />
-                  <Fragment>
-                    <Loader>
-                      <Spinner size="1.5rem" type="primary" />
-                    </Loader>
-                  </Fragment>
                 </Item>
                 <p>{item.friendly_name || item.name}</p>
               </ItemWrapper>

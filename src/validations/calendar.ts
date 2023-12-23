@@ -1,34 +1,35 @@
-import dayjs from 'dayjs'
-import * as Yup from 'yup'
+import dayjs from "dayjs"
+import * as Yup from "yup"
 
-const summary = Yup.string().required('Required')
-const location = Yup.string().test('empty / url', 'Enter correct url', (data) =>
-  !data ||
-  data.match(
-    /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
-  )
-    ? true
-    : false
-)
+const summary = Yup.string().required("Required")
+const location = Yup.string().max(2000)
+// .test('empty / url', 'Enter correct url', (data) =>
+//   !data ||
+//   data.match(
+//     /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
+//   )
+//     ? true
+//     : false
+// )
 
-const startDate = Yup.date().typeError('Invaild date')
+const startDate = Yup.date().typeError("Invaild date")
 const endDate = Yup.string()
   .test(
-    'empty-or-date',
-    'Invalid Date',
+    "empty-or-date",
+    "Invalid Date",
     (date) => !date || dayjs(date).isValid()
   )
   .test(
-    'should be greater',
-    'End date should be greater than start date',
+    "should be greater",
+    "End date should be greater than start date",
     (date, context) => {
       const starT = context.parent.startTime
       const endT = context.parent.endTime
-      const startHour = parseInt(starT.split(':')[0])
-      const startMin = parseInt(starT.split(':')[1])
+      const startHour = parseInt(starT.split(":")[0])
+      const startMin = parseInt(starT.split(":")[1])
 
-      const endHour = parseInt(endT.split(':')[0])
-      const endMin = parseInt(endT.split(':')[1])
+      const endHour = parseInt(endT.split(":")[0])
+      const endMin = parseInt(endT.split(":")[1])
 
       const start = dayjs(context.parent.startDate)
       const end = dayjs(date)
@@ -50,8 +51,8 @@ const endDate = Yup.string()
   )
 
 const startTime = Yup.string().test(
-  'Start Date is Req',
-  'Start Date is required with time',
+  "Start Date is Req",
+  "Start Date is required with time",
   (data, context) => {
     if (data && data.length > 0) {
       const start = context.parent.startDate
@@ -64,8 +65,8 @@ const startTime = Yup.string().test(
 
 const endTime = Yup.string()
   .test(
-    'End Date is Req',
-    'End Date is required with time',
+    "End Date is Req",
+    "End Date is required with time",
     (data, context) => {
       if (data && data.length > 0) {
         const end = context.parent.endDate
@@ -75,7 +76,7 @@ const endTime = Yup.string()
       }
     }
   )
-  .test('Start time required', 'Start time is required', (data, context) => {
+  .test("Start time required", "Start time is required", (data, context) => {
     const start = context.parent.startTime
     if (data && data.length > 0) {
       return start ? true : false
