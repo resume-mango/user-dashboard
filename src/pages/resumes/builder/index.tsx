@@ -77,7 +77,7 @@ const ResumeBuilder = ({ isLoading }: { isLoading: boolean }) => {
   const paths = data && data.id ? [`/resumes/preview/${data.id}`] : []
 
   const isFreeUser =
-    user && user.role && !["ceo", "pro"].some((r) => user.role.includes(r))
+    user && user.role && !["ceo"].some((r) => user.role.includes(r))
   return (
     <Fragment>
       <Helmet>

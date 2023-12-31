@@ -227,9 +227,10 @@ const MainSubscribe = () => {
                   <div>
                     <p>
                       <b>${item.price} </b>/{" "}
-                      {item.type === "pro"
+                      {/* {item.type === "pro"
                         ? `${item.interval_count * 24} Hrs`
-                        : item.interval}
+                        : item.interval} */}
+                      {item.interval}
                     </p>
                   </div>
                 </PlanSelect>

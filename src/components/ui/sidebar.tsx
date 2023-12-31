@@ -75,7 +75,6 @@ const Navlinks = ({
 
   const [active, setActive] = useState("/")
 
-  const proUser = user && user.role && user.role.includes("pro")
   const ceoUser = user && user.role && user.role.includes("ceo")
 
   const handleNav = (link: string, role?: string[]) => {
@@ -112,53 +111,51 @@ const Navlinks = ({
           </li>
           <li>
             <a
-              onClick={() => handleNav("/progress-tracker", ["pro", "ceo"])}
+              onClick={() => handleNav("/progress-tracker", ["ceo"])}
               className={active === "progress-tracker" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <TrackerIcon size="1.2rem" className="stroke-icon" /> Progress
                 Tracker
               </div>
-              {!proUser && !ceoUser && <LockIcon size="1.1rem" />}
+              {!ceoUser && <LockIcon size="1.1rem" />}
             </a>
           </li>
           <li>
             <a
-              onClick={() =>
-                handleNav(`/calendar/view/${today}`, ["pro", "ceo"])
-              }
+              onClick={() => handleNav(`/calendar/view/${today}`, ["ceo"])}
               className={active === "calendar" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <TaskIcon size="1.1rem" /> Calendar
               </div>
-              {!proUser && !ceoUser && <LockIcon size="1.1rem" />}
+              {!ceoUser && <LockIcon size="1.1rem" />}
             </a>
           </li>
           <li>
             <a
-              onClick={() => handleNav("/resumes", ["pro", "ceo"])}
+              onClick={() => handleNav("/resumes", ["ceo"])}
               className={active === "resumes" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <ResumeIcon size="1.1rem" style={{ marginTop: "0.3rem" }} />
                 Resumes
               </div>
-              {!proUser && !ceoUser && <LockIcon size="1.1rem" />}
+              {!ceoUser && <LockIcon size="1.1rem" />}
             </a>
           </li>
           <li>
             <a
-              onClick={() => handleNav("/coverletters", ["pro", "ceo"])}
+              onClick={() => handleNav("/coverletters", ["ceo"])}
               className={active === "coverletters" ? "active" : ""}
             >
               <div className="link-wrapper">
                 <BreifCaseIcon size="1.1rem" /> Cover letters
               </div>
-              {!proUser && !ceoUser && <LockIcon size="1.1rem" />}
+              {!ceoUser && <LockIcon size="1.1rem" />}
             </a>
           </li>
-          <li>
+          {/* <li>
             <a
               onClick={() => handleNav("/classes")}
               className={active === "classes" ? "active" : ""}
@@ -168,7 +165,7 @@ const Navlinks = ({
               </div>
               {!proUser && !ceoUser && <LockIcon size="1.1rem" />}
             </a>
-          </li>
+          </li> */}
           <li>
             <a
               onClick={() => handleNav("/resume-review", ["ceo"])}
@@ -185,7 +182,7 @@ const Navlinks = ({
             </a>
           </li>
         </ul>
-        <h6 style={{ marginTop: "1.5rem" }}>COMING SOON</h6>
+        {/* <h6 style={{ marginTop: "1.5rem" }}>COMING SOON</h6>
         <ul>
           <li>
             <a
@@ -218,12 +215,12 @@ const Navlinks = ({
             </a>
           </li>
 
-          {/* <li>
+          <li>
             <a to="/tips-tricks" onClick={() => handleNav(false)}>
               <BulbIcon size="1.2rem" /> Tips and tricks
             </a>
-          </li> */}
-        </ul>
+          </li>
+        </ul> */}
       </div>
       <div style={{ marginTop: "1.5rem" }}>
         <h6>YOUR ACCOUNT</h6>

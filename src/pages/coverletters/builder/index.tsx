@@ -1,14 +1,14 @@
-import React, { Fragment, useEffect } from 'react'
-import styled from 'styled-components'
-import HeaderStepper from '../../../components/ui/headerStepper'
-import { useCoverLetter } from '../../../contexts/coverLetter'
-import CoverLetterStepper from './coverLetterStepper'
-import Previewer from '../preview'
-import TemplateFormSekleton from '../../../components/ui/tempFormSekleton'
-import { useFormContext } from 'react-hook-form'
-import RouterPrompt from '../../../components/routerPrompt'
-import useExitPrompt from '../../../hooks/useExitPromt'
-import { useAuth } from '../../../contexts/authProvider'
+import React, { Fragment, useEffect } from "react"
+import styled from "styled-components"
+import HeaderStepper from "../../../components/ui/headerStepper"
+import { useCoverLetter } from "../../../contexts/coverLetter"
+import CoverLetterStepper from "./coverLetterStepper"
+import Previewer from "../preview"
+import TemplateFormSekleton from "../../../components/ui/tempFormSekleton"
+import { useFormContext } from "react-hook-form"
+import RouterPrompt from "../../../components/routerPrompt"
+import useExitPrompt from "../../../hooks/useExitPromt"
+import { useAuth } from "../../../contexts/authProvider"
 
 const CoverLetterBuilder = ({ isLoading }: { isLoading: boolean }) => {
   const { data, step, setStep, submitCoverletter, isSaving, submitSuccess } =
@@ -57,7 +57,7 @@ const CoverLetterBuilder = ({ isLoading }: { isLoading: boolean }) => {
 
   const paths = data && data.id ? [`/coverletters/preview/${data.id}`] : []
   const isFreeUser =
-    user && user.role && !['ceo', 'pro'].some((r) => user.role.includes(r))
+    user && user.role && !["ceo"].some((r) => user.role.includes(r))
   return (
     <Fragment>
       <RouterPrompt
@@ -73,7 +73,7 @@ const CoverLetterBuilder = ({ isLoading }: { isLoading: boolean }) => {
         <HeaderStepper
           max={2}
           current={step}
-          backRoute={`${isFreeUser ? '/' : '/coverletters'}`}
+          backRoute={`${isFreeUser ? "/" : "/coverletters"}`}
         >
           <HeaderStepper.Step
             name="Personal Info"
@@ -89,7 +89,7 @@ const CoverLetterBuilder = ({ isLoading }: { isLoading: boolean }) => {
           />
         </HeaderStepper>
 
-        <form id="coverLetterForm" style={{ overflow: 'hidden' }}>
+        <form id="coverLetterForm" style={{ overflow: "hidden" }}>
           <LHS>
             {isLoading || !data ? (
               <TemplateFormSekleton />
