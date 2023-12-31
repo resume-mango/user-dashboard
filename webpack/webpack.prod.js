@@ -1,14 +1,14 @@
 /* eslint-disable no-undef */
-const Dotenv = require('dotenv-webpack')
-const webpack = require('webpack')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const Dotenv = require("dotenv-webpack")
+const webpack = require("webpack")
+const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const BundleAnalyzerPlugin =
-  require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const SentryWebpackPlugin = require('@sentry/webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin
+const SentryWebpackPlugin = require("@sentry/webpack-plugin")
+const TerserPlugin = require("terser-webpack-plugin")
 
 module.exports = {
-  mode: 'production',
+  mode: "production",
   stats: {
     assets: true,
     chunks: true,
@@ -23,7 +23,7 @@ module.exports = {
         parallel: true,
         terserOptions: {
           sourceMap: {
-            file: '[name].map',
+            file: "[name].map",
           },
         },
       }),
@@ -36,21 +36,21 @@ module.exports = {
         `\u001b[A\u001b[K\u001b[33m${(percentage * 100).toFixed(2)}%` +
           `\t\u001b[0m\u001b[1m${message}\t` +
           `\u001b[0m\u001b[90m${
-            args && args.length > 0 ? args[0] : ''
+            args && args.length > 0 ? args[0] : ""
           }\u001b[0m`
       )
     }),
 
     new CleanWebpackPlugin(),
     new Dotenv({
-      path: './.env.production',
+      path: "./.env.production",
     }),
     new SentryWebpackPlugin({
-      org: 'resume-mango',
-      project: 'user-dashboard',
+      org: "careermango",
+      project: "user-dashboard",
 
       // Specify the directory containing build artifacts
-      include: './build',
+      include: "./build",
 
       // Auth tokens can be obtained from https://sentry.io/settings/account/api/auth-tokens/
       // and needs the `project:releases` and `org:read` scopes
@@ -59,6 +59,6 @@ module.exports = {
       // Optionally uncomment the line below to override automatic release name detection
       // release: process.env.RELEASE,
     }),
-    new BundleAnalyzerPlugin({ analyzerMode: process.env.STATS || 'disabled' }),
+    new BundleAnalyzerPlugin({ analyzerMode: process.env.STATS || "disabled" }),
   ],
 }
