@@ -1,12 +1,13 @@
-import axios from 'axios'
-import { UseFormReset, UseFormWatch } from 'react-hook-form/dist/types/form'
-import { QueryClient } from 'react-query'
+import axios from "axios"
+import { UseFormReset, UseFormWatch } from "react-hook-form/dist/types/form"
+import { QueryClient } from "react-query"
 import {
   deleteCoverLetter,
   downloadCoverLetter,
   newCoverLetter,
   updateCoverLetter,
-} from '../apis/coverLetter'
+} from "../apis/coverLetter"
+import { trackDownload } from "./tracking/events"
 /**
  * Creates new Coverletter
  * @param templateName name of the coverletter template
@@ -20,7 +21,7 @@ export const createNewCoverletter = async (
 ): Promise<boolean> => {
   const { data, error } = await newCoverLetter(templateName)
   if (data && !error) {
-    queryClient.setQueryData(['coverletter', data._id], data)
+    queryClient.setQueryData(["coverletter", data._id], data)
     history.replace(`/coverletters/edit/${data._id}`)
     return true
   } else {
@@ -58,13 +59,13 @@ export const deleteSingleCoverletter = async (
       if (!data || !data.items) return
       const newData = data.items.filter((item: any) => item._id !== id)
       data.items = newData
-      queryClient.setQueryData('coverletters', data)
-    } else throw new Error('Failed to delete coverletter')
+      queryClient.setQueryData("coverletters", data)
+    } else throw new Error("Failed to delete coverletter")
   } catch (err) {
     setNotify({
-      type: 'danger',
-      heading: 'Err!',
-      message: 'Failed to delete coverletter',
+      type: "danger",
+      heading: "Err!",
+      message: "Failed to delete coverletter",
     })
   }
   return setLoading(null)
@@ -82,27 +83,28 @@ export const deleteSingleCoverletter = async (
 export const handleCoverletterDownload = async (
   name: string,
   id: string,
-  type: 'pdf' | 'docx' | 'txt',
+  type: "pdf" | "docx" | "txt",
   setNotify: (_val: any) => void,
   setLimitsReached?: (_val: boolean) => void
 ) => {
   const res: any = await downloadCoverLetter(id, type)
 
   if (res) {
-    if (res === 'limit reached' && setLimitsReached) {
+    if (res === "limit reached" && setLimitsReached) {
       return setLimitsReached(true)
     }
     if (res.data) {
+      trackDownload("Coverletter")
       const docName = name
-        ? name.replaceAll(/\s/g, '-')
-        : 'untitled-coverletter'
+        ? name.replaceAll(/\s/g, "-")
+        : "untitled-coverletter"
 
-      const filename = docName + '.' + type
+      const filename = docName + "." + type
 
       const url = window.URL.createObjectURL(new Blob([res.data]))
-      const link = document.createElement('a')
+      const link = document.createElement("a")
       link.href = url
-      link.setAttribute('download', filename)
+      link.setAttribute("download", filename)
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
@@ -110,9 +112,9 @@ export const handleCoverletterDownload = async (
     }
   }
   return setNotify({
-    type: 'danger',
-    heading: 'Err!',
-    message: 'Failed to donwload design',
+    type: "danger",
+    heading: "Err!",
+    message: "Failed to donwload design",
   })
 }
 
@@ -132,7 +134,7 @@ export const handleCoverletterDownload = async (
  */
 export const submitCoveletterForm = async (
   template: string,
-  type: 'txt' | 'pdf' | 'docx' | null | undefined,
+  type: "txt" | "pdf" | "docx" | null | undefined,
   initialData: any,
   data: any,
   watch: UseFormWatch<any>,
@@ -156,7 +158,7 @@ export const submitCoveletterForm = async (
 
     if (resData && !error) {
       if (type) {
-        const name = resData.title ? resData.title : ''
+        const name = resData.title ? resData.title : ""
         await handleCoverletterDownload(
           name,
           initialData._id,
@@ -167,7 +169,7 @@ export const submitCoveletterForm = async (
       }
 
       const coverletters: Array<any> | undefined =
-        queryClient.getQueriesData('coverletters')
+        queryClient.getQueriesData("coverletters")
 
       if (coverletters && coverletters.length > 0) {
         let found: any
@@ -198,7 +200,7 @@ export const submitCoveletterForm = async (
 
       resData.fields = watch()
 
-      queryClient.setQueryData(['coverletter', resData._id], resData)
+      queryClient.setQueryData(["coverletter", resData._id], resData)
       setSubmitSuccess(true)
       reset(
         {},
@@ -212,15 +214,15 @@ export const submitCoveletterForm = async (
     } else {
       if (axios.isCancel(error)) setSubmitSuccess(true)
       else {
-        throw new Error('Failed to update design')
+        throw new Error("Failed to update design")
       }
     }
     result = true
   } catch (err) {
     setNotify({
-      type: 'danger',
-      heading: 'Err!',
-      message: 'Failed to update design',
+      type: "danger",
+      heading: "Err!",
+      message: "Failed to update design",
     })
   }
   return result

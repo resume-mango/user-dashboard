@@ -1,12 +1,13 @@
-import axios from 'axios'
-import axiosRequest from '../helpers/axiosRequest'
+import axios from "axios"
+import axiosRequest from "../helpers/axiosRequest"
+import { trackCreation } from "../helpers/tracking/events"
 
 export const downloadResume = async (id: string, type: string) => {
   let res
   const options = {
-    method: 'GET',
+    method: "GET",
     url: `/resume/download/${id}/${type}`,
-    responseType: 'blob',
+    responseType: "blob",
   }
   try {
     res = await axios.request(options as any)
@@ -16,8 +17,8 @@ export const downloadResume = async (id: string, type: string) => {
     if (err.response && err.response.data) {
       const data = await new Response(err.response.data).text()
       const message = JSON.parse(data).error?.message || null
-      if (message && message === 'download limits reached!') {
-        return (res = 'limit reached')
+      if (message && message === "download limits reached!") {
+        return (res = "limit reached")
       }
     }
     return (res = null)
@@ -29,8 +30,8 @@ export const newResume = async (templateName?: string) => {
   let error: string
 
   const options = {
-    method: 'POST',
-    url: '/resume',
+    method: "POST",
+    url: "/resume",
     data: {
       template: templateName,
     },
@@ -40,6 +41,9 @@ export const newResume = async (templateName?: string) => {
     const res = await axiosRequest(options)
     data = res.data as any
     error = res.error
+    if (res.data) {
+      trackCreation("Resume")
+    }
     return { data, error }
   } catch (err: any) {
     return { data: undefined, error: err }
@@ -50,14 +54,14 @@ let cancelToken: any
 
 export const updateResume = async (reqData: any) => {
   if (typeof cancelToken !== typeof undefined) {
-    cancelToken.cancel('Cancelling previous requests')
+    cancelToken.cancel("Cancelling previous requests")
   }
 
   cancelToken = axios.CancelToken.source()
 
   const options = {
-    method: 'PATCH',
-    url: '/resume',
+    method: "PATCH",
+    url: "/resume",
     cancelToken: cancelToken.token,
     data: reqData,
   }
@@ -80,9 +84,9 @@ export const uploadPicture = async (id: string, reqData: any) => {
   let error: string
 
   const options = {
-    method: 'PATCH',
+    method: "PATCH",
     url: `/resume/${id}/avatar`,
-    headers: { 'Content-Type': 'multipart/form-data' },
+    headers: { "Content-Type": "multipart/form-data" },
     data: reqData,
   }
 
@@ -101,7 +105,7 @@ export const deletePicture = async (id: string) => {
   let error: string
 
   const options = {
-    method: 'DELETE',
+    method: "DELETE",
     url: `/resume/${id}/avatar`,
   }
 
@@ -120,7 +124,7 @@ export const deleteResume = async (id: string) => {
   let error: string
 
   const options = {
-    method: 'DELETE',
+    method: "DELETE",
     url: `/resume/${id}`,
   }
 

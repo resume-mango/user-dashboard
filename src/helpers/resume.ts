@@ -10,6 +10,7 @@ import {
 } from "../apis/resume"
 import { IImgTransformStyle } from "../typings/imageUpload"
 import { IResumeDefault } from "../typings/resume"
+import { trackDownload } from "./tracking/events"
 
 /**
  * Uploads Resume Avatar
@@ -238,6 +239,8 @@ export const handleResumeDownload = async (
     }
 
     if (res.data) {
+      trackDownload("Resume")
+
       const docName = name ? name.replaceAll(/\s/g, "-") : "untitled-resume"
 
       const filename = docName + "." + type

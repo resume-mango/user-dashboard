@@ -1,12 +1,13 @@
-import axios from 'axios'
-import axiosRequest from '../helpers/axiosRequest'
+import axios from "axios"
+import axiosRequest from "../helpers/axiosRequest"
+import { trackCreation } from "../helpers/tracking/events"
 
 export const downloadCoverLetter = async (id: string, type: string) => {
   let res
   const options = {
-    method: 'GET',
+    method: "GET",
     url: `/coverletter/download/${id}/${type}`,
-    responseType: 'blob',
+    responseType: "blob",
   }
   try {
     res = await axios.request(options as any)
@@ -15,8 +16,8 @@ export const downloadCoverLetter = async (id: string, type: string) => {
     if (err.response && err.response.data) {
       const data = await new Response(err.response.data).text()
       const message = JSON.parse(data).error.message || null
-      if (message && message === 'download limits reached!') {
-        return (res = 'limit reached')
+      if (message && message === "download limits reached!") {
+        return (res = "limit reached")
       }
     }
     return (res = null)
@@ -28,8 +29,8 @@ export const newCoverLetter = async (templateName?: string) => {
   let error: string
 
   const options = {
-    method: 'POST',
-    url: '/coverletter',
+    method: "POST",
+    url: "/coverletter",
     data: {
       template: templateName,
     },
@@ -39,6 +40,9 @@ export const newCoverLetter = async (templateName?: string) => {
     const res = await axiosRequest(options)
     data = res.data as any
     error = res.error
+    if (res.data) {
+      trackCreation("Coverletter")
+    }
     return { data, error }
   } catch (err: any) {
     return { data: undefined, error: err }
@@ -49,14 +53,14 @@ let cancelToken: any
 
 export const updateCoverLetter = async (reqData: any) => {
   if (typeof cancelToken !== typeof undefined) {
-    cancelToken.cancel('Cancelling previous requests')
+    cancelToken.cancel("Cancelling previous requests")
   }
 
   cancelToken = axios.CancelToken.source()
 
   const options = {
-    method: 'PATCH',
-    url: '/coverletter',
+    method: "PATCH",
+    url: "/coverletter",
     cancelToken: cancelToken.token,
     data: reqData,
   }
@@ -79,7 +83,7 @@ export const deleteCoverLetter = async (id: string) => {
   let error: string
 
   const options = {
-    method: 'DELETE',
+    method: "DELETE",
     url: `/coverletter/${id}`,
   }
 

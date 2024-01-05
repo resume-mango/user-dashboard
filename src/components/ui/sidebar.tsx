@@ -111,6 +111,27 @@ const Navlinks = ({
           </li>
           <li>
             <a
+              onClick={() => handleNav("/resumes")}
+              className={active === "resumes" ? "active" : ""}
+            >
+              <div className="link-wrapper">
+                <ResumeIcon size="1.1rem" style={{ marginTop: "0.3rem" }} />
+                Resumes
+              </div>
+            </a>
+          </li>
+          <li>
+            <a
+              onClick={() => handleNav("/coverletters")}
+              className={active === "coverletters" ? "active" : ""}
+            >
+              <div className="link-wrapper">
+                <BreifCaseIcon size="1.1rem" /> Cover letters
+              </div>
+            </a>
+          </li>
+          <li>
+            <a
               onClick={() => handleNav("/progress-tracker", ["ceo"])}
               className={active === "progress-tracker" ? "active" : ""}
             >
@@ -132,29 +153,7 @@ const Navlinks = ({
               {!ceoUser && <LockIcon size="1.1rem" />}
             </a>
           </li>
-          <li>
-            <a
-              onClick={() => handleNav("/resumes", ["ceo"])}
-              className={active === "resumes" ? "active" : ""}
-            >
-              <div className="link-wrapper">
-                <ResumeIcon size="1.1rem" style={{ marginTop: "0.3rem" }} />
-                Resumes
-              </div>
-              {!ceoUser && <LockIcon size="1.1rem" />}
-            </a>
-          </li>
-          <li>
-            <a
-              onClick={() => handleNav("/coverletters", ["ceo"])}
-              className={active === "coverletters" ? "active" : ""}
-            >
-              <div className="link-wrapper">
-                <BreifCaseIcon size="1.1rem" /> Cover letters
-              </div>
-              {!ceoUser && <LockIcon size="1.1rem" />}
-            </a>
-          </li>
+
           {/* <li>
             <a
               onClick={() => handleNav("/classes")}
