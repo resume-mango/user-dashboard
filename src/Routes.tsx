@@ -90,24 +90,22 @@ const AllRoutes = () => {
                   </SuspenseWrapper>
                 )}
               />
-              <Protected
+              <Route
                 path="/resumes"
-                role={["ceo"]}
                 //   component={LazyResumeDashboard}
-                component={
+                render={() => (
                   <SuspenseWrapper>
                     <LazyResumeDashboard />
                   </SuspenseWrapper>
-                }
+                )}
               />
-              <Protected
+              <Route
                 path="/coverletters"
-                role={["ceo"]}
-                component={
+                render={() => (
                   <SuspenseWrapper>
                     <LazyCoverLetterDashboard />
                   </SuspenseWrapper>
-                }
+                )}
               />
               <Protected
                 path="/resume-review"
