@@ -42,7 +42,7 @@ export const newResume = async (templateName?: string) => {
     data = res.data as any
     error = res.error
     if (res.data) {
-      trackCreation("Resume")
+      trackCreation("resume")
     }
     return { data, error }
   } catch (err: any) {

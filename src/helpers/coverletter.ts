@@ -94,7 +94,7 @@ export const handleCoverletterDownload = async (
       return setLimitsReached(true)
     }
     if (res.data) {
-      trackDownload("Coverletter")
+      trackDownload("coverletter")
       const docName = name
         ? name.replaceAll(/\s/g, "-")
         : "untitled-coverletter"

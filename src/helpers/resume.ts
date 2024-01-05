@@ -239,7 +239,7 @@ export const handleResumeDownload = async (
     }
 
     if (res.data) {
-      trackDownload("Resume")
+      trackDownload("resume")
 
       const docName = name ? name.replaceAll(/\s/g, "-") : "untitled-resume"
 

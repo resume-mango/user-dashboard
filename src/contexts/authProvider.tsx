@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect, useState } from "react"
 import Cookies from "universal-cookie"
 import { fetchAuthData } from "../helpers/fetchAuthData"
 import { useWindowFocus } from "./windowFocus"
+import ReactGA from "react-ga4"
 
 type User = {
   id: string
@@ -49,6 +50,15 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const checkAuth = async () => {
     await fetchAuthData(location, setUser, setToken, setIsLoading)
   }
+
+  useEffect(() => {
+    if (!user) return
+    ReactGA.gtag("set", "user_properties", {
+      name: `${user.firstName} ${user.lastName}`,
+    })
+    ReactGA.gtag("set", "user_id", user.id)
+  }, [user])
+
   useEffect(() => {
     if (!windowIsActive) return
 
