@@ -54,7 +54,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!user) return
     ReactGA.gtag("set", "user_properties", {
-      name: `${user.firstName} ${user.lastName}`,
+      name: `${user.firstName}${user.lastName && " " + user.lastName}`,
     })
     ReactGA.gtag("set", "user_id", user.id)
   }, [user])
