@@ -13,7 +13,7 @@ export const trackDownload = (type: "coverletter" | "resume") => {
 export const trackCreation = (type: "coverletter" | "resume") => {
   ReactGA.event({
     category: "Created",
-    action: type + "created",
+    action: type + "_created",
     label: `${capitalize(type)}. Created`,
   })
 }
