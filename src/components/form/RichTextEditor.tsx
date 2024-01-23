@@ -1,7 +1,7 @@
-import React, { forwardRef, Fragment, useEffect } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
-import ReactQuill from 'react-quill'
-import styled from 'styled-components'
+import React, { forwardRef, Fragment, useEffect } from "react"
+import { Controller, useFormContext } from "react-hook-form"
+import ReactQuill from "react-quill"
+import styled from "styled-components"
 
 interface IProps {
   name: string
@@ -12,30 +12,30 @@ interface IProps {
 }
 
 const RichTextEditor = forwardRef(
-  ({ name, maxHeight = '', formats, modules, placeholder }: IProps, ref) => {
+  ({ name, maxHeight = "", formats, modules, placeholder }: IProps, ref) => {
     const { control } = useFormContext()
     const initialModules = {
       toolbar: [
-        ['bold', 'italic', 'underline'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['link'],
-        ['clean'],
+        ["bold", "italic", "underline"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["link"],
+        ["clean"],
       ],
     }
 
     const initialFormats = [
-      'bold',
-      'italic',
-      'underline',
-      'list',
-      'bullet',
-      'link',
+      "bold",
+      "italic",
+      "underline",
+      "list",
+      "bullet",
+      "link",
     ]
 
     useEffect(() => {
-      const linkInput = document && document.querySelector('.ql-tooltip input')
+      const linkInput = document && document.querySelector(".ql-tooltip input")
       linkInput &&
-        linkInput.setAttribute('data-link', 'https://www.example.com')
+        linkInput.setAttribute("data-link", "https://www.example.com")
 
       return
     }, [])
@@ -56,7 +56,7 @@ const RichTextEditor = forwardRef(
                   value={value}
                   formats={formats ? formats : initialFormats}
                   theme="snow"
-                  bounds={'wrapper'}
+                  bounds={"wrapper"}
                   placeholder={placeholder}
                 />
               )}
@@ -86,6 +86,7 @@ const Wrapper = styled.div<{ maxHeight: string }>`
   }
   .ql-toolbar {
     padding-top: 1rem;
+    justify-content: flex-start;
     span.ql-formats {
       &:not(:last-child) {
         border-right: 2px solid #ddd;
@@ -128,13 +129,13 @@ const Wrapper = styled.div<{ maxHeight: string }>`
     z-index: 10;
     border: none;
     border-radius: 4px;
-    &[data-mode='link']:before {
-      content: 'Link';
+    &[data-mode="link"]:before {
+      content: "Link";
     }
     &:before {
-      content: '';
+      content: "";
     }
-    input[type='text'] {
+    input[type="text"] {
       border: 1px solid #f4f5f7;
       font-size: 1rem;
       height: 40px;
