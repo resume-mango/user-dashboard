@@ -67,6 +67,7 @@ const CoverLetterBuilder = ({ isLoading }: { isLoading: boolean }) => {
         isSaving={isSaving}
         isSaved={submitSuccess}
         exludedPaths={paths}
+        hasErrors={isErrorStep1 || isErrorStep2}
       />
 
       <Wrapper>

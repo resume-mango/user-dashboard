@@ -78,6 +78,7 @@ const ResumeBuilder = ({ isLoading }: { isLoading: boolean }) => {
 
   const isFreeUser =
     user && user.role && !["ceo"].some((r) => user.role.includes(r))
+
   return (
     <Fragment>
       <Helmet>
@@ -91,6 +92,7 @@ const ResumeBuilder = ({ isLoading }: { isLoading: boolean }) => {
         handleSaveAndExit={() => submitResume(null, true)}
         isSaved={submitSuccess}
         isSaving={isSaving}
+        hasErrors={isErrorStep1 || isErrorStep2 || isErrorStep3}
       />
       <Wrapper>
         <HeaderStepper

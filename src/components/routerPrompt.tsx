@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { useHistory } from 'react-router'
-import styled from 'styled-components'
-import { Button } from '../styled/button'
-import { Spinner } from '../styled/loader'
-import CrossIcon from './svgs/cross'
+import React, { useCallback, useEffect, useRef, useState } from "react"
+import { useHistory } from "react-router"
+import styled from "styled-components"
+import { Button } from "../styled/button"
+import { Spinner } from "../styled/loader"
+import CrossIcon from "./svgs/cross"
 
 interface IProps {
   show: boolean
@@ -12,6 +12,7 @@ interface IProps {
   handleSaveAndExit?: () => void
   isSaved?: boolean
   isSaving?: boolean
+  hasErrors?: boolean
 }
 
 const RouterPrompt: React.FC<IProps> = ({
@@ -19,12 +20,13 @@ const RouterPrompt: React.FC<IProps> = ({
   setShow,
   exludedPaths,
   handleSaveAndExit,
+  hasErrors,
   isSaving,
   isSaved,
 }) => {
   const history = useHistory()
   const [showPrompt, setShowPrompt] = useState(false)
-  const [currentPath, setCurrentPath] = useState('')
+  const [currentPath, setCurrentPath] = useState("")
   const [confirmedNavigation, setConfirmedNavigation] = useState(false)
 
   const unblockRef = useRef<any>()
@@ -36,9 +38,9 @@ const RouterPrompt: React.FC<IProps> = ({
   const onCancel = async () => {
     if (handleSaveAndExit) {
       handleSaveAndExit()
-    } else {
-      setShowPrompt(false)
+      setCurrentPath("")
     }
+    setShowPrompt(false)
   }
 
   useEffect(() => {
@@ -104,17 +106,22 @@ const RouterPrompt: React.FC<IProps> = ({
             Ok
           </Button>
           <Button
-            onClick={handleSaveAndExit || onCancel}
+            onClick={() =>
+              (hasErrors && setShowPrompt(false)) ||
+              (handleSaveAndExit && handleSaveAndExit())
+            }
             btnType="primary"
             size="lg"
             disabled={isSaving}
           >
             {isSaving ? (
               <Spinner type="white" size="1.2rem" />
+            ) : hasErrors ? (
+              "Fix Errors"
             ) : handleSaveAndExit ? (
-              'Save and Exit'
+              "Save and Exit"
             ) : (
-              'Cancel'
+              "Cancel"
             )}
           </Button>
         </ChildWrapper>
