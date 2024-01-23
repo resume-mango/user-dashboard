@@ -1,89 +1,89 @@
-import * as Yup from 'yup'
+import * as Yup from "yup"
 
 const months = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
 ]
 
 const first_name = Yup.string()
-  .required('first name is required')
-  .max(20, 'Max 20 characters allowed')
-  .min(3, 'Min 3 characters required')
+  .required("first name is required")
+  .max(300, "Max 300 characters allowed")
+  .min(1, "Min 1 characters required")
 const last_name = Yup.string()
-  .required('last name is required')
-  .max(20, 'Max 20 characters allowed')
-  .min(3, 'Min 3 characters required')
+  .required("last name is required")
+  .max(300, "Max 300 characters allowed")
+  .min(1, "Min 1 characters required")
 
 const email_address = Yup.string()
-  .email('email is invalid')
-  .required('email is required')
+  .email("email is invalid")
+  .required("email is required")
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
 const phone_number = Yup.string().test(
-  'isValid',
-  'Invalid phone number',
+  "isValid",
+  "Invalid phone number",
   (value) => {
     if (!value) return true
     return phoneRegExp.test(value) && value.length >= 6 && value.length <= 10
   }
 )
 
-const designation = Yup.string().max(50, 'Max 50 characters allowed')
+const designation = Yup.string().max(300, "Max 300 characters allowed")
 const address = Yup.string()
-  .label('address')
-  .max(50, 'Max 50 characters allowed')
+  .label("address")
+  .max(300, "Max 300 characters allowed")
 
 const about_info = Yup.string().test(
-  'test_length_greater_than_2000',
-  'Max 2000 characters allowed',
+  "test_length_greater_than_3000",
+  "Max 3000 characters allowed",
   (value) => {
     if (!value) return true
     const regex = /(<([^>]+)>)/gi
-    const noBreak = value.replaceAll('<br>', '!!!!!!!!!!!!!!!')
-    const plain = noBreak.replace(regex, '')
-    if (plain.length > 2000) return false
+    const noBreak = value.replaceAll("<br>", "!!!!!!!!!!!!!!!")
+    const plain = noBreak.replace(regex, "")
+    if (plain.length > 3000) return false
     else return true
   }
 )
 
-const city = Yup.string().max(20, 'Max 20 characters allowed')
+const city = Yup.string().max(300, "Max 300 characters allowed")
 const description = Yup.string().test(
-  'test_length_greater_than_600',
-  'Max 600 characters allowed',
+  "test_length_greater_than_1000",
+  "Max 1000 characters allowed",
   (value) => {
     if (!value) return true
     const regex = /(<([^>]+)>)/gi
-    const noBreak = value.replaceAll('<br>', '!')
-    const plain = noBreak.replace(regex, '')
+    const noBreak = value.replaceAll("<br>", "!")
+    const plain = noBreak.replace(regex, "")
 
-    if (plain.length > 600) return false
+    if (plain.length > 1000) return false
     else return true
   }
 )
 
 const isNumeric = (str: any) => {
-  if (typeof str != 'string') return false
+  if (typeof str != "string") return false
   return !isNaN(str as any) && !isNaN(parseFloat(str))
 }
 
 const duration = Yup.object()
-  .test('valid start date', 'Invalid start date', (value) => {
+  .test("valid start date", "Invalid start date", (value) => {
     const start: any = value.start
     if (!start) return true
     if (start.length > 8) return false
-    const splitVal = start.split(' ')
+    const splitVal = start.split(" ")
     if (
       splitVal.length !== 2 ||
       !months.includes(splitVal[0]) ||
@@ -94,11 +94,11 @@ const duration = Yup.object()
       return false
     else return true
   })
-  .test('valid end date', 'Invalid end date', (value) => {
+  .test("valid end date", "Invalid end date", (value) => {
     const end: any = value.end
     if (!end) return true
     if (end.length > 8) return false
-    const splitVal = end.split(' ')
+    const splitVal = end.split(" ")
     if (
       splitVal.length !== 2 ||
       !months.includes(splitVal[0]) ||
@@ -109,7 +109,7 @@ const duration = Yup.object()
       return false
     else return true
   })
-  .test('required date', 'start date required', (value) => {
+  .test("required date", "start date required", (value) => {
     const end: any = value.end
     const start: any = value.start
 
@@ -120,8 +120,8 @@ const duration = Yup.object()
 
 const experience = Yup.array().of(
   Yup.object().shape({
-    company: Yup.string().required().max(30, 'Max 30 characters allowed'),
-    designation: Yup.string().required().max(30, 'Max 30 characters allowed'),
+    company: Yup.string().required().max(300, "Max 300 characters allowed"),
+    designation: Yup.string().required().max(300, "Max 300 characters allowed"),
     city,
     description,
     duration,
@@ -130,8 +130,8 @@ const experience = Yup.array().of(
 
 const education = Yup.array().of(
   Yup.object().shape({
-    institution: Yup.string().required().max(30, 'Max 30 characters allowed'),
-    degree: Yup.string().required().max(30, 'Max 30 characters allowed'),
+    institution: Yup.string().required().max(300, "Max 300 characters allowed"),
+    degree: Yup.string().required().max(300, "Max 300 characters allowed"),
     city,
     description,
     duration,
@@ -140,15 +140,15 @@ const education = Yup.array().of(
 
 const skills = Yup.array().of(
   Yup.object().shape({
-    title: Yup.string().required().max(30, 'Max 30 characters allowed'),
-    rating: Yup.number().required().min(0).max(5, 'Max length 5 allowed'),
+    title: Yup.string().required().max(300, "Max 300 characters allowed"),
+    rating: Yup.number().required().min(0).max(5, "Max length 5 allowed"),
   })
 )
 
 const courses = Yup.array().of(
   Yup.object().shape({
-    institution: Yup.string().required().max(30, 'Max 30 characters allowed'),
-    course: Yup.string().required().max(30, 'Max 30 characters allowed'),
+    institution: Yup.string().required().max(300, "Max 300 characters allowed"),
+    course: Yup.string().required().max(300, "Max 300 characters allowed"),
     duration,
   })
 )
@@ -156,9 +156,9 @@ const courses = Yup.array().of(
 const internships = Yup.array().of(
   Yup.object().shape({
     job_title: Yup.string()
-      .required('job title is required')
-      .max(30, 'Max 30 characters allowed'),
-    employer: Yup.string().required().max(30, 'Max 30 characters allowed'),
+      .required("job title is required")
+      .max(300, "Max 300 characters allowed"),
+    employer: Yup.string().required().max(300, "Max 300 characters allowed"),
     city,
     description,
     duration,
@@ -166,15 +166,15 @@ const internships = Yup.array().of(
 )
 const languages = Yup.array().of(
   Yup.object().shape({
-    language: Yup.string().required().max(30, 'Max 30 characters allowed'),
-    level: Yup.string().max(30, 'Max 30 characters allowed'),
+    language: Yup.string().required().max(300, "Max 300 characters allowed"),
+    level: Yup.string().max(300, "Max 300 characters allowed"),
   })
 )
 
 const references = Yup.array().of(
   Yup.object().shape({
-    name: Yup.string().required().max(30, 'Max 30 characters allowed'),
-    company: Yup.string().required().max(30, 'Max 30 characters allowed'),
+    name: Yup.string().required().max(300, "Max 300 characters allowed"),
+    company: Yup.string().required().max(300, "Max 300 characters allowed"),
     phone_number,
     email_address,
   })
