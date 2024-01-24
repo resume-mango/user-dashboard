@@ -88,7 +88,7 @@ const RouterPrompt: React.FC<IProps> = ({
   return showPrompt ? (
     <Wrapper className="prompt-wrapper">
       <Box>
-        <CloseBtn onClick={onCancel}>
+        <CloseBtn onClick={onCancel} data-testid="prompt-cancel">
           <CrossIcon />
         </CloseBtn>
         <h3>Are you sure?</h3>
