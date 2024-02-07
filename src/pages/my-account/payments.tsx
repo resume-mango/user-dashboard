@@ -81,7 +81,7 @@ const Payments = () => {
                             type={
                               item.status === "succeeded"
                                 ? "success"
-                                : item.status === "cancelled"
+                                : item.status === "canceled"
                                 ? "ghost"
                                 : item.status === "failed"
                                 ? "danger"
