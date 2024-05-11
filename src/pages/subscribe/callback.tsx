@@ -1,40 +1,62 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { useQueryClient } from 'react-query'
-import { useHistory } from 'react-router-dom'
-import styled from 'styled-components'
-import { apiCallbackSubscription } from '../../apis/subscribe'
-import WarningIcon from '../../components/svgs/warning'
-import { useAuth } from '../../contexts/authProvider'
-import getUrlParams from '../../hooks/getUrlParams'
-import { Button } from '../../styled/button'
-import { LoadingDots, LoadingWrapper, Spinner } from '../../styled/loader'
+import React, { Fragment, useEffect, useState } from "react";
+import { useQueryClient } from "react-query";
+import { useHistory } from "react-router-dom";
+import styled from "styled-components";
+import { apiCallbackSubscription } from "../../apis/subscribe";
+import WarningIcon from "../../components/svgs/warning";
+import { useAuth } from "../../contexts/authProvider";
+import getUrlParams from "../../hooks/getUrlParams";
+import { Button } from "../../styled/button";
+import { LoadingDots, LoadingWrapper, Spinner } from "../../styled/loader";
+import { apiRefreshSession } from "../../apis/user";
 
 const SubscribeCallback = () => {
-  const [error, setError] = useState(false)
-  const { setToken } = useAuth()
-  const history = useHistory()
-  const query = getUrlParams()
-  const session_id = query.get('session_id')
-  const type = query.get('type') as any
-  const queryClient = useQueryClient()
+  const [error, setError] = useState(false);
+  const [retries, setRetries] = useState(0);
+  const { setToken } = useAuth();
+  const history = useHistory();
+  const query = getUrlParams();
+  const session_id = query.get("session_id");
+  const type = query.get("type") as any;
+  const queryClient = useQueryClient();
 
   const handleCallback = async () => {
-    if (session_id && type) {
-      const { data, error } = await apiCallbackSubscription(session_id, type)
-      if (data && !error) {
-        queryClient.setQueryData('activeSubscription', data)
-        setToken('')
-        history.push('/my-account/membership')
+    try {
+      if (session_id && type) {
+        const { data, error } = await apiCallbackSubscription(session_id, type);
+        if (error) throw error;
+        if (data) {
+          queryClient.setQueryData("activeSubscription", data);
+
+          if (type === "success") {
+            const { data, error: refError } = await apiRefreshSession();
+            if (refError) throw refError;
+            if (data) {
+              setToken("");
+            }
+          }
+          history.push("/my-account/membership");
+        }
+      }
+    } catch (err) {
+      if (retries >= 3) {
+        setError(true);
       } else {
-        setError(true)
+        setRetries((prev) => prev + 1);
       }
     }
-  }
+  };
 
   useEffect(() => {
-    if (type === 'cancel' || type === 'success') handleCallback()
-    return
-  }, [])
+    let timer: any;
+    if (type === "cancel" || type === "success") {
+      timer = setTimeout(() => {
+        handleCallback();
+      }, 5000);
+    }
+
+    return () => clearTimeout(timer);
+  }, [retries]);
 
   return (
     <Fragment>
@@ -47,7 +69,7 @@ const SubscribeCallback = () => {
             <Button
               size="lg"
               btnType="secondary"
-              onClick={() => history.push('/')}
+              onClick={() => history.push("/")}
             >
               Back to Dashboard
             </Button>
@@ -60,10 +82,10 @@ const SubscribeCallback = () => {
         </LoadingWrapper>
       )}
     </Fragment>
-  )
-}
+  );
+};
 
-export default SubscribeCallback
+export default SubscribeCallback;
 
 const Wrapper = styled.div`
   display: flex;
@@ -71,7 +93,7 @@ const Wrapper = styled.div`
   justify-content: center;
   width: 100%;
   height: 100vh;
-`
+`;
 
 const Container = styled.div`
   display: flex;
@@ -96,4 +118,4 @@ const Container = styled.div`
     font-size: 1rem;
     width: 200px;
   }
-`
+`;
