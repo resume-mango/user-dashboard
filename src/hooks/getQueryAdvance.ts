@@ -1,5 +1,5 @@
-import { useQuery, UseQueryOptions } from 'react-query'
-import { useAuth } from '../contexts/authProvider'
+import { useQuery, UseQueryOptions } from "react-query";
+import { useAuth } from "../contexts/authProvider";
 
 /**
  * Advance hook for useQuery()
@@ -15,16 +15,15 @@ const getQueryAdvance = (
   enabled = true,
   params?: Omit<
     UseQueryOptions<any, unknown, any, any>,
-    'queryKey' | 'queryFn' | 'enabled'
+    "queryKey" | "queryFn" | "enabled"
   >
 ) => {
-  const { user, token } = useAuth()
-  const ref = user && user.ref
+  const { token } = useAuth();
 
   return useQuery(identifier, fetcher, {
-    enabled: !!token && !!ref && enabled,
+    enabled: !!token && enabled,
     ...params,
-  })
-}
+  });
+};
 
-export default getQueryAdvance
+export default getQueryAdvance;
