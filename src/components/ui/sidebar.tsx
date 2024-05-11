@@ -1,23 +1,21 @@
-import React, { Fragment, useEffect, useState } from "react"
-import { useHistory, useLocation } from "react-router-dom"
-import styled from "styled-components"
-import logoIcon from "../../public/logo/logo-white.svg"
-import { Button } from "../../styled/button"
-import DashboardIcon from "../svgs/Dashboard"
-import BreifCaseIcon from "../svgs/breifCaseIcon"
-import ResumeIcon from "../svgs/resumeIcon"
-import TaskIcon from "../svgs/taskIcon"
-import UserIcon from "../svgs/userIcon"
-import QuestionIcon from "../svgs/questionIcon"
-import LogoutIcon from "../svgs/logoutIcon"
-import dayjs from "dayjs"
-import TrackerIcon from "../svgs/tracker"
-import ClipboardClockIcon from "../svgs/clipoardClock"
-import LockIcon from "../svgs/lock"
-import { useAuth } from "../../contexts/authProvider"
-import DegreeHatIcon from "../svgs/degreeHatIcon"
-import BulbIcon from "../svgs/bulbIcon"
-import { getUnreadChats } from "../../queries/chatQueries"
+import React, { Fragment, useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import styled from "styled-components";
+import logoIcon from "../../public/logo/logo-white.svg";
+import { Button } from "../../styled/button";
+import DashboardIcon from "../svgs/Dashboard";
+import BreifCaseIcon from "../svgs/breifCaseIcon";
+import ResumeIcon from "../svgs/resumeIcon";
+import TaskIcon from "../svgs/taskIcon";
+import UserIcon from "../svgs/userIcon";
+import QuestionIcon from "../svgs/questionIcon";
+import LogoutIcon from "../svgs/logoutIcon";
+import dayjs from "dayjs";
+import TrackerIcon from "../svgs/tracker";
+import LockIcon from "../svgs/lock";
+import { useAuth } from "../../contexts/authProvider";
+import BulbIcon from "../svgs/bulbIcon";
+import { getUnreadChats } from "../../queries/chatQueries";
 
 const Sidebar = ({
   mobile,
@@ -25,12 +23,12 @@ const Sidebar = ({
   setShow,
   setShowUpgrade,
 }: {
-  mobile: boolean
-  show: boolean
-  setShow: (val: boolean) => any
-  setShowUpgrade: (val: boolean) => any
+  mobile: boolean;
+  show: boolean;
+  setShow: (val: boolean) => any;
+  setShowUpgrade: (val: boolean) => any;
 }) => {
-  const history = useHistory()
+  const history = useHistory();
   return (
     <Fragment>
       <NavWrapper show={show} mobile={mobile} className="hide-scrollbar">
@@ -52,47 +50,47 @@ const Sidebar = ({
         <Navlinks setShow={setShow} setShowUpgrade={setShowUpgrade} />
       </NavWrapper>
     </Fragment>
-  )
-}
+  );
+};
 
 const Navlinks = ({
   setShow,
   setShowUpgrade,
 }: {
-  setShow: (val: boolean) => any
-  setShowUpgrade: (val: boolean) => any
+  setShow: (val: boolean) => any;
+  setShowUpgrade: (val: boolean) => any;
 }) => {
-  const today = dayjs().format("YYYY/MM/DD")
-  const { user } = useAuth()
-  const history = useHistory()
+  const today = dayjs().format("YYYY/MM/DD");
+  const { user } = useAuth();
+  const history = useHistory();
   const handleLogout = () => {
-    window.location.href = `${process.env.AUTH_HOST}/logout`
-  }
+    window.location.href = `${process.env.AUTH_HOST}/logout`;
+  };
 
-  const { data: unread } = getUnreadChats()
+  const { data: unread } = getUnreadChats();
 
-  const location = useLocation()
+  const location = useLocation();
 
-  const [active, setActive] = useState("/")
+  const [active, setActive] = useState("/");
 
-  const ceoUser = user && user.role && user.role.includes("ceo")
+  const ceoUser = user && user.role && user.role.includes("ceo");
 
   const handleNav = (link: string, role?: string[]) => {
     if (role && role.length > 0) {
-      if (!user || !user.role) return
-      const hasPerm = user.role.some((r: string) => role.includes(r))
-      !hasPerm ? setShowUpgrade(true) : history.push(link)
+      if (!user || !user.role) return;
+      const hasPerm = user.role.some((r: string) => role.includes(r));
+      !hasPerm ? setShowUpgrade(true) : history.push(link);
     } else {
-      history.push(link)
+      history.push(link);
     }
-    setShow(false)
-    return
-  }
+    setShow(false);
+    return;
+  };
 
   useEffect(() => {
-    const path = location.pathname.split("/")[1]
-    setActive(path ? path : "/")
-  }, [location.pathname])
+    const path = location.pathname.split("/")[1];
+    setActive(path ? path : "/");
+  }, [location.pathname]);
 
   return (
     <NavLinksWrapper>
@@ -254,10 +252,10 @@ const Navlinks = ({
         </ul>
       </div>
     </NavLinksWrapper>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
 const NavWrapper = styled.div<{ mobile: boolean; show: boolean }>`
   width: 100%;
   height: 100%;
@@ -273,7 +271,7 @@ const NavWrapper = styled.div<{ mobile: boolean; show: boolean }>`
     transform: ${({ show }) =>
       !show ? "translateX(-300px)" : "translateX(0)"};
   }
-`
+`;
 const NavLinksWrapper = styled.nav`
   display: flex;
   flex-direction: column;
@@ -342,13 +340,13 @@ const NavLinksWrapper = styled.nav`
       }
     }
   }
-`
+`;
 const LogoWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-`
+`;
 const NavBrand = styled.div`
   display: flex;
   flex-direction: column;
@@ -369,7 +367,7 @@ const NavBrand = styled.div`
     margin-top: 0;
     font-size: 14px;
   }
-`
+`;
 const Counter = styled.div`
   display: flex;
   width: 20px;
@@ -381,4 +379,4 @@ const Counter = styled.div`
   line-height: 1;
   align-items: center;
   justify-content: center;
-`
+`;

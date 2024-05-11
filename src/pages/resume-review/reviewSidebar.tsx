@@ -1,26 +1,25 @@
-import dayjs from "dayjs"
-import React, { Fragment, useState } from "react"
-import styled from "styled-components"
-import DownArrowIcon from "../../components/svgs/downArrow"
-import WarningIcon from "../../components/svgs/warning"
-import logoIcon from "../../public/logo/logo-icon.svg"
-import logoText from "../../public/logo/resume-mango-full-logo-white-letters.png"
-import { SK_Heading, SK_Text, SK_Wrapper } from "../../styled/loader"
-import { useHistory } from "react-router-dom"
-import { Button } from "../../styled/button"
+import dayjs from "dayjs";
+import React, { Fragment, useState } from "react";
+import styled from "styled-components";
+import DownArrowIcon from "../../components/svgs/downArrow";
+import WarningIcon from "../../components/svgs/warning";
+import logoIcon from "../../public/logo/logo-white.svg";
+import { SK_Heading, SK_Text, SK_Wrapper } from "../../styled/loader";
+import { useHistory } from "react-router-dom";
+import { Button } from "../../styled/button";
 
 const ReviewAccordian = ({
   data,
   handleShowResume,
 }: {
-  data: Record<string, any>
-  handleShowResume: (_show: boolean) => void
+  data: Record<string, any>;
+  handleShowResume: (_show: boolean) => void;
 }) => {
   const [show, setShow] = useState({
     ticket: true,
     customer: true,
     resume: true,
-  })
+  });
   return (
     <AccordianWrapper>
       <div>
@@ -116,8 +115,8 @@ const ReviewAccordian = ({
         </Accordian>
       </div>
     </AccordianWrapper>
-  )
-}
+  );
+};
 
 const ReviewSidebar = ({
   data,
@@ -125,20 +124,19 @@ const ReviewSidebar = ({
   isError,
   handleShowResume,
 }: {
-  data: Record<string, any>
-  isLoading: boolean
-  isError: boolean
-  handleShowResume: (_show: boolean) => void
+  data: Record<string, any>;
+  isLoading: boolean;
+  isError: boolean;
+  handleShowResume: (_show: boolean) => void;
 }) => {
-  const history = useHistory()
+  const history = useHistory();
   return (
     <Fragment>
       <NavWrapper className="hide-scrollbar">
         <NavBrand>
           <LogoWrapper>
             <a href={`${process.env.BASE_HOST}`}>
-              <img src={logoIcon} width="75px" />
-              <img src={logoText} width="125px" />
+              <img src={logoIcon} width="175" />
             </a>
           </LogoWrapper>
           <p>All-in-one job hunting platform</p>
@@ -183,17 +181,17 @@ const ReviewSidebar = ({
         </NavLinksWrapper>
       </NavWrapper>
     </Fragment>
-  )
-}
+  );
+};
 
-export default ReviewSidebar
+export default ReviewSidebar;
 const AccordianWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
   width: 100%;
-`
+`;
 const Accordian = styled.div<{ show: boolean }>`
   .item-wrapper,
   .head-wrapper {
@@ -248,7 +246,7 @@ const Accordian = styled.div<{ show: boolean }>`
       color: rgba(52, 52, 52, 0.5);
     }
   }
-`
+`;
 
 const NavWrapper = styled.div`
   width: 100%;
@@ -261,14 +259,14 @@ const NavWrapper = styled.div`
   position: fixed;
   z-index: 2;
   border-right: 1px solid #eee;
-`
+`;
 
 const LogoWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-`
+`;
 const NavBrand = styled.div`
   display: flex;
   flex-direction: column;
@@ -289,7 +287,7 @@ const NavBrand = styled.div`
     margin-top: 0;
     font-size: 14px;
   }
-`
+`;
 const NavLinksWrapper = styled.nav`
   display: flex;
   flex-direction: column;
@@ -299,4 +297,4 @@ const NavLinksWrapper = styled.nav`
   flex: 1;
   background: #f7f8fa;
   padding: 2.5rem 0;
-`
+`;
